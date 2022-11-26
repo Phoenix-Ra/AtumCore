@@ -71,25 +71,40 @@ public class PhoenixUtils {
     }
 
     public static Color parseColor(String s){
-        Color color = switch (s.toLowerCase()) {
-            case "aqua" -> Color.AQUA;
-            case "red" -> Color.RED;
-            case "green" -> Color.GREEN;
-            case "blue" -> Color.BLUE;
-            case "fuchsia" -> Color.FUCHSIA;
-            case "gray" -> Color.GRAY;
-            case "lime" -> Color.LIME;
-            case "maroon" -> Color.MAROON;
-            case "navy" -> Color.NAVY;
-            case "olive" -> Color.OLIVE;
-            case "orange" -> Color.ORANGE;
-            case "purple" -> Color.PURPLE;
-            case "silver" -> Color.SILVER;
-            case "teal" -> Color.TEAL;
-            case "yellow" -> Color.YELLOW;
-            default -> Color.WHITE;
-        };
-        return color;
+        switch (s.toLowerCase()) {
+            case "aqua":
+                return Color.AQUA;
+            case "red":
+                return Color.RED;
+            case "green":
+                return Color.GREEN;
+            case "blue":
+                return Color.BLUE;
+            case "fuchsia":
+                return Color.FUCHSIA;
+            case "gray":
+                return Color.GRAY;
+            case "lime":
+                return Color.LIME;
+            case "maroon":
+                return Color.MAROON;
+            case "navy":
+                return Color.NAVY;
+            case "olive":
+                return Color.OLIVE;
+            case "orange":
+                return Color.ORANGE;
+            case "purple":
+                return Color.PURPLE;
+            case "silver":
+                return Color.SILVER;
+            case "teal":
+                return Color.TEAL;
+            case "yellow":
+                return Color.YELLOW;
+            default:
+                return Color.WHITE;
+        }
     }
     public static List<Entity> getNearbyEntities(Location location, EntityType entityType, int radius) {
         ArrayList<Entity> arrayList = new ArrayList<>();

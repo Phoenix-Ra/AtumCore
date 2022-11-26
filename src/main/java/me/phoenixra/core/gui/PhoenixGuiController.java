@@ -51,7 +51,7 @@ public class PhoenixGuiController implements Listener {
     @EventHandler(ignoreCancelled = true)
     public void onInteract(InventoryClickEvent event) {
         HumanEntity entity = event.getWhoClicked();
-        if (!(entity instanceof Player player)) {
+        if (!(entity instanceof Player)) {
             return;
         }
 
@@ -76,7 +76,7 @@ public class PhoenixGuiController implements Listener {
         if (listener == null) {
             return;
         }
-
+        Player player = (Player) entity;
         String permission = component.getPermission(click, event.getClickedInventory().getType());
         if (permission != null) {
             if (!player.hasPermission(permission)) {
