@@ -37,15 +37,3 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok:1.18.24'
     annotationProcessor 'org.jetbrains:annotations:23.0.0'
 }
-java {
-    withSourcesJar()
-    withJavadocJar()
-}
-
-publishing {
-    publications {
-        maven(MavenPublication) {
-            from components.java
-        }
-    }
-}
