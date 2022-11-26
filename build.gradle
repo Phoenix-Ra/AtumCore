@@ -1,6 +1,5 @@
-plugins {
-    id 'java'
-}
+apply plugin: 'java'
+apply plugin: 'maven-publish'
 
 group 'me.phoenixra.core'
 version '1.0-SNAPSHOT'
@@ -37,4 +36,16 @@ dependencies {
 
     annotationProcessor 'org.projectlombok:lombok:1.18.24'
     annotationProcessor 'org.jetbrains:annotations:23.0.0'
+}
+java {
+    withSourcesJar()
+    withJavadocJar()
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            from components.java
+        }
+    }
 }
