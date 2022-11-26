@@ -42,6 +42,7 @@ public class ItemBuilder {
         return this;
     }
 
+    @SuppressWarnings({})
     public ItemBuilder setOwner(String string) {
             this.itemStack.setType(Objects.requireNonNull(XMaterial.PLAYER_HEAD.parseMaterial(true)));
             SkullMeta skullMeta = (SkullMeta)this.itemStack.getItemMeta();

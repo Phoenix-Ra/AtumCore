@@ -49,14 +49,18 @@ public class Board {
 
                 for (int i = scores.size(); i > 0; --i) {
                     String old = players.get(entry.getKey()).get(i-1);
-                    String s = replacer.replace(entry.getKey(), scores.get(scores.size() - i));
-                    if (s.equals(old)||old.isBlank()) continue;
-                    if (s.isBlank()) s = " ".repeat(i);
+                    StringBuilder s = new StringBuilder(replacer.replace(entry.getKey(), scores.get(scores.size() - i)));
+                    if (s.toString().equals(old)||old.trim().isEmpty()) continue;
+                    if (s.toString().trim().isEmpty()){
+                        for(int index=0;index<i;index++){
+                            s.append(" ");
+                        }
+                    }
 
 
                     sb.get(entry.getKey()).resetScores(old);
-                    players.get(entry.getKey()).set(i-1, s);
-                    Score score = objective.getScore(s);
+                    players.get(entry.getKey()).set(i-1, s.toString());
+                    Score score = objective.getScore(s.toString());
                     score.setScore(i-1);
                 }
             } catch (Exception e) {
@@ -79,11 +83,15 @@ public class Board {
                 players.get(player).add(replacer.replace(player, scores.get(scores.size() - i)));
 
             for (int i = scores.size(); i > 0; --i) {
-                String s = replacer.replace(player, scores.get(scores.size() - i));
-                if (s.isBlank()) s = " ".repeat(i);
+                StringBuilder s = new StringBuilder(replacer.replace(player, scores.get(scores.size() - i)));
+                if (s.toString().trim().isEmpty()) {
+                    for(int index=0;index<i;index++){
+                        s.append(" ");
+                    }
+                }
 
-                objective.getScore(replacer.replace(player, s)).setScore(i-1);
-                players.get(player).set(i-1, PhoenixUtils.colorFormat(s));
+                objective.getScore(replacer.replace(player, s.toString())).setScore(i-1);
+                players.get(player).set(i-1, PhoenixUtils.colorFormat(s.toString()));
             }
             player.setScoreboard(sb.get(player));
         } catch (Exception e) {

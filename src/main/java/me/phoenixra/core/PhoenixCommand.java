@@ -101,7 +101,7 @@ public abstract class PhoenixCommand implements CommandExecutor, TabExecutor {
             }
             final SubCommand info = method.getAnnotation(SubCommand.class);
 
-            if (this.permission != null && !sender.hasPermission(this.permission)||(!info.permission().isBlank() && !sender.hasPermission(info.permission()))) {
+            if (this.permission != null && !sender.hasPermission(this.permission)||(!info.permission().trim().isEmpty() && !sender.hasPermission(info.permission()))) {
                 if (adminCmd) {
                     this.reply("Unknown command. Type '/help' for help.");
                 } else {
@@ -127,7 +127,7 @@ public abstract class PhoenixCommand implements CommandExecutor, TabExecutor {
         if(args.length==1){
             for(String cmd: subCommands.keySet()){
                 String permission=subCommands.get(cmd).getAnnotation(SubCommand.class).permission();
-                if(!permission.isBlank()&&!sender.hasPermission(permission)) continue;
+                if(!permission.trim().isEmpty()&&!sender.hasPermission(permission)) continue;
                 if(!StringUtil.startsWithIgnoreCase(cmd,args[0])) continue;
                 list.add(cmd);
             }
@@ -144,7 +144,7 @@ public abstract class PhoenixCommand implements CommandExecutor, TabExecutor {
         this.reply("&aAvailable commands:");
         for (SubCommand info : sorted_methods) {
             if(info.usage().equals("defaultHelp")) continue;
-            if(!info.permission().isBlank()&&!sender.hasPermission(info.permission())) continue;
+            if(!info.permission().trim().isEmpty()&&!sender.hasPermission(info.permission())) continue;
             final String usage = info.usage().isEmpty() ? "" : (" " + (info.usage()));
             final String desc = info.description();
             this.reply("&c " + usage + "&7 - &f" + desc,false);
