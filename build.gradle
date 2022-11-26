@@ -4,7 +4,7 @@ apply plugin: 'maven-publish'
 group 'me.phoenixra.core'
 version '1.0-SNAPSHOT'
 
-sourceCompatibility = 1.16
+sourceCompatibility = 1.11
 targetCompatibility = 1.16
 repositories {
     maven {
