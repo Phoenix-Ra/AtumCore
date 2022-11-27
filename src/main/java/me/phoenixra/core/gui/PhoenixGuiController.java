@@ -3,6 +3,7 @@ package me.phoenixra.core.gui;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
+import me.phoenixra.core.gui.api.FrameCloseEvent;
 import me.phoenixra.core.gui.api.FrameComponentClickEvent;
 import me.phoenixra.core.gui.api.PhoenixFrame;
 import me.phoenixra.core.gui.api.PhoenixFrameComponent;
@@ -44,8 +45,17 @@ public class PhoenixGuiController implements Listener {
         if (!(entity instanceof Player)) {
             return;
         }
-
+        if(!frames.containsKey(entity.getUniqueId())) return;
+        try {
+            FrameCloseEvent frameCloseEvent = new FrameCloseEvent((Player) entity, frames.get(entity.getUniqueId()));
+            Bukkit.getPluginManager().callEvent(frameCloseEvent);
+            if (frameCloseEvent.isCancelled()) return;
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         frames.remove(entity.getUniqueId());
+
+
     }
 
     @EventHandler(ignoreCancelled = true)
