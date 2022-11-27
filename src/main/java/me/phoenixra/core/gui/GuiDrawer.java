@@ -9,6 +9,7 @@ import me.phoenixra.core.gui.api.PhoenixFrameComponent;
 import me.phoenixra.core.gui.baseframes.WarningFrame;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.Plugin;
@@ -89,7 +90,12 @@ public class GuiDrawer {
             if (c.getSlot() >= frame.getSize()) continue;
 
             checkLorePermission(frame, c);
-            inventory.setItem(c.getSlot(), c.getItem());
+
+            if(c.getInventoryType() == InventoryType.PLAYER)
+                frame.getViewer().getInventory().setItem(c.getSlot(),c.getItem());
+            else
+                inventory.setItem(c.getSlot(), c.getItem());
+
         }
     }
     private static void checkLorePermission(@NotNull PhoenixFrame frame, @NotNull PhoenixFrameComponent component) {
