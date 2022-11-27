@@ -87,14 +87,16 @@ public class GuiDrawer {
             return;
         }
         for (PhoenixFrameComponent c : frame.getComponents()) {
-            if (c.getSlot() >= frame.getSize()) continue;
 
-            checkLorePermission(frame, c);
-
-            if(c.getInventoryType() == InventoryType.PLAYER)
-                frame.getViewer().getInventory().setItem(c.getSlot(),c.getItem());
-            else
+            if(c.getInventoryType() == InventoryType.PLAYER) {
+                if (c.getSlot() >= frame.getViewer().getInventory().getSize()) continue;
+                checkLorePermission(frame, c);
+                frame.getViewer().getInventory().setItem(c.getSlot(), c.getItem());
+            }else {
+                if (c.getSlot() >= frame.getSize()) continue;
+                checkLorePermission(frame, c);
                 inventory.setItem(c.getSlot(), c.getItem());
+            }
 
         }
     }
