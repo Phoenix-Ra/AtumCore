@@ -67,10 +67,10 @@ public class BaseFrameComponent extends PhoenixFrameComponent {
 
     public static class Builder {
         private final BaseFrameComponent component = new BaseFrameComponent();
-        private ItemBuilder itemBuilder;
+        private final ItemBuilder itemBuilder;
 
         public Builder(@NotNull ItemBuilder item) {
-            itemBuilder = new ItemBuilder(Material.STONE);
+            itemBuilder = item;
         }
 
         public Builder withSlot(int slot) {
@@ -83,9 +83,7 @@ public class BaseFrameComponent extends PhoenixFrameComponent {
         }
 
         public BaseFrameComponent build() {
-            if (itemBuilder.getItem().getItemMeta() != null) {
-                component.setItemMeta(itemBuilder.getItem().getItemMeta());
-            }
+            component.item=itemBuilder.getItem();
             return component;
         }
     }
