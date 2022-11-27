@@ -21,26 +21,17 @@ public class ConfirmationFrame extends PhoenixFrame {
     private final GuiDrawer guiDrawer;
 
     @Setter @Accessors(chain = true)
-    private String confirm_name = "&aConfirm action";
+    private String confirm_name = PhoenixUtils.colorFormat("&aConfirm action");
     @Setter @Accessors(chain = true)
-    private String cancel_name = "&cCancel action";
+    private String cancel_name = PhoenixUtils.colorFormat("&cCancel action");
     @Setter @Accessors(chain = true)
-    private String title = "&6Action Confirmation";
+    private String title = PhoenixUtils.colorFormat("&6Action Confirmation");
     public ConfirmationFrame(@NotNull GuiDrawer guiDrawer, @Nullable PhoenixFrame parent, @NotNull Player viewer, @Nullable Runnable listener) {
         super(parent, viewer);
         this.listener = listener;
         this.guiDrawer = guiDrawer;
     }
 
-    @Override
-    public @NotNull String getTitle() {
-        return PhoenixUtils.colorFormat(title);
-    }
-
-    @Override
-    public int getSize() {
-        return 3 * 9;
-    }
 
     @Override
     public void createComponents() {
@@ -59,5 +50,16 @@ public class ConfirmationFrame extends PhoenixFrame {
             guiDrawer.open(getParent());
         });
         add(returnC);
+    }
+
+
+    @Override
+    public @NotNull String getTitle() {
+        return PhoenixUtils.colorFormat(title);
+    }
+
+    @Override
+    public int getSize() {
+        return 3 * 9;
     }
 }

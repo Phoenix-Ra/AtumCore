@@ -9,6 +9,7 @@ import me.phoenixra.core.gui.GuiDrawer;
 import me.phoenixra.core.gui.api.PhoenixClickType;
 import me.phoenixra.core.gui.api.PhoenixFrame;
 import me.phoenixra.core.gui.SkullSkin;
+import me.phoenixra.core.utils.PhoenixUtils;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.jetbrains.annotations.NotNull;
@@ -18,7 +19,7 @@ public class WarningFrame extends PhoenixFrame {
 	private final String message;
 	private final GuiDrawer guiDrawer;
 	@Setter @Accessors(chain = true)
-	private String title = "&cAction Warning";
+	private String title = PhoenixUtils.colorFormat("&cAction Warning");
 	public WarningFrame(@NotNull GuiDrawer guiDrawer, @Nullable PhoenixFrame parent, @NotNull Player viewer, @NotNull String message) {
 		super(parent, viewer);
 		this.message = message;
