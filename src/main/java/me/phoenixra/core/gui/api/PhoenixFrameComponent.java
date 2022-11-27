@@ -9,6 +9,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 public abstract class PhoenixFrameComponent {
@@ -47,8 +48,8 @@ public abstract class PhoenixFrameComponent {
 
     @Nullable
     public String getPermission(@NotNull ClickType click, @NotNull InventoryType inventoryType) {
-        for(PhoenixClickType clickType : confirmationRequired)
-            if(clickType.getClickType()==click && clickType.getInventoryType()==inventoryType) return permissions.get(clickType);
+        for(Map.Entry<PhoenixClickType,String> entry : permissions.entrySet())
+            if(entry.getKey().getClickType()==click && entry.getKey().getInventoryType()==inventoryType) return entry.getValue();
         return null;
     }
 
@@ -59,8 +60,8 @@ public abstract class PhoenixFrameComponent {
 
     @Nullable
     public Runnable getListener(@NotNull ClickType click,@NotNull InventoryType inventoryType) {
-        for(PhoenixClickType clickType : confirmationRequired)
-            if(clickType.getClickType()==click && clickType.getInventoryType()==inventoryType) return listeners.get(clickType);
+        for(Map.Entry<PhoenixClickType,Runnable> entry : listeners.entrySet())
+            if(entry.getKey().getClickType()==click && entry.getKey().getInventoryType()==inventoryType) return entry.getValue();
         return null;
     }
 

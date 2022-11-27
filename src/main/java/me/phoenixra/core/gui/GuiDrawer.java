@@ -3,7 +3,7 @@ package me.phoenixra.core.gui;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
-import me.phoenixra.core.gui.api.FrameOpenEvent;
+import me.phoenixra.core.gui.events.FrameOpenEvent;
 import me.phoenixra.core.gui.api.PhoenixFrame;
 import me.phoenixra.core.gui.api.PhoenixFrameComponent;
 import me.phoenixra.core.gui.baseframes.WarningFrame;

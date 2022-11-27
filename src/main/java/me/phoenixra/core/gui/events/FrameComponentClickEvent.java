@@ -1,4 +1,4 @@
-package me.phoenixra.core.gui.api;
+package me.phoenixra.core.gui.events;
 
 import me.phoenixra.core.gui.api.PhoenixFrame;
 import me.phoenixra.core.gui.api.PhoenixFrameComponent;

@@ -1,17 +1,21 @@
-package me.phoenixra.core.gui.api;
+package me.phoenixra.core.gui.events;
 
+import me.phoenixra.core.gui.api.PhoenixFrame;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.player.PlayerEvent;
 import org.jetbrains.annotations.NotNull;
 
-public class FrameCloseEvent extends PlayerEvent implements Cancellable {
+/**
+ * @author RoinujNosde
+ */
+public class FrameOpenEvent extends PlayerEvent implements Cancellable {
     private static final HandlerList HANDLER_LIST = new HandlerList();
     private boolean cancelled;
     private final @NotNull PhoenixFrame frame;
 
-    public FrameCloseEvent(@NotNull Player viewer, @NotNull PhoenixFrame frame) {
+    public FrameOpenEvent(@NotNull Player viewer, @NotNull PhoenixFrame frame) {
         super(viewer);
         this.frame = frame;
     }
