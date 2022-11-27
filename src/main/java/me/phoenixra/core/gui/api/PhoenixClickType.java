@@ -10,5 +10,5 @@ public class PhoenixClickType {
     @Getter @Setter @Accessors(chain = true)
     private ClickType clickType;
     @Getter @Setter @Accessors(chain = true)
-    private InventoryType inventoryType;
+    private InventoryType inventoryType=InventoryType.CHEST;
 }
