@@ -52,6 +52,11 @@ public class ConfirmationFrame extends PhoenixFrame {
         add(returnC);
     }
 
+    @Override
+    public void onClose() {
+
+    }
+
 
     @Override
     public @NotNull String getTitle() {

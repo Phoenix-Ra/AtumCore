@@ -27,6 +27,8 @@ public abstract class PhoenixFrame {
 
     public abstract void createComponents();
 
+    public abstract void onClose();
+
     @Nullable
     public PhoenixFrameComponent getComponent(int slot, InventoryType inventoryType) {
         for (PhoenixFrameComponent c : getComponents()) {

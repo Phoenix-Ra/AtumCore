@@ -47,6 +47,11 @@ public class WarningFrame extends PhoenixFrame {
 	}
 
 	@Override
+	public void onClose() {
+
+	}
+
+	@Override
 	public @NotNull String getTitle() {
 		return title;
 	}

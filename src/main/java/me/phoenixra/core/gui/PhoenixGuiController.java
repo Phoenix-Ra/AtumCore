@@ -45,9 +45,11 @@ public class PhoenixGuiController implements Listener {
         if (!(entity instanceof Player)) {
             return;
         }
-        if(!frames.containsKey(entity.getUniqueId())) return;
+        PhoenixFrame frame = frames.get(entity.getUniqueId());
+        if(frame==null) return;
         try {
-            FrameCloseEvent frameCloseEvent = new FrameCloseEvent((Player) entity, frames.get(entity.getUniqueId()));
+            frame.onClose();
+            FrameCloseEvent frameCloseEvent = new FrameCloseEvent((Player) entity, frame);
             Bukkit.getPluginManager().callEvent(frameCloseEvent);
             if (frameCloseEvent.isCancelled()) return;
         }catch (Exception e){
