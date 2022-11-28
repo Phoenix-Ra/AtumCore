@@ -48,13 +48,13 @@ public abstract class PhoenixCommand implements CommandExecutor, TabExecutor {
 
 
     @Setter(AccessLevel.PROTECTED) @Getter(AccessLevel.PROTECTED)
-    private String msg_unknownCommand = "&cUnknown command, /deathHistory help";
+    private String msg_unknownCommand = "&cUnknown command";
 
     @Setter(AccessLevel.PROTECTED) @Getter(AccessLevel.PROTECTED)
     private String msg_noPermission = "&cYou have no permission";
 
     @Setter(AccessLevel.PROTECTED) @Getter(AccessLevel.PROTECTED)
-    private String msg_notEnoughArgs = "&cMore arguments needed. /deathHistory help";
+    private String msg_notEnoughArgs = "&cMore arguments needed";
 
     public PhoenixCommand() {
         this.usage = null;
