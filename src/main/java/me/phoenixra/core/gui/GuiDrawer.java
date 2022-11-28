@@ -62,7 +62,21 @@ public class GuiDrawer {
             }
         });
     }
+    public void update(@NotNull PhoenixFrame frame) {
+        Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
+            Player viewer = frame.getViewer();
+            try {
+                setComponents(viewer.getOpenInventory().getTopInventory(), frame);
 
+
+            }catch (Exception e){
+                e.printStackTrace();
+                if(!(frame instanceof WarningFrame)) {
+                    open(new WarningFrame(this, null, viewer, "Unhandled error, contact with dev"));
+                }else viewer.closeInventory();
+            }
+        });
+    }
     @NotNull
     private Inventory prepareInventory(@NotNull PhoenixFrame frame) {
         Inventory inventory = Bukkit.createInventory(frame.getViewer(), frame.getSize(), frame.getTitle());
@@ -78,6 +92,7 @@ public class GuiDrawer {
     }
 
     private void setComponents(@NotNull Inventory inventory, @NotNull PhoenixFrame frame) {
+        inventory.clear();
         frame.clear();
         frame.createComponents();
 

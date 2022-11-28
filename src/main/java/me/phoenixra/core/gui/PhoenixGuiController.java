@@ -41,19 +41,9 @@ public class PhoenixGuiController implements Listener {
     }
 
     @EventHandler(ignoreCancelled = true)
-    public void onServerShutdown(PluginDisableEvent event){
-        for(UUID uuid : frames.keySet()){
-            PhoenixFrame frame = frames.get(uuid);
-            try {
-                frame.onClose();
-                FrameCloseEvent frameCloseEvent = new FrameCloseEvent(frame.getViewer(), frame);
-                Bukkit.getPluginManager().callEvent(frameCloseEvent);
-                if (frameCloseEvent.isCancelled()) return;
-            }catch (Exception e){
-                e.printStackTrace();
-            }
-        }
-        frames.clear();
+    public void onPluginDisable(PluginDisableEvent event){
+        if(event.getPlugin()!=plugin) return;
+        closeAll();
     }
     @EventHandler(ignoreCancelled = true)
     public void onClose(InventoryCloseEvent event) {
@@ -151,6 +141,21 @@ public class PhoenixGuiController implements Listener {
         });
     }
 
+    public void closeAll() {
+        plugin.getLogger().info("Closing opened GUI frames... ");
+        for(UUID uuid : frames.keySet()){
+            PhoenixFrame frame = frames.get(uuid);
+            try {
+                frame.onClose();
+                FrameCloseEvent frameCloseEvent = new FrameCloseEvent(frame.getViewer(), frame);
+                Bukkit.getPluginManager().callEvent(frameCloseEvent);
+                if (frameCloseEvent.isCancelled()) return;
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+        frames.clear();
+    }
     public void register(@NotNull PhoenixFrame frame) {
         frames.put(frame.getViewer().getUniqueId(), frame);
     }
