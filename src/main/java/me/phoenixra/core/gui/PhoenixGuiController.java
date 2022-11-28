@@ -17,6 +17,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
+import org.bukkit.event.server.PluginDisableEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
@@ -39,6 +40,21 @@ public class PhoenixGuiController implements Listener {
         Bukkit.getPluginManager().registerEvents(this, plugin);
     }
 
+    @EventHandler(ignoreCancelled = true)
+    public void onServerShutdown(PluginDisableEvent event){
+        for(UUID uuid : frames.keySet()){
+            PhoenixFrame frame = frames.get(uuid);
+            try {
+                frame.onClose();
+                FrameCloseEvent frameCloseEvent = new FrameCloseEvent(frame.getViewer(), frame);
+                Bukkit.getPluginManager().callEvent(frameCloseEvent);
+                if (frameCloseEvent.isCancelled()) return;
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+        frames.clear();
+    }
     @EventHandler(ignoreCancelled = true)
     public void onClose(InventoryCloseEvent event) {
         HumanEntity entity = event.getPlayer();
