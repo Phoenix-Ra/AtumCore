@@ -97,11 +97,14 @@ public class ItemBuilder {
 
     public ItemBuilder setLores(String ... arrstring) {
         ItemMeta itemMeta = this.itemStack.getItemMeta();
-        ArrayList<String> arrayList = new ArrayList<>();
+        List<String> list = new ArrayList<>();
         for (String string : arrstring) {
-            arrayList.add(PhoenixUtils.colorFormat(string));
+            if(string.contains("\\n"))
+                list.addAll(Arrays.asList(string.split("\\n")));
+            else
+                list.add(PhoenixUtils.colorFormat(string));
         }
-        itemMeta.setLore(Arrays.asList(((Object)arrayList).toString().replace("[", "").replace("]", "").split(", ")));
+        itemMeta.setLore(list);
         this.itemStack.setItemMeta(itemMeta);
         return this;
     }

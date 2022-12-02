@@ -34,7 +34,7 @@ public class WarningFrame extends PhoenixFrame {
 		}
 		BaseFrameComponent component = new BaseFrameComponent.Builder(new ItemBuilder().
 				setCustomOwner(SkullSkin.WARNING.getSkin()).setDisplayName("&eWarning!").
-				setLores(" ","&7Action has been cancelled","","&7warning message:","&7&o"+message, "","&aL Click to return"))
+				setLores(" ","&7Action has been cancelled","","&7warning message:","&8&o"+message, "","&aL Click to return"))
 				.withSlot(13).build();
 		component.setListener(new PhoenixClickType().setClickType(ClickType.LEFT),()->{
 			if(getParent()==null) {

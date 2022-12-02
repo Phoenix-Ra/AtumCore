@@ -9,7 +9,7 @@ public class PhoenixException extends Exception{
     private Exception cause;
     private String message;
     @Getter @Setter @Accessors(chain = true)
-    private String messageToPlayer = "Unhandled error, please contact with server administration";
+    private String messageToPlayer = "&8&oUnhandled error,\\n&8&o please contact with server administration";
 
     public PhoenixException(String msg) {
         this.init(this, msg);
