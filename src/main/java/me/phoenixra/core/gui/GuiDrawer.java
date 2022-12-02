@@ -63,7 +63,7 @@ public class GuiDrawer {
             }catch (Exception e){
                 e.printStackTrace();
                 if(!(frame instanceof WarningFrame)) {
-                    open(new WarningFrame(this, null, viewer, "Unhandled error, please contact with server administration"));
+                    open(new WarningFrame(this, null, viewer, "&8&oUnhandled error,\n&8&o please contact with server administration"));
                 }else viewer.closeInventory();
             }
         });
@@ -83,7 +83,7 @@ public class GuiDrawer {
             }catch (Exception e){
                 e.printStackTrace();
                 if(!(frame instanceof WarningFrame)) {
-                    open(new WarningFrame(this, null, viewer, "Unhandled error, contact with dev"));
+                    open(new WarningFrame(this, null, viewer, "&8&oUnhandled error,\n&8&o please contact with server administration"));
                 }else viewer.closeInventory();
             }
         });

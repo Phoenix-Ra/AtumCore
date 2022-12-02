@@ -99,8 +99,8 @@ public class ItemBuilder {
         ItemMeta itemMeta = this.itemStack.getItemMeta();
         List<String> list = new ArrayList<>();
         for (String string : arrstring) {
-            if(string.contains("\\n"))
-                list.addAll(PhoenixUtils.colorFormat(Arrays.asList(string.split("\\n"))));
+            if(string.contains("\n"))
+                list.addAll(PhoenixUtils.colorFormat(Arrays.asList(string.split("\n"))));
             else
                 list.add(PhoenixUtils.colorFormat(string));
         }
