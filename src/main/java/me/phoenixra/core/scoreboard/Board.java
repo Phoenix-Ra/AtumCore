@@ -1,6 +1,7 @@
 package me.phoenixra.core.scoreboard;
 
 import lombok.Getter;
+import me.phoenixra.core.placeholders.TextReplacer;
 import me.phoenixra.core.utils.PhoenixUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
