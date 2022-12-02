@@ -9,16 +9,16 @@ import java.util.HashMap;
 import java.util.List;
 
 public class TextReplacer {
-    private final HashMap<String, PlaceholderTask> placeholders=new HashMap<>();
+    private final HashMap<String, PhoenixPlaceholder> placeholders=new HashMap<>();
 
 
-    public TextReplacer registerPlaceholder(@NotNull PlaceholderTask placeholder){
+    public TextReplacer registerPlaceholder(@NotNull PhoenixPlaceholder placeholder){
         placeholders.put(placeholder.getPlaceholder(),placeholder);
         return this;
     }
 
     public String replace(@NotNull Player player,@NotNull String text){
-        for(PlaceholderTask task: placeholders.values()){
+        for(PhoenixPlaceholder task: placeholders.values()){
             if(text.contains("%"+task.getPlaceholder()+"_")) {
                 String arg = text.split("%" + task.getPlaceholder() + "_")[1].split("%")[0];
                 text = text.replace("%"+task.getPlaceholder()+"_"+arg+"%", task.getReplacement(player,arg));
