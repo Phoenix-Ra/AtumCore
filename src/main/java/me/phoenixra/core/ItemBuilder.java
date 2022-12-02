@@ -100,7 +100,7 @@ public class ItemBuilder {
         List<String> list = new ArrayList<>();
         for (String string : arrstring) {
             if(string.contains("\\n"))
-                list.addAll(Arrays.asList(string.split("\\n")));
+                list.addAll(PhoenixUtils.colorFormat(Arrays.asList(string.split("\\n"))));
             else
                 list.add(PhoenixUtils.colorFormat(string));
         }
