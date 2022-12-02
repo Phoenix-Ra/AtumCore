@@ -3,6 +3,7 @@ package me.phoenixra.core.gui;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
+import me.phoenixra.core.PhoenixException;
 import me.phoenixra.core.gui.events.FrameOpenEvent;
 import me.phoenixra.core.gui.api.PhoenixFrame;
 import me.phoenixra.core.gui.api.PhoenixFrameComponent;
@@ -54,10 +55,15 @@ public class GuiDrawer {
                     guiController.register(frame);
                     OPENING.remove(uuid);
                 });
+            }catch (PhoenixException ex){
+                ex.printStackTrace();
+                if(!(frame instanceof WarningFrame)) {
+                    open(new WarningFrame(this, null, viewer, ex.getMessageToPlayer()));
+                }else viewer.closeInventory();
             }catch (Exception e){
                 e.printStackTrace();
                 if(!(frame instanceof WarningFrame)) {
-                    open(new WarningFrame(this, null, viewer, "Unhandled error, contact with dev"));
+                    open(new WarningFrame(this, null, viewer, "Unhandled error, please contact with server administration"));
                 }else viewer.closeInventory();
             }
         });
@@ -66,9 +72,14 @@ public class GuiDrawer {
         Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
             Player viewer = frame.getViewer();
             try {
+
                 setComponents(viewer.getOpenInventory().getTopInventory(), frame);
 
-
+            }catch (PhoenixException ex){
+                ex.printStackTrace();
+                if(!(frame instanceof WarningFrame)) {
+                    open(new WarningFrame(this, null, viewer, ex.getMessageToPlayer()));
+                }else viewer.closeInventory();
             }catch (Exception e){
                 e.printStackTrace();
                 if(!(frame instanceof WarningFrame)) {
@@ -78,7 +89,7 @@ public class GuiDrawer {
         });
     }
     @NotNull
-    private Inventory prepareInventory(@NotNull PhoenixFrame frame) {
+    private Inventory prepareInventory(@NotNull PhoenixFrame frame) throws PhoenixException {
         Inventory inventory = Bukkit.createInventory(frame.getViewer(), frame.getSize(), frame.getTitle());
         long start = System.currentTimeMillis();
         setComponents(inventory, frame);
@@ -91,7 +102,7 @@ public class GuiDrawer {
         return inventory;
     }
 
-    private void setComponents(@NotNull Inventory inventory, @NotNull PhoenixFrame frame) {
+    private void setComponents(@NotNull Inventory inventory, @NotNull PhoenixFrame frame) throws PhoenixException {
         inventory.clear();
         frame.clear();
         frame.createComponents();

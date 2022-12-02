@@ -1,6 +1,7 @@
 package me.phoenixra.core.gui.api;
 
 import lombok.Getter;
+import me.phoenixra.core.PhoenixException;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryType;
 import org.jetbrains.annotations.NotNull;
@@ -25,7 +26,7 @@ public abstract class PhoenixFrame {
 
     public abstract int getSize();
 
-    public abstract void createComponents();
+    public abstract void createComponents() throws PhoenixException;
 
     public abstract void onClose();
 
