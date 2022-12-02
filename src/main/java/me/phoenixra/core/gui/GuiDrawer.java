@@ -103,9 +103,9 @@ public class GuiDrawer {
     }
 
     private void setComponents(@NotNull Inventory inventory, @NotNull PhoenixFrame frame) throws PhoenixException {
-        inventory.clear();
         frame.clear();
         frame.createComponents();
+        inventory.clear();
 
         Set<PhoenixFrameComponent> components = frame.getComponents();
         if (components.isEmpty()) {
