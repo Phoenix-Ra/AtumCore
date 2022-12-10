@@ -131,7 +131,7 @@ public abstract class PhoenixCommand implements CommandExecutor, TabExecutor {
                 if(!StringUtil.startsWithIgnoreCase(cmd,args[0])) continue;
                 list.add(cmd);
             }
-        }else list=Bukkit.getOnlinePlayers().stream().map(HumanEntity::getName).filter(name->StringUtil.startsWithIgnoreCase(name,args[args.length-1])).collect(Collectors.toList());
+        }else list=StringUtil.copyPartialMatches(args[args.length-1],Bukkit.getOnlinePlayers().stream().map(Player::getName).collect(Collectors.toList()), new ArrayList<>());
         return list;
 
     }
