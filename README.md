@@ -1,4 +1,4 @@
-# PhoenixRaCore
+# AtumCore
 
 convenient lib I use for my own plugins
 
@@ -9,7 +9,7 @@ repositories {
      maven { url 'https://jitpack.io' }
 }
 dependencies { 
-    implementation 'com.github.Phoenix-Ra:PhoenixRaCore:-SNAPSHOT'
+    implementation 'com.github.Phoenix-Ra:AtumCore:-SNAPSHOT'
 }
 ```
 
