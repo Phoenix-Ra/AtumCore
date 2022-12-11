@@ -51,7 +51,7 @@ public class Board {
                 for (int i = scores.size(); i > 0; --i) {
                     String old = players.get(entry.getKey()).get(i-1);
                     StringBuilder s = new StringBuilder(replacer.replace(entry.getKey(), scores.get(scores.size() - i)));
-                    if (s.toString().equals(old)||old.trim().isEmpty()) continue;
+                    if (s.toString().equals(old)||old.isBlank()) continue;
                     if (s.toString().trim().isEmpty()){
                         for(int index=0;index<i;index++){
                             s.append(" ");
