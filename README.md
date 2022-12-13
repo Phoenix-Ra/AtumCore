@@ -24,7 +24,7 @@ Maven:
 	
 	<dependency>
 	    <groupId>com.github.Phoenix-Ra</groupId>
-	    <artifactId>PhoenixRaCore</artifactId>
+	    <artifactId>AtumCore</artifactId>
 	    <version>version</version>
 	</dependency>
 ```
