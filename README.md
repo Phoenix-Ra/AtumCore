@@ -9,7 +9,7 @@ repositories {
      maven { url 'https://jitpack.io' }
 }
 dependencies { 
-    implementation 'com.github.Phoenix-Ra:AtumCore:-SNAPSHOT'
+    implementation 'com.github.Phoenix-Ra:AtumCore:{version}'
 }
 ```
 
@@ -25,6 +25,6 @@ Maven:
 	<dependency>
 	    <groupId>com.github.Phoenix-Ra</groupId>
 	    <artifactId>PhoenixRaCore</artifactId>
-	    <version>-SNAPSHOT</version>
+	    <version>version</version>
 	</dependency>
 ```
