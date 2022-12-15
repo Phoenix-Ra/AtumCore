@@ -1,9 +1,9 @@
-group 'com.phoenixra'
+group 'me.phoenixra'
 version rootProject.version
 
 dependencies {
     compileOnly project(":atum-api")
 
-
+    compileOnly 'com.moandjiezana.toml:toml4j:0.7.2'
     compileOnly 'org.spigotmc:spigot-api:1.17.1-R0.1-SNAPSHOT'
 }

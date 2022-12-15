@@ -1,0 +1,6 @@
+name: AtumCore
+version: ${projectVersion}
+main: me.phoenixra.atum.plugin.AtumSpigotPlugin
+api-version: 1.17
+authors: [ PhoenixRa ]
+load: STARTUP

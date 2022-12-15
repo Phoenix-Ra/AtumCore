@@ -18,6 +18,8 @@ plugins {
 
 dependencies {
     implementation(project("atum-api"))
+    implementation(project("atum-craft"))
+    implementation(project("atum-core"))
 }
 
 allprojects {
@@ -64,7 +66,7 @@ allprojects {
     dependencies {
 
         //To not to shade the kotlin
-        compileOnly("org.jetbrains.kotlin:kotlin-stdlib:1.7.10")
+        //compileOnly("org.jetbrains.kotlin:kotlin-stdlib:1.7.10")
 
 
         compileOnly("org.jetbrains:annotations:23.0.0")
@@ -73,9 +75,6 @@ allprojects {
 
         annotationProcessor("org.projectlombok:lombok:1.18.24")
         annotationProcessor("org.jetbrains:annotations:23.0.0")
-
-        // staff to test
-        implementation("com.github.ben-manes.caffeine:caffeine:3.1.0")
 
         // Test impl
         testImplementation("org.junit.jupiter:junit-jupiter-api:5.8.2")
@@ -102,12 +101,12 @@ allprojects {
         }
 
         shadowJar {
-            relocate("org.bstats", "com.phoenixra.atum.libs.bstats")
-            relocate("org.checkerframework", "com.phoenixra.atum.libs.checkerframework")
-            relocate("org.intellij", "com.phoenixra.atum.libs.intellij")
-            relocate("org.jetbrains.annotations", "com.phoenixra.atum.libs.jetbrains.annotations")
+            relocate("org.bstats", "me.phoenixra.atum.libs.bstats")
+            relocate("org.checkerframework", "me.phoenixra.atum.libs.checkerframework")
+            relocate("org.intellij", "me.phoenixra.atum.libs.intellij")
+            relocate("org.jetbrains.annotations", "me.phoenixra.atum.libs.jetbrains.annotations")
 
-            relocate("com.google.errorprone", "com.phoenixra.atum.libs.errorprone")
+            relocate("com.google.errorprone", "me.phoenixra.atum.libs.errorprone")
         }
 
         compileJava {
@@ -136,5 +135,5 @@ allprojects {
     }
 }
 
-group = "com.phoenixra"
+group = "me.phoenixra"
 version = findProperty("version")!!
