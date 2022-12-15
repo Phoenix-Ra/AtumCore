@@ -59,27 +59,22 @@ public interface CommandBase {
     CommandBase addSubcommand(@NotNull CommandBase subcommand);
 
     /**
-     * command execution.
+     * Handle the command.
      *
-     * @param sender The command sender.
-     * @param args   The command arguments
+     * @param sender The sender.
+     * @param args   The arguments.
      */
-    default void onCommandExecute(@NotNull CommandSender sender, @NotNull List<String> args) {
-        // Do nothing as default
-    }
-
+     void handleCommand(@NotNull final CommandSender sender,
+                        @NotNull final String[] args);
     /**
-     * tab completion.
+     * Handle the tab completion.
      *
-     * @param sender The command sender.
-     * @param args   The command arguments
-     * @return Command suggestions
+     * @param sender The sender.
+     * @param args   The arguments.
+     * @return The tab completion results.
      */
-    @NotNull
-    default List<String> onTabComplete(@NotNull CommandSender sender, @NotNull List<String> args) {
-        // return empty suggestion list as default
-        return new ArrayList<>();
-    }
+     List<String> handleTabCompletion(@NotNull final CommandSender sender,
+                                      @NotNull final String[] args);
     /**
      *
      * @param sender The command sender.
