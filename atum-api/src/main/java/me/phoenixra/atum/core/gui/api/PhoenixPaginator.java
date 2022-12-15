@@ -1,7 +1,7 @@
 package me.phoenixra.atum.core.gui.api;
 
 import lombok.Getter;
-
+@Deprecated
 public class PhoenixPaginator {
     @Getter private int currentPage;
     @Getter private final int elementsPerPage;

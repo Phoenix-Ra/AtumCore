@@ -4,6 +4,7 @@ import me.phoenixra.atum.core.config.ConfigManager;
 import me.phoenixra.atum.core.config.ConfigType;
 import me.phoenixra.atum.core.config.LoadableConfig;
 import me.phoenixra.atum.core.events.EventManager;
+import me.phoenixra.atum.core.gui.GuiController;
 import me.phoenixra.atum.core.schedule.Scheduler;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -39,6 +40,15 @@ public interface AtumAPI {
     ConfigManager createConfigManager(@NotNull AtumPlugin plugin);
 
     /**
+     * Create GuiController
+     *
+     * @param plugin The plugin.
+     * @return The controller
+     */
+    @NotNull
+    GuiController createGuiController(@NotNull AtumPlugin plugin);
+
+    /**
      * Create a logger.
      *
      * @param plugin The plugin.
@@ -59,13 +69,17 @@ public interface AtumAPI {
      * @param name name of a config (without extension)
      * @param directory The directory of a config. Use empty String if root folder
      * @param type The type of a config
+     * @param forceLoadResource if true -> throws NullPointerException
+     *                       when file not found inside the resources folder,
+     *                          otherwise creates an empty file
      * @return loaded config
      */
     @NotNull
     LoadableConfig createLoadableConfig(@NotNull AtumPlugin plugin,
                               @NotNull String name,
                               @NotNull String directory,
-                              @NotNull ConfigType type);
+                              @NotNull ConfigType type,
+                              boolean forceLoadResource);
     /**
      * Get plugin by name
      *

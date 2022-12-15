@@ -10,8 +10,11 @@ import java.util.List;
 public interface LoadableConfig extends Config {
     /**
      * Create the file.
+     *
+     * @param forceResourceLoad if true -> throws NullPointerException
+     *                          when file not found inside the resources folder
      */
-    void createFile();
+    void createFile(boolean forceResourceLoad);
 
     /**
      * Reload the config.

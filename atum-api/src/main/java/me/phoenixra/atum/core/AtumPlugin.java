@@ -5,6 +5,7 @@ import me.phoenixra.atum.core.config.ConfigManager;
 import me.phoenixra.atum.core.config.ConfigType;
 import me.phoenixra.atum.core.config.LoadableConfig;
 import me.phoenixra.atum.core.events.EventManager;
+import me.phoenixra.atum.core.gui.GuiController;
 import me.phoenixra.atum.core.schedule.Scheduler;
 import lombok.Getter;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -28,6 +29,8 @@ public abstract class AtumPlugin extends JavaPlugin {
     private final EventManager eventManager;
     @Getter
     private final ConfigManager configManager;
+    @Getter
+    private final GuiController guiController;
 
 
     private final Logger logger;
@@ -55,6 +58,7 @@ public abstract class AtumPlugin extends JavaPlugin {
         this.scheduler = atumAPI.createScheduler(this);
         this.eventManager = atumAPI.createEventManager(this);
         this.configManager = atumAPI.createConfigManager(this);
+        this.guiController = atumAPI.createGuiController(this);
 
         configYml = createConfig();
         langYml = createLang();
@@ -66,8 +70,6 @@ public abstract class AtumPlugin extends JavaPlugin {
 
     @Override
     public final void onEnable() {
-        super.onEnable();
-
         this.getLogger().info("");
         this.getLogger().info("Loading " + this.getName());
 
@@ -206,7 +208,7 @@ public abstract class AtumPlugin extends JavaPlugin {
     protected LoadableConfig createLang() {
         try {
             return getAtumAPI()
-                    .createLoadableConfig(this, "lang", "", ConfigType.YAML);
+                    .createLoadableConfig(this, "lang", "", ConfigType.YAML,true);
         }catch (NullPointerException ex){
             this.getLogger().severe("Failed to load 'lang.yml' from the plugin resources");
         }
@@ -223,7 +225,7 @@ public abstract class AtumPlugin extends JavaPlugin {
     protected LoadableConfig createConfig() {
         try {
             return getAtumAPI()
-                    .createLoadableConfig(this, "config", "", ConfigType.YAML);
+                    .createLoadableConfig(this, "config", "", ConfigType.YAML,true);
         }catch (NullPointerException ex){
             this.getLogger().severe("Failed to load 'config.yml' from the plugin resources");
         }

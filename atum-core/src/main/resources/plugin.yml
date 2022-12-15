@@ -4,3 +4,7 @@ main: me.phoenixra.atum.plugin.AtumSpigotPlugin
 api-version: 1.17
 authors: [ PhoenixRa ]
 load: STARTUP
+commands:
+  atum:
+    usage: "/atum help"
+    description: utility command

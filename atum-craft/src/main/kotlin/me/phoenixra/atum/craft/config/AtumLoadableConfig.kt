@@ -15,7 +15,8 @@ class AtumLoadableConfig(
     type: ConfigType,
     private val plugin: AtumPlugin,
     private val subDirectoryPath: String,
-    confName: String
+    confName: String,
+    forceResourceLoad: Boolean
 ) : AtumConfig(type), LoadableConfig {
 
     private val file: File
@@ -28,7 +29,7 @@ class AtumLoadableConfig(
         }
         file = File(dir, "$confName.${type.fileExtension}")
         if (!file.exists()) {
-            createFile()
+            createFile(forceResourceLoad)
         }
         reload()
         plugin.configManager.addConfig(this)
@@ -37,8 +38,11 @@ class AtumLoadableConfig(
 
 
 
-    override fun createFile() {
-        val inputStream = plugin.javaClass.getResourceAsStream(resourcePath)!!
+    override fun createFile(forceResourceLoad: Boolean) {
+        val inputStream = plugin.javaClass.getResourceAsStream(resourcePath)
+        if(inputStream==null && forceResourceLoad) {
+            throw NullPointerException("file not found inside the resources folder of a plugin")
+        }
         val outFile = File(this.plugin.dataFolder, resourcePath)
         val outDir = File(this.plugin.dataFolder, resourcePath.substring(0, resourcePath.lastIndexOf('/').coerceAtLeast(0)))
         if (!outDir.exists()) outDir.mkdirs()
@@ -51,9 +55,9 @@ class AtumLoadableConfig(
                 headerWrite.append(s + "\n")
             }
             out.write(headerWrite.toString().toByteArray())
-            out.write(inputStream.readAllBytes())
+            inputStream?.readAllBytes()?.let { out.write(it) }
             out.close()
-            inputStream.close()
+            inputStream?.close()
         }
     }
 

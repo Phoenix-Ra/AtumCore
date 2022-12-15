@@ -1,31 +1,33 @@
 package me.phoenixra.atum.core.gui.events;
 
 import me.phoenixra.atum.core.gui.api.GuiFrame;
-import me.phoenixra.atum.core.gui.api.GuiComponent;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.player.PlayerEvent;
 import org.jetbrains.annotations.NotNull;
 
-public class FrameComponentClickEvent extends PlayerEvent implements Cancellable {
+public class GuiFrameOpenEvent extends PlayerEvent implements Cancellable {
     private static final HandlerList HANDLER_LIST = new HandlerList();
-    private final GuiFrame frame;
-    private final GuiComponent component;
     private boolean cancelled;
+    private final @NotNull GuiFrame frame;
 
-    public FrameComponentClickEvent(@NotNull Player player, @NotNull GuiFrame frame, @NotNull GuiComponent component) {
-        super(player);
+    public GuiFrameOpenEvent(@NotNull Player viewer, @NotNull GuiFrame frame) {
+        super(viewer);
         this.frame = frame;
-        this.component = component;
     }
 
     public @NotNull GuiFrame getFrame() {
         return frame;
     }
 
-    public @NotNull GuiComponent getComponent() {
-        return component;
+    @Override
+    public @NotNull HandlerList getHandlers() {
+        return HANDLER_LIST;
+    }
+
+    public static @NotNull HandlerList getHandlerList() {
+        return HANDLER_LIST;
     }
 
     @Override
@@ -36,10 +38,5 @@ public class FrameComponentClickEvent extends PlayerEvent implements Cancellable
     @Override
     public void setCancelled(boolean cancel) {
         this.cancelled = cancel;
-    }
-
-    @Override
-    public @NotNull HandlerList getHandlers() {
-        return HANDLER_LIST;
     }
 }

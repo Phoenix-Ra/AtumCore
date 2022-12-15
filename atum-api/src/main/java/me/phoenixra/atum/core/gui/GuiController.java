@@ -51,6 +51,14 @@ public interface GuiController extends Listener {
     GuiFrame getPlayerOpenedFrame(@NotNull Player viewer);
 
     /**
+     * Get GuiDrawer
+     *
+     * @return The GuiDrawer
+     */
+    @NotNull
+    GuiDrawer getGuiDrawer();
+
+    /**
      * Get the plugin.
      *
      * @return The plugin instance.

@@ -9,7 +9,7 @@ import me.phoenixra.atum.core.gui.GuiDrawer
 import me.phoenixra.atum.core.gui.api.GuiComponent
 import me.phoenixra.atum.core.gui.api.GuiFrame
 import me.phoenixra.atum.core.gui.baseframes.WarningFrame
-import me.phoenixra.atum.core.gui.events.FrameOpenEvent
+import me.phoenixra.atum.core.gui.events.GuiFrameOpenEvent
 import org.bukkit.Bukkit
 import org.bukkit.event.inventory.InventoryType
 import org.bukkit.inventory.Inventory
@@ -18,7 +18,8 @@ import java.util.concurrent.ConcurrentHashMap
 import java.util.logging.Level
 
 class AtumGuiDrawer(
-    private val plugin: AtumPlugin
+    private val plugin: AtumPlugin,
+    private val guiController: AtumGuiController
     ) : GuiDrawer {
     private val OPENING = ConcurrentHashMap<UUID, GuiFrame>()
 
@@ -36,11 +37,11 @@ class AtumGuiDrawer(
                 val inventory: Inventory = prepareInventory(frame)
                 if (frame != OPENING[uuid]) return@Runnable
                 Bukkit.getScheduler().runTask(plugin, Runnable {
-                    val event = FrameOpenEvent(viewer, frame)
+                    val event = GuiFrameOpenEvent(viewer, frame)
                     Bukkit.getPluginManager().callEvent(event)
                     if (event.isCancelled) return@Runnable
                     viewer.openInventory(inventory)
-                    guiController.register(frame)
+                    guiController.registerFrame(frame)
                     OPENING.remove(uuid)
                 })
             } catch (ex: AtumException) {

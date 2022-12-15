@@ -7,11 +7,11 @@ import org.bukkit.event.HandlerList;
 import org.bukkit.event.player.PlayerEvent;
 import org.jetbrains.annotations.NotNull;
 
-public class FrameCloseEvent extends PlayerEvent {
+public class GuiFrameCloseEvent extends PlayerEvent {
     private static final HandlerList HANDLER_LIST = new HandlerList();
     private final @NotNull GuiFrame frame;
 
-    public FrameCloseEvent(@NotNull Player viewer, @NotNull GuiFrame frame) {
+    public GuiFrameCloseEvent(@NotNull Player viewer, @NotNull GuiFrame frame) {
         super(viewer);
         this.frame = frame;
     }

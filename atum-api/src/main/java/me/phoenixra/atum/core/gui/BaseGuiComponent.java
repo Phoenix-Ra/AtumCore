@@ -23,32 +23,6 @@ public class BaseGuiComponent extends GuiComponent {
     private InventoryType inventoryType=InventoryType.CHEST;
     private int slot;
 
-    private BaseGuiComponent() {
-        item = new ItemStack(Material.STONE);
-        slot = 0;
-    }
-
-    public BaseGuiComponent(@Nullable String displayName, @Nullable List<String> lore, @NotNull Material material,
-                            int slot) {
-        this(displayName, lore, new ItemStack(material), slot);
-    }
-
-    public BaseGuiComponent(@Nullable String displayName, @Nullable List<String> lore, @Nullable ItemStack item,
-                            int slot) {
-        if (item == null) {
-            item = new ItemStack(Material.STONE);
-        }
-        this.item = item;
-        ItemMeta itemMeta = item.getItemMeta();
-        if (itemMeta != null) {
-            itemMeta.setDisplayName(displayName);
-            itemMeta.setLore(lore);
-            itemMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
-            item.setItemMeta(itemMeta);
-        }
-        this.slot = slot;
-    }
-
     @Override
     public @NotNull ItemStack getItem() {
         return item;
@@ -76,7 +50,8 @@ public class BaseGuiComponent extends GuiComponent {
             component.slot = slot;
             return this;
         }
-        public Builder withInventoryType(InventoryType inventoryType) {
+        public Builder withSlot(int slot,InventoryType inventoryType) {
+            component.slot = slot;
             component.setInventoryType(inventoryType);
             return this;
         }
