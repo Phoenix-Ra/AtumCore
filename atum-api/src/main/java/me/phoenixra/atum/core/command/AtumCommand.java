@@ -3,6 +3,8 @@ package me.phoenixra.atum.core.command;
 import lombok.Getter;
 import lombok.Setter;
 import me.phoenixra.atum.core.AtumPlugin;
+import me.phoenixra.atum.core.exceptions.NotificationException;
+import me.phoenixra.atum.core.utils.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.command.*;
 import org.bukkit.util.StringUtil;
@@ -68,8 +70,12 @@ public abstract class AtumCommand implements CommandBase, CommandExecutor, TabCo
     }
 
     public final void register() {
+        plugin.getLogger().info("Registering command "+commandName);
         PluginCommand command = Bukkit.getPluginCommand(this.getCommandName());
-        if (command == null) return;
+        if (command == null) {
+            plugin.getLogger().info("Registering failed! Command not found. For Devs: Check the command list of plugin.yml");
+            return;
+        }
 
         command.setExecutor(this);
         command.setTabCompleter(this);
@@ -121,7 +127,19 @@ public abstract class AtumCommand implements CommandBase, CommandExecutor, TabCo
             return false;
         }
 
-        handleCommand(sender, args);
+        try{
+            handleCommand(sender, args);
+        }catch (NotificationException e){
+
+            if(e.isLangKey()&&plugin.getLangYml()!=null)
+                sender.sendMessage(plugin.getLangYml().getStringOrDefault(e.getMessage(),""));
+            else
+                sender.sendMessage(StringUtils.colorFormat(e.getMessage()));
+
+         }catch (Exception e){
+            e.printStackTrace();
+            sender.sendMessage(StringUtils.colorFormat("&cUnexpected error occurred while trying to execute the command!"));
+        }
         return true;
     }
 
@@ -133,7 +151,8 @@ public abstract class AtumCommand implements CommandBase, CommandExecutor, TabCo
      */
     @Override
     public final void handleCommand(@NotNull final CommandSender sender,
-                                    @NotNull final String[] args) {
+                                    @NotNull final String[] args) throws NotificationException {
+
         if (!canExecute(sender)) {
             return;
         }
@@ -181,7 +200,12 @@ public abstract class AtumCommand implements CommandBase, CommandExecutor, TabCo
             return null;
         }
 
-        return this.handleTabCompletion(sender, args);
+        try {
+            return this.handleTabCompletion(sender, args);
+        }catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
     }
 
     /**
