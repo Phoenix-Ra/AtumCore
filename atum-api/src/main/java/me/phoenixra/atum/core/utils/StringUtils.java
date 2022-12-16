@@ -2,7 +2,6 @@ package me.phoenixra.atum.core.utils;
 
 import net.md_5.bungee.api.ChatColor;
 import org.apache.commons.lang.Validate;
-import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.jetbrains.annotations.NotNull;
 
@@ -12,14 +11,13 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class StringUtils {
-    public static boolean HEX_COLOR_SUPPORT;
-
     private static final List<Pattern> HEX_COLOR_PATTERNS = Arrays.asList(
             Pattern.compile("&#([0-9A-Fa-f]{6})"),
             Pattern.compile("\\{#([0-9A-Fa-f]{6})}"),
             Pattern.compile("<#([0-9A-Fa-f]{6})>")
 
     );
+    public static boolean HEX_COLOR_SUPPORT;
 
     static {
         try {
@@ -29,10 +27,16 @@ public class StringUtils {
             HEX_COLOR_SUPPORT = false;
         }
     }
+
+    //to prevent java reflections usage
+    private StringUtils() {
+        throw new UnsupportedOperationException("This is an utility class and cannot be instantiated");
+    }
+
     @NotNull
-    public static String colorFormat(@NotNull String text){
+    public static String colorFormat(@NotNull String text) {
         if (HEX_COLOR_SUPPORT) {
-            for(Pattern pattern : HEX_COLOR_PATTERNS) {
+            for (Pattern pattern : HEX_COLOR_PATTERNS) {
                 Matcher matcher = pattern.matcher(text);
                 StringBuffer buffer = new StringBuffer();
                 while (matcher.find()) {
@@ -43,6 +47,7 @@ public class StringUtils {
         }
         return ChatColor.translateAlternateColorCodes('&', text);
     }
+
     @NotNull
     public static List<String> colorFormat(@NotNull List<String> list) {
         for (int i = 0; i < list.size(); ++i) {
@@ -51,7 +56,7 @@ public class StringUtils {
         return list;
     }
 
-    public static Color parseColor(String s){
+    public static Color parseColor(String s) {
         return switch (s.toLowerCase()) {
             case "aqua" -> Color.AQUA;
             case "red" -> Color.RED;
@@ -110,10 +115,5 @@ public class StringUtils {
         }
 
         return builder.toString();
-    }
-
-    //to prevent java reflections usage
-    private StringUtils() {
-        throw new UnsupportedOperationException("This is an utility class and cannot be instantiated");
     }
 }

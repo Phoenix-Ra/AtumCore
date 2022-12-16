@@ -1,28 +1,30 @@
 package me.phoenixra.atum.core.utils;
-import net.md_5.bungee.api.ChatColor;
+
 import org.bukkit.Bukkit;
-import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class AtumUtils {
 
+    //to prevent java reflections usage
+    private AtumUtils() {
+        throw new UnsupportedOperationException("This is an utility class and cannot be instantiated");
+    }
+
     public static List<Entity> getNearbyEntities(Location location, EntityType entityType, int radius) {
         ArrayList<Entity> arrayList = new ArrayList<>();
-
         for (Entity entity : location.getWorld().getEntities()) {
-            if(entityType!=null&&!entity.getType().equals(entityType)) continue;
+            if (entityType != null && !entity.getType().equals(entityType)) continue;
             if (!isInsideArea(location, entity.getLocation(), radius)) continue;
             arrayList.add(entity);
         }
         return arrayList;
     }
+
     public static boolean isInsideArea(Location center, Location point, int radius) {
         int x1 = center.getBlockX();
         int z1 = center.getBlockZ();
@@ -31,10 +33,10 @@ public class AtumUtils {
         return x2 < x1 + radius && z2 < z1 + radius && x2 > x1 - radius && z2 > z1 - radius;
     }
 
-    public static Class<?> getNMSClass( String pack, String name) {
+    public static Class<?> getNMSClass(String pack, String name) {
         String className;
 
-        if (getServerVersion() < 17) className = "net.minecraft.server"+ getNMSVersion() + name;
+        if (getServerVersion() < 17) className = "net.minecraft.server" + getNMSVersion() + name;
         else className = "net.minecraft." + pack + '.' + name;
 
         try {
@@ -43,16 +45,12 @@ public class AtumUtils {
             throw new InternalError("Failed to get NMS class " + className + ". Probably, your currently using unsupported server version", e);
         }
     }
-    public static int getServerVersion(){
+
+    public static int getServerVersion() {
         return Integer.parseInt(Bukkit.getServer().getClass().getPackage().getName().split("\\.")[3].split("_")[1]);
     }
+
     public static String getNMSVersion() {
         return Bukkit.getServer().getClass().getPackage().getName().split("\\.")[3];
-    }
-
-
-    //to prevent java reflections usage
-    private AtumUtils() {
-        throw new UnsupportedOperationException("This is an utility class and cannot be instantiated");
     }
 }
