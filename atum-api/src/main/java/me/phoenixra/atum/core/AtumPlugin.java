@@ -74,6 +74,7 @@ public abstract class AtumPlugin extends JavaPlugin {
         this.getLogger().info("Loading " + this.getName());
 
 
+        getEventManager().registerListener(guiController);
         this.loadListeners().forEach(listener -> getEventManager().registerListener(listener));
 
         this.loadPluginCommands().forEach(AtumCommand::register);

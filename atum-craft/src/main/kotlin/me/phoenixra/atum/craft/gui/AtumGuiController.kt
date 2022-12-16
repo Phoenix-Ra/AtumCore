@@ -24,10 +24,6 @@ class AtumGuiController(
     private val registeredFrames = ConcurrentHashMap<UUID, GuiFrame>()
     private val guiDrawer = AtumGuiDrawer(plugin, this)
 
-    init {
-        plugin.eventManager.registerListener(this)
-    }
-
     @EventHandler(ignoreCancelled = true)
     fun onPluginDisable(event: PluginDisableEvent) {
         if (event.plugin !== plugin) return
