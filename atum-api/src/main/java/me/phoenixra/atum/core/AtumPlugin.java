@@ -49,7 +49,10 @@ public abstract class AtumPlugin extends JavaPlugin {
 
 
     protected AtumPlugin() {
-        atumAPI = loadAPI();
+        if(AtumAPI.getInstance()==null){
+            AtumAPI.Instance.set(loadAPI());
+        }
+        atumAPI = AtumAPI.getInstance();
 
         this.logger = atumAPI.createLogger(this);
 
@@ -185,12 +188,12 @@ public abstract class AtumPlugin extends JavaPlugin {
      * Load an API. Use it if you want to implement
      * your own AtumAPI class.
      * <p></p>
-     * By default, implement this:
-     * AtumSpigotPlugin.Component.getInstance().getAtumAPI()
      *
      * @return AtumAPI class
      */
-    protected abstract AtumAPI loadAPI();
+    protected AtumAPI loadAPI(){
+        return AtumAPI.getInstance();
+    }
 
     @NotNull
     @Override

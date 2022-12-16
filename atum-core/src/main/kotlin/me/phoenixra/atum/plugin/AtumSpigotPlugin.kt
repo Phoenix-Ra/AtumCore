@@ -5,7 +5,6 @@ import me.phoenixra.atum.core.AtumPlugin
 import me.phoenixra.atum.core.command.AtumCommand
 import me.phoenixra.atum.craft.AtumAPICraft
 import me.phoenixra.atum.plugin.commands.PluginCommandAtum
-import org.bukkit.event.Listener
 
 class AtumSpigotPlugin : AtumPlugin() {
 

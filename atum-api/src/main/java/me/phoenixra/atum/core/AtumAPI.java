@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.logging.Logger;
 
 public interface AtumAPI {
+
     /**
      * Create a scheduler.
      *
@@ -110,4 +111,29 @@ public interface AtumAPI {
      * @param plugin The plugin.
      */
     void removePlugin(@NotNull AtumPlugin plugin);
+
+
+    static AtumAPI getInstance() {
+        return Instance.get();
+    }
+
+    final class Instance {
+        private static AtumAPI api;
+        private Instance() {
+            throw new UnsupportedOperationException("This is an utility class and cannot be instantiated");
+        }
+
+        static void set(final AtumAPI api) {
+            if(Instance.api != null) return;
+
+            Instance.api = api;
+        }
+
+
+        static AtumAPI get() {
+            return api;
+        }
+
+
+    }
 }
