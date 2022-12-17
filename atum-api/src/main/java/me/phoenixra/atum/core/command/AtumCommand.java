@@ -176,7 +176,7 @@ public abstract class AtumCommand implements CommandBase, CommandExecutor, TabCo
      * @param sender The command sender.
      * @param args   The command arguments
      */
-    protected abstract void onCommandExecute(@NotNull CommandSender sender, @NotNull List<String> args);
+    protected abstract void onCommandExecute(@NotNull CommandSender sender, @NotNull List<String> args) throws NotificationException;
 
     /**
      * Internal implementation of the Bukkit method
