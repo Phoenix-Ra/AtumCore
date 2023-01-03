@@ -23,6 +23,7 @@ import java.util.logging.Logger;
 public abstract class AtumPlugin extends JavaPlugin {
     @Getter
     private final AtumAPI atumAPI;
+    @Getter final AtumPlugin corePlugin;
 
     @Getter
     private final Scheduler scheduler;
@@ -37,9 +38,9 @@ public abstract class AtumPlugin extends JavaPlugin {
     private final Logger logger;
 
 
-    @Getter @Nullable
+    @Getter
     private final LoadableConfig configYml;
-    @Getter @Nullable
+    @Getter
     private final LangYml langYml;
 
     private final List<Runnable> onEnableTasks = new ArrayList<>();
@@ -68,6 +69,8 @@ public abstract class AtumPlugin extends JavaPlugin {
         langYml = createLang();
 
         atumAPI.addPlugin(this);
+
+        corePlugin = atumAPI.getPluginByName("AtumCore");
 
     }
 
@@ -212,11 +215,11 @@ public abstract class AtumPlugin extends JavaPlugin {
      */
     protected LangYml createLang() {
         try {
-            return new LangYml(this,"lang",ConfigType.YAML);
+            return new LangYml(this,"lang",ConfigType.YAML,true);
         }catch (NullPointerException ex){
             this.getLogger().severe("Failed to load 'lang.yml' from the plugin resources");
+            return new LangYml(this,"lang",ConfigType.YAML,false);
         }
-        return null;
     }
 
     /**
@@ -232,8 +235,10 @@ public abstract class AtumPlugin extends JavaPlugin {
                     .createLoadableConfig(this, "config", "", ConfigType.YAML,true);
         }catch (NullPointerException ex){
             this.getLogger().severe("Failed to load 'config.yml' from the plugin resources");
+
+            return getAtumAPI()
+                    .createLoadableConfig(this, "config", "", ConfigType.YAML,true);
         }
-        return null;
     }
     /**
      * The {@link JavaPlugin} method

@@ -21,7 +21,7 @@ public class WarningFrame extends GuiFrame {
 	private final String message;
 	private final GuiDrawer guiDrawer;
 	@Setter @Accessors(chain = true)
-	private String title = StringUtils.colorFormat("&cAction Warning");
+	private String title = StringUtils.format("&cAction Warning");
 	public WarningFrame(@NotNull GuiDrawer guiDrawer, @Nullable GuiFrame parent, @NotNull Player viewer, @NotNull String message) {
 		super(parent, viewer);
 		this.message = message;

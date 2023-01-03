@@ -8,13 +8,14 @@ import org.jetbrains.annotations.NotNull;
 public class BaseConfig extends LoadableConfigWrapper {
     protected BaseConfig(@NotNull AtumPlugin plugin,
                          @NotNull String configName,
-                         @NotNull ConfigType configType) {
+                         @NotNull ConfigType configType,
+                         boolean forceLoadResource) {
         super(AtumAPI.getInstance().createLoadableConfig(
                 plugin,
                 configName,
                 "",
                 configType,
-                false)
+                forceLoadResource)
         );
     }
 }

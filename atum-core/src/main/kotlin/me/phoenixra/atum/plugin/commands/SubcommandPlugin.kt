@@ -101,17 +101,17 @@ class SubcommandPlugin(
     }
 
     private fun getHelp(): String {
-        return StringUtils.colorFormat(
+        return StringUtils.format(
             """
-                ${ChatColor.GREEN}Available commands: 
-                ${ChatColor.RED}/atum plugin list ${ChatColor.WHITE}- sends the list of all loaded plugins
-                ${ChatColor.RED}/atum plugin info [plugin name] ${ChatColor.GRAY}-${ChatColor.WHITE} sends the plugin version, its authors and current status
-                ${ChatColor.RED}/atum plugin usage [plugin name] ${ChatColor.GRAY}-${ChatColor.WHITE} sends all commands plugin registered
-                ${ChatColor.RED}/atum plugin enable [plugin name] ${ChatColor.GRAY}-${ChatColor.WHITE} enables the plugin
-                ${ChatColor.RED}/atum plugin disable [plugin name] ${ChatColor.GRAY}-${ChatColor.WHITE} disables the plugin
-                ${ChatColor.RED}/atum plugin load [plugin name] ${ChatColor.GRAY}-${ChatColor.WHITE} loads the plugin from /plugins folder
-                ${ChatColor.RED}/atum plugin unload [plugin name] ${ChatColor.GRAY}-${ChatColor.WHITE} unloads the plugin
-                ${ChatColor.RED}/atum plugin restart [plugin name] ${ChatColor.GRAY}-${ChatColor.WHITE} unloads and loads the plugin
+                &aAvailable commands: 
+                &c/atum plugin list &7-&f sends the list of all loaded plugins
+                &c/atum plugin info [plugin name] &7-&f sends the plugin version, its authors and current status
+                &c/atum plugin usage [plugin name] &7-&f sends all commands plugin registered
+                &c/atum plugin enable [plugin name] &7-&f enables the plugin
+                &c/atum plugin disable [plugin name] &7-&f disables the plugin
+                &c/atum plugin load [plugin name] &7-&f loads the plugin from /plugins folder
+                &c/atum plugin unload [plugin name] &7-&f unloads the plugin
+                &c/atum plugin restart [plugin name] &7-&f unloads and loads the plugin
                 """.trimIndent()
         );
     }

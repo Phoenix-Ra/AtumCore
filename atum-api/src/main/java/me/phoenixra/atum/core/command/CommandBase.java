@@ -107,17 +107,17 @@ public interface CommandBase {
         boolean isPlayer=isPlayer(sender);
         //console
         if (!isPlayer && !isConsoleAllowed()) {
-            if(notifyOnFalse) sender.sendMessage("Command is for players only");
+            if(notifyOnFalse) sender.sendMessage(getPlugin().getCorePlugin().getLangYml().getMessage("players-only"));
             return false;
         }
         if(!isPlayer) return true;
         //player
         if (!isPlayersAllowed()) {
-            if(notifyOnFalse) sender.sendMessage("Command is for console only");
+            if(notifyOnFalse) sender.sendMessage(getPlugin().getCorePlugin().getLangYml().getMessage("console-only"));
             return false;
         }
         if (!sender.hasPermission(getRequiredPermission())) {
-            if(notifyOnFalse) sender.sendMessage("You don't have the permission to execute this command");
+            if(notifyOnFalse) sender.sendMessage(getPlugin().getCorePlugin().getLangYml().getMessage("no-permission"));
             return false;
         }
 

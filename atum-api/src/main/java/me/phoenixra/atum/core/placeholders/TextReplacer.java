@@ -27,7 +27,7 @@ public class TextReplacer {
                 text = text.replace("%"+task.getPlaceholder()+"%", task.getReplacement(player, null));
             }
         }
-        return StringUtils.colorFormat(text);
+        return StringUtils.format(text);
     }
     public List<String> replace(@NotNull Player player,@NotNull List<String> list){
         List<String> newList=new ArrayList<>();

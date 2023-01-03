@@ -2,6 +2,7 @@ package me.phoenixra.atum.core.command;
 
 import lombok.Getter;
 import lombok.Setter;
+import me.phoenixra.atum.core.AtumAPI;
 import me.phoenixra.atum.core.AtumPlugin;
 import me.phoenixra.atum.core.exceptions.NotificationException;
 import me.phoenixra.atum.core.utils.StringUtils;
@@ -89,7 +90,7 @@ public abstract class AtumCommand implements CommandBase, CommandExecutor, TabCo
             protected void onCommandExecute(@NotNull CommandSender sender, @NotNull List<String> args) throws NotificationException {
                 AtumCommand command = (AtumCommand) getParent();
                 if(command.getSubcommands().size() == 0) {
-                    sender.sendMessage(StringUtils.colorFormat("&c"+command.getUsage()+"&7 - &f"+command.getDescription()));
+                    sender.sendMessage(StringUtils.format("&c"+command.getUsage()+"&7 - &f"+command.getDescription()));
                     return;
                 }
                 StringBuilder sb = new StringBuilder();
@@ -99,7 +100,7 @@ public abstract class AtumCommand implements CommandBase, CommandExecutor, TabCo
                     sb.append("&c").append(subcommand.getUsage()).append("&7 - &f").append(subcommand.getDescription())
                             .append("\n");
                 }
-                sender.sendMessage(StringUtils.colorFormat(sb.toString()));
+                sender.sendMessage(StringUtils.format(sb.toString()));
             }
 
             @Override
@@ -148,11 +149,11 @@ public abstract class AtumCommand implements CommandBase, CommandExecutor, TabCo
             if(e.isLangKey()&&plugin.getLangYml()!=null)
                 sender.sendMessage(plugin.getLangYml().getStringOrDefault(e.getMessage(),""));
             else
-                sender.sendMessage(StringUtils.colorFormat(e.getMessage()));
+                sender.sendMessage(StringUtils.format(e.getMessage()));
 
          }catch (Exception e){
             e.printStackTrace();
-            sender.sendMessage(StringUtils.colorFormat("&cUnexpected error occurred while trying to execute the command!"));
+            sender.sendMessage(plugin.getCorePlugin().getLangYml().getMessage("error_on_command"));
         }
         return true;
     }

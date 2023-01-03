@@ -1,0 +1,5 @@
+messages:
+  error_on_command: "&cUnexpected error occurred while trying to execute the command!"
+  no-permission: "&cYou don't have the required permission to execute this command"
+  console-only: "&cCommand is for console only"
+  players-only: "&cCommand is for players only"

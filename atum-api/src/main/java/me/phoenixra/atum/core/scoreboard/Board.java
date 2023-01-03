@@ -28,7 +28,7 @@ public class Board {
     public Board(String id, List<String> displayName, List<String> scores) {
         this.id = id;
         this.displayName=new ArrayList<>();
-        displayName.forEach(s -> this.displayName.add(StringUtils.colorFormat(s)));
+        displayName.forEach(s -> this.displayName.add(StringUtils.format(s)));
         this.scores=scores;
         replacer = new TextReplacer();
 
@@ -77,7 +77,7 @@ public class Board {
 
             sb.put(player, Bukkit.getScoreboardManager().getNewScoreboard());
             players.put(player, new ArrayList<>());
-            Objective objective = sb.get(player).registerNewObjective(id, "dummy", StringUtils.colorFormat(displayName.get(0)));
+            Objective objective = sb.get(player).registerNewObjective(id, "dummy", StringUtils.format(displayName.get(0)));
             objective.setDisplaySlot(DisplaySlot.SIDEBAR);
 
             for (int i = scores.size(); i > 0; --i)
@@ -92,7 +92,7 @@ public class Board {
                 }
 
                 objective.getScore(replacer.replace(player, s.toString())).setScore(i-1);
-                players.get(player).set(i-1, StringUtils.colorFormat(s.toString()));
+                players.get(player).set(i-1, StringUtils.format(s.toString()));
             }
             player.setScoreboard(sb.get(player));
         } catch (Exception e) {

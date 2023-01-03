@@ -23,11 +23,11 @@ public class ConfirmationFrame extends GuiFrame {
     private final GuiDrawer guiDrawer;
 
     @Setter @Accessors(chain = true)
-    private String confirm_name = StringUtils.colorFormat("&aConfirm action");
+    private String confirm_name = StringUtils.format("&aConfirm action");
     @Setter @Accessors(chain = true)
-    private String cancel_name = StringUtils.colorFormat("&cCancel action");
+    private String cancel_name = StringUtils.format("&cCancel action");
     @Setter @Accessors(chain = true)
-    private String title = StringUtils.colorFormat("&6Action Confirmation");
+    private String title = StringUtils.format("&6Action Confirmation");
     public ConfirmationFrame(@NotNull GuiDrawer guiDrawer, @Nullable GuiFrame parent, @NotNull Player viewer, @Nullable Runnable listener) {
         super(parent, viewer);
         this.listener = listener;
@@ -62,7 +62,7 @@ public class ConfirmationFrame extends GuiFrame {
 
     @Override
     public @NotNull String getTitle() {
-        return StringUtils.colorFormat(title);
+        return StringUtils.format(title);
     }
 
     @Override

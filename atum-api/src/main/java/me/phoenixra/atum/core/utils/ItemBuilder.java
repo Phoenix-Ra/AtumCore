@@ -73,7 +73,7 @@ public final class ItemBuilder {
     }
     public ItemBuilder setDisplayName(String string) {
         ItemMeta itemMeta = this.itemStack.getItemMeta();
-        itemMeta.setDisplayName(StringUtils.colorFormat(string));
+        itemMeta.setDisplayName(StringUtils.format(string));
         this.itemStack.setItemMeta(itemMeta);
         return this;
     }
@@ -82,7 +82,7 @@ public final class ItemBuilder {
         ItemMeta itemMeta = this.itemStack.getItemMeta();
         ArrayList<String> arrayList = new ArrayList<>();
         for (String string : list) {
-            arrayList.add(StringUtils.colorFormat(string));
+            arrayList.add(StringUtils.format(string));
         }
         itemMeta.setLore(arrayList);
         this.itemStack.setItemMeta(itemMeta);
@@ -94,9 +94,9 @@ public final class ItemBuilder {
         List<String> list = new ArrayList<>();
         for (String string : arrstring) {
             if(string.contains("\n"))
-                list.addAll(StringUtils.colorFormat(Arrays.asList(string.split("\n"))));
+                list.addAll(StringUtils.format(Arrays.asList(string.split("\n"))));
             else
-                list.add(StringUtils.colorFormat(string));
+                list.add(StringUtils.format(string));
         }
         itemMeta.setLore(list);
         this.itemStack.setItemMeta(itemMeta);
