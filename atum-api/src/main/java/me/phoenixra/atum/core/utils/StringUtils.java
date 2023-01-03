@@ -34,7 +34,7 @@ public class StringUtils {
     }
 
     @NotNull
-    public static String colorFormat(@NotNull String text) {
+    public static String format(@NotNull String text) {
         if (HEX_COLOR_SUPPORT) {
             for (Pattern pattern : HEX_COLOR_PATTERNS) {
                 Matcher matcher = pattern.matcher(text);
@@ -49,9 +49,9 @@ public class StringUtils {
     }
 
     @NotNull
-    public static List<String> colorFormat(@NotNull List<String> list) {
+    public static List<String> format(@NotNull List<String> list) {
         for (int i = 0; i < list.size(); ++i) {
-            list.set(i, colorFormat(list.get(i)));
+            list.set(i, format(list.get(i)));
         }
         return list;
     }
@@ -86,9 +86,9 @@ public class StringUtils {
         Validate.isTrue(progress >= 0 && progress <= 1, "Progress must be between 0 and 1!");
         Validate.isTrue(bars > 1, "Must have at least 2 bars!");
 
-        String completeColor = colorFormat(completeFormat);
-        String inProgressColor = colorFormat(inProgressFormat);
-        String incompleteColor = colorFormat(incompleteFormat);
+        String completeColor = format(completeFormat);
+        String inProgressColor = format(inProgressFormat);
+        String incompleteColor = format(incompleteFormat);
 
         StringBuilder builder = new StringBuilder();
 

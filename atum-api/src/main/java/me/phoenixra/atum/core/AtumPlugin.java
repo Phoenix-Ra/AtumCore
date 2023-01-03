@@ -4,6 +4,7 @@ import me.phoenixra.atum.core.command.AtumCommand;
 import me.phoenixra.atum.core.config.ConfigManager;
 import me.phoenixra.atum.core.config.ConfigType;
 import me.phoenixra.atum.core.config.LoadableConfig;
+import me.phoenixra.atum.core.config.base.LangYml;
 import me.phoenixra.atum.core.events.EventManager;
 import me.phoenixra.atum.core.gui.GuiController;
 import me.phoenixra.atum.core.schedule.Scheduler;
@@ -39,7 +40,7 @@ public abstract class AtumPlugin extends JavaPlugin {
     @Getter @Nullable
     private final LoadableConfig configYml;
     @Getter @Nullable
-    private final LoadableConfig langYml;
+    private final LangYml langYml;
 
     private final List<Runnable> onEnableTasks = new ArrayList<>();
     private final List<Runnable> onDisableTasks = new ArrayList<>();
@@ -209,10 +210,9 @@ public abstract class AtumPlugin extends JavaPlugin {
      *
      * @return lang.yml.
      */
-    protected LoadableConfig createLang() {
+    protected LangYml createLang() {
         try {
-            return getAtumAPI()
-                    .createLoadableConfig(this, "lang", "", ConfigType.YAML,true);
+            return new LangYml(this,"lang",ConfigType.YAML);
         }catch (NullPointerException ex){
             this.getLogger().severe("Failed to load 'lang.yml' from the plugin resources");
         }

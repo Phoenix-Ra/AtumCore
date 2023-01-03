@@ -1,5 +1,6 @@
 package me.phoenixra.atum.core.config;
 
+import me.phoenixra.atum.core.utils.StringUtils;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.jetbrains.annotations.NotNull;
@@ -102,6 +103,10 @@ public interface Config {
 
 
     @NotNull
+    default String getFormattedString(@NotNull String path){
+        return StringUtils.format(getStringOrDefault(path, ""));
+    }
+    @NotNull
     default String getString(@NotNull String path) {
         return getStringOrDefault(path, "");
     }
@@ -113,7 +118,12 @@ public interface Config {
     String getStringOrNull(@NotNull String path);
 
 
-
+    @NotNull
+    default List<String> getFormattedStringList(@NotNull String path) {
+        return StringUtils.format(
+                Objects.requireNonNullElse(getStringListOrNull(path), new ArrayList<>())
+        );
+    }
     @NotNull
     default List<String> getStringList(@NotNull String path) {
         return Objects.requireNonNullElse(getStringListOrNull(path), new ArrayList<>());
