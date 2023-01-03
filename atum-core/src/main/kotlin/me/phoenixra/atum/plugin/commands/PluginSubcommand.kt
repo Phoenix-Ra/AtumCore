@@ -9,7 +9,7 @@ import org.bukkit.ChatColor
 import org.bukkit.command.CommandSender
 import java.lang.StringBuilder
 
-class SubcommandPlugin(
+class PluginSubcommand(
     plugin: AtumPlugin,
     parent: CommandBase
 ) : AtumSubcommand(plugin, "plugin", parent) {

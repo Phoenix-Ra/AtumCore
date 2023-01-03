@@ -4,14 +4,15 @@ import me.phoenixra.atum.core.AtumPlugin
 import me.phoenixra.atum.core.command.AtumCommand
 import org.bukkit.command.CommandSender
 
-class PluginCommandAtum(
+class AtumCoreCommand(
     plugin: AtumPlugin
 ): AtumCommand(plugin,"atum","atum.admin") {
 
     init {
         isPlayersAllowed = false
         isConsoleAllowed = true
-        addSubcommand(SubcommandPlugin(plugin,this))
+        addSubcommand(PluginSubcommand(plugin,this))
+        addSubcommand(ReloadSubcommand(plugin,this))
     }
 
     override fun getDescription(): String {

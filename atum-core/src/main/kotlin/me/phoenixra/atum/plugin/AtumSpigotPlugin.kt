@@ -4,7 +4,7 @@ import me.phoenixra.atum.core.AtumAPI
 import me.phoenixra.atum.core.AtumPlugin
 import me.phoenixra.atum.core.command.AtumCommand
 import me.phoenixra.atum.craft.AtumAPICraft
-import me.phoenixra.atum.plugin.commands.PluginCommandAtum
+import me.phoenixra.atum.plugin.commands.AtumCoreCommand
 
 class AtumSpigotPlugin : AtumPlugin() {
 
@@ -22,7 +22,7 @@ class AtumSpigotPlugin : AtumPlugin() {
 
     override fun loadPluginCommands(): MutableList<AtumCommand> {
         return mutableListOf(
-            PluginCommandAtum(this)
+            AtumCoreCommand(this)
         )
     }
     override fun loadAPI(): AtumAPI {
