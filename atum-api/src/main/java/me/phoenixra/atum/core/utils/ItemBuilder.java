@@ -13,8 +13,8 @@ import org.bukkit.inventory.meta.SkullMeta;
 
 import java.lang.reflect.Field;
 import java.util.*;
-public class ItemBuilder {
-    private final ItemStack itemStack;
+public final class ItemBuilder {
+    private ItemStack itemStack;
     public ItemBuilder() {
         this.itemStack = new ItemStack(Material.AIR);
     }
@@ -22,6 +22,7 @@ public class ItemBuilder {
     public ItemBuilder(Material material) {
         this.itemStack = new ItemStack(material);
     }
+
     public ItemBuilder makeUnbreakable(){
         ItemMeta itemMeta = this.itemStack.getItemMeta();
         itemMeta.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
@@ -124,6 +125,11 @@ public class ItemBuilder {
     public ItemBuilder addFakeEnchant() {
         this.itemStack.addUnsafeEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 1);
         this.addItemFlag(ItemFlag.HIDE_ENCHANTS);
+        return this;
+    }
+
+    public ItemBuilder copyFrom(ItemStack item){
+        itemStack=item;
         return this;
     }
 
