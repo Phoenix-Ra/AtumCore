@@ -57,7 +57,7 @@ class SubcommandPlugin(
             }
             "load" -> {
                 notifyFalse(args.size > 1, "&cSpecify the plugin", false)
-                PluginUtils.loadPlugin(args[1])
+                val plugin = PluginUtils.loadPlugin(args[1])
 
                 sender.sendMessage("${ChatColor.GREEN}Successfully loaded the plugin ${plugin.name}")
             }
