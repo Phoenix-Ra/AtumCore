@@ -8,6 +8,7 @@ import me.phoenixra.atum.core.exceptions.NotificationException;
 import me.phoenixra.atum.core.utils.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.command.*;
+import org.bukkit.entity.HumanEntity;
 import org.bukkit.util.StringUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -267,7 +268,12 @@ public abstract class AtumCommand implements CommandBase, CommandExecutor, TabCo
 
         }
 
-        return onTabComplete(sender, Arrays.asList(args));
+        List<String> completions = onTabComplete(sender, Arrays.asList(args));
+        if(completions==null) return StringUtil.copyPartialMatches(args[args.length-1],
+                Bukkit.getOnlinePlayers().stream().map(HumanEntity::getName)
+                        .collect(Collectors.toList()),
+                new ArrayList<>());
+        return completions;
     }
 
     /**
@@ -277,7 +283,7 @@ public abstract class AtumCommand implements CommandBase, CommandExecutor, TabCo
      * @param args   The command arguments
      * @return Command suggestions
      */
-    @NotNull
+    @Nullable
     protected abstract List<String> onTabComplete(@NotNull CommandSender sender, @NotNull List<String> args);
 
 
