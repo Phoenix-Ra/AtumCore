@@ -23,7 +23,6 @@ import java.util.logging.Logger;
 public abstract class AtumPlugin extends JavaPlugin {
     @Getter
     private final AtumAPI atumAPI;
-    @Getter final AtumPlugin corePlugin;
 
     @Getter
     private final Scheduler scheduler;
@@ -69,8 +68,6 @@ public abstract class AtumPlugin extends JavaPlugin {
         langYml = createLang();
 
         atumAPI.addPlugin(this);
-
-        corePlugin = atumAPI.getPluginByName("AtumCore");
 
     }
 
@@ -316,4 +313,7 @@ public abstract class AtumPlugin extends JavaPlugin {
 
 
 
+    public AtumPlugin getCorePlugin(){
+        return atumAPI.getPluginByName("AtumCore");
+    }
 }

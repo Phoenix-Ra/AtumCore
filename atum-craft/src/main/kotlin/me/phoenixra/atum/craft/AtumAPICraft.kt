@@ -50,7 +50,7 @@ class AtumAPICraft : AtumAPI {
     }
 
     override fun getPluginByName(name: String): AtumPlugin? {
-        return loadedPlugins[name]
+        return loadedPlugins[name.lowercase()]
     }
 
     override fun getLoadedPlugins(name: String): MutableList<AtumPlugin> {
