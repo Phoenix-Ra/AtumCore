@@ -95,7 +95,7 @@ public abstract class AtumCommand implements CommandBase, CommandExecutor, TabCo
                 StringBuilder sb = new StringBuilder();
                 sb.append("&a------ ").append(getPlugin().getColoredName()).append(" &a------").append("\n");
                 for(CommandBase subcommand : subcommands.values()){
-                    if(!subcommand.canExecute(sender)) continue;
+                    if(!subcommand.canExecute(sender,true)) continue;
                     sb.append("&c").append(subcommand.getUsage()).append("&7 - &f").append(subcommand.getDescription())
                             .append("\n");
                 }
@@ -167,14 +167,14 @@ public abstract class AtumCommand implements CommandBase, CommandExecutor, TabCo
     public final void handleCommand(@NotNull final CommandSender sender,
                                     @NotNull final String[] args) throws NotificationException {
 
-        if (!canExecute(sender)) {
+        if (!canExecute(sender,true)) {
             return;
         }
 
         if (args.length > 0) {
             for (CommandBase subcommand : this.getSubcommands().values()) {
                 if (!subcommand.getCommandName().equalsIgnoreCase(args[0])) continue;
-                if (!subcommand.canExecute(sender)) return;
+                if (!subcommand.canExecute(sender,true)) return;
 
                 subcommand.handleCommand(sender, Arrays.copyOfRange(args, 1, args.length));
                 return;
@@ -233,7 +233,7 @@ public abstract class AtumCommand implements CommandBase, CommandExecutor, TabCo
     public final List<String> handleTabCompletion(@NotNull final CommandSender sender,
                                                   @NotNull final String[] args) {
 
-        if (!canExecute(sender)) return null;
+        if (!canExecute(sender,false)) return null;
 
 
         if (args.length == 1) {
@@ -241,7 +241,7 @@ public abstract class AtumCommand implements CommandBase, CommandExecutor, TabCo
 
             StringUtil.copyPartialMatches(args[0],
                     getSubcommands().values().stream()
-                            .filter(subCommand -> subCommand.canExecute(sender))
+                            .filter(subCommand -> subCommand.canExecute(sender,false))
                             .map(CommandBase::getCommandName)
                             .collect(Collectors.toList()),
                     completions
@@ -256,7 +256,7 @@ public abstract class AtumCommand implements CommandBase, CommandExecutor, TabCo
 
             for (CommandBase subcommand : getSubcommands().values()) {
                 if (!args[0].equalsIgnoreCase(subcommand.getCommandName())) continue;
-                if (!subcommand.canExecute(sender)) return null;
+                if (!subcommand.canExecute(sender,false)) return null;
 
                 return subcommand.handleTabCompletion(sender,
                         Arrays.copyOfRange(args, 1, args.length));

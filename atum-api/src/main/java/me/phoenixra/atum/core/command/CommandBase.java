@@ -99,24 +99,25 @@ public interface CommandBase {
     /**
      *
      * @param sender The command sender.
+     * @param notifyOnFalse sends the message on false return
      * @return true if sender can execute the command
      */
-    default boolean canExecute(CommandSender sender){
+    default boolean canExecute(CommandSender sender, boolean notifyOnFalse){
 
         boolean isPlayer=isPlayer(sender);
         //console
         if (!isPlayer && !isConsoleAllowed()) {
-            sender.sendMessage("Command is for players only");
+            if(notifyOnFalse) sender.sendMessage("Command is for players only");
             return false;
         }
         if(!isPlayer) return true;
         //player
         if (!isPlayersAllowed()) {
-            sender.sendMessage("Command is for console only");
+            if(notifyOnFalse) sender.sendMessage("Command is for console only");
             return false;
         }
         if (!sender.hasPermission(getRequiredPermission())) {
-            sender.sendMessage("You don't have the permission to execute this command");
+            if(notifyOnFalse) sender.sendMessage("You don't have the permission to execute this command");
             return false;
         }
 
