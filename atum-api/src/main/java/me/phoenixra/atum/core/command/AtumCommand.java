@@ -12,10 +12,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public abstract class AtumCommand implements CommandBase, CommandExecutor, TabCompleter {
@@ -29,13 +26,11 @@ public abstract class AtumCommand implements CommandBase, CommandExecutor, TabCo
     private final String requiredPermission;
 
     @Getter
-    private final List<CommandBase> subcommands;
+    private final HashMap<String,CommandBase> subcommands;
 
-    @Getter
-    @Setter
+    @Getter @Setter
     private boolean playersAllowed;
-    @Getter
-    @Setter
+    @Getter @Setter
     private boolean consoleAllowed;
 
     /**
@@ -51,22 +46,7 @@ public abstract class AtumCommand implements CommandBase, CommandExecutor, TabCo
         this.plugin = plugin;
         this.commandName = commandName;
         this.requiredPermission = permission;
-        this.subcommands = new ArrayList<>();
-    }
-
-    /**
-     * Get the internal server CommandMap.
-     *
-     * @return The CommandMap.
-     */
-    public static CommandMap getCommandMap() {
-        try {
-            Field field = Bukkit.getServer().getClass().getDeclaredField("commandMap");
-            field.setAccessible(true);
-            return (CommandMap) field.get(Bukkit.getServer());
-        } catch (NoSuchFieldException | IllegalAccessException e) {
-            throw new NullPointerException("Command map wasn't found!");
-        }
+        this.subcommands = new HashMap<>();
     }
 
     public final void register() {
@@ -80,13 +60,13 @@ public abstract class AtumCommand implements CommandBase, CommandExecutor, TabCo
         command.setExecutor(this);
         command.setTabCompleter(this);
 
-        if (this.getDescription() != null) {
-            command.setDescription(this.getDescription());
-        }
+        command.setDescription(this.getDescription());
 
         List<String> aliases = new ArrayList<>(command.getAliases());
         aliases.addAll(this.getAliases());
         command.setAliases(aliases);
+
+        addSubcommand(loadHelp());
 
     }
 
@@ -96,15 +76,49 @@ public abstract class AtumCommand implements CommandBase, CommandExecutor, TabCo
 
         command.unregister(getCommandMap());
     }
+    /**
+     * The default help command
+     * <p></p>
+     * Override if you want to make your own implementation
+     *
+     * @return  The help command
+     */
+    protected CommandBase loadHelp(){
+        return (new AtumSubcommand(getPlugin(),"help",this) {
+            @Override
+            protected void onCommandExecute(@NotNull CommandSender sender, @NotNull List<String> args) throws NotificationException {
+                AtumCommand command = (AtumCommand) getParent();
+                if(command.getSubcommands().size() == 0) {
+                    sender.sendMessage(StringUtils.colorFormat("&c"+command.getUsage()+"&7 - &f"+command.getDescription()));
+                    return;
+                }
+                StringBuilder sb = new StringBuilder();
+                sb.append("&a------ ").append(getPlugin().getColoredName()).append(" &a------").append("\n");
+                for(CommandBase subcommand : subcommands.values()){
+                    if(!subcommand.canExecute(sender)) continue;
+                    sb.append("&c").append(subcommand.getUsage()).append("&7 - &f").append(subcommand.getDescription())
+                            .append("\n");
+                }
+                sender.sendMessage(StringUtils.colorFormat(sb.toString()));
+            }
 
-    private List<String> getAliases() {
-        return new ArrayList<>();
+            @Override
+            protected @NotNull List<String> onTabComplete(@NotNull CommandSender sender, @NotNull List<String> args) {
+                return new ArrayList<>();
+            }
+
+            @Override
+            public @NotNull String getDescription() {
+                return "list of available commands";
+            }
+
+            @Override
+            public @NotNull String getUsage() {
+                return getParent().getUsage() + " help";
+            }
+        });
     }
 
-    @Nullable
-    public String getDescription() {
-        return null;
-    }
 
     /**
      * Internal implementation of the Bukkit method
@@ -158,7 +172,7 @@ public abstract class AtumCommand implements CommandBase, CommandExecutor, TabCo
         }
 
         if (args.length > 0) {
-            for (CommandBase subcommand : this.getSubcommands()) {
+            for (CommandBase subcommand : this.getSubcommands().values()) {
                 if (!subcommand.getCommandName().equalsIgnoreCase(args[0])) continue;
                 if (!subcommand.canExecute(sender)) return;
 
@@ -209,7 +223,7 @@ public abstract class AtumCommand implements CommandBase, CommandExecutor, TabCo
     }
 
     /**
-     * Handle the tab completion.
+     * Handles the tab completion.
      *
      * @param sender The sender.
      * @param args   The arguments.
@@ -226,7 +240,7 @@ public abstract class AtumCommand implements CommandBase, CommandExecutor, TabCo
             List<String> completions = new ArrayList<>();
 
             StringUtil.copyPartialMatches(args[0],
-                    getSubcommands().stream()
+                    getSubcommands().values().stream()
                             .filter(subCommand -> subCommand.canExecute(sender))
                             .map(CommandBase::getCommandName)
                             .collect(Collectors.toList()),
@@ -240,7 +254,7 @@ public abstract class AtumCommand implements CommandBase, CommandExecutor, TabCo
             }
         } else if (args.length >= 2) {
 
-            for (CommandBase subcommand : getSubcommands()) {
+            for (CommandBase subcommand : getSubcommands().values()) {
                 if (!args[0].equalsIgnoreCase(subcommand.getCommandName())) continue;
                 if (!subcommand.canExecute(sender)) return null;
 
@@ -265,10 +279,31 @@ public abstract class AtumCommand implements CommandBase, CommandExecutor, TabCo
     @NotNull
     protected abstract List<String> onTabComplete(@NotNull CommandSender sender, @NotNull List<String> args);
 
+
+    /**
+     * Get the internal server CommandMap.
+     *
+     * @return The CommandMap.
+     */
+    public static CommandMap getCommandMap() {
+        try {
+            Field field = Bukkit.getServer().getClass().getDeclaredField("commandMap");
+            field.setAccessible(true);
+            return (CommandMap) field.get(Bukkit.getServer());
+        } catch (NoSuchFieldException | IllegalAccessException e) {
+            throw new NullPointerException("Command map wasn't found!");
+        }
+    }
+
     @Override
     public @NotNull CommandBase addSubcommand(@NotNull CommandBase subcommand) {
-        subcommands.add(subcommand);
+        subcommands.put(subcommand.getCommandName(),subcommand);
         return subcommand;
+    }
+
+
+    private List<String> getAliases() {
+        return new ArrayList<>();
     }
 
     @Override

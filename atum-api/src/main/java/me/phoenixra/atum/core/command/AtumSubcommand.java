@@ -1,19 +1,12 @@
 package me.phoenixra.atum.core.command;
 
+import lombok.Getter;
 import me.phoenixra.atum.core.AtumPlugin;
 import org.jetbrains.annotations.NotNull;
 
 public abstract class AtumSubcommand extends AtumCommand{
-    /**
-     * Create a new command.
-     *
-     * @param plugin      The plugin.
-     * @param commandName The name used in execution.
-     * @param permission  The permission required to execute the command.
-     */
-    protected AtumSubcommand(@NotNull AtumPlugin plugin, @NotNull String commandName, @NotNull String permission) {
-        super(plugin, commandName, permission);
-    }
+    @Getter
+    public final CommandBase parent;
     /**
      * Create a new command.
      *
@@ -25,5 +18,6 @@ public abstract class AtumSubcommand extends AtumCommand{
         super(plugin, commandName, parent.getRequiredPermission());
         this.setConsoleAllowed(parent.isConsoleAllowed());
         this.setPlayersAllowed(parent.isPlayersAllowed());
+        this.parent=parent;
     }
 }

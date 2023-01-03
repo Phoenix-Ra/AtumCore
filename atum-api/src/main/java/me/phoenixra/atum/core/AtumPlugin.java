@@ -299,6 +299,16 @@ public abstract class AtumPlugin extends JavaPlugin {
         super.reloadConfig();
     }
 
+    /**
+     * Get colored plugin name
+     * <p></p>
+     * Override to make your plugin name look unique
+     * @return The colored name of a plugin
+     */
+    public String getColoredName(){
+        return getName();
+    }
+
 
 
 }

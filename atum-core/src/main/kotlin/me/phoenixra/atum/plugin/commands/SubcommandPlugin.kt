@@ -5,19 +5,9 @@ import me.phoenixra.atum.core.command.AtumSubcommand
 import me.phoenixra.atum.core.command.CommandBase
 import me.phoenixra.atum.core.utils.PluginUtils
 import me.phoenixra.atum.core.utils.StringUtils
-import org.bukkit.Bukkit
 import org.bukkit.ChatColor
-import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
-import org.bukkit.command.PluginCommand
-import org.bukkit.command.SimpleCommandMap
-import org.bukkit.event.Event
-import org.bukkit.plugin.*
-import java.io.File
-import java.io.IOException
 import java.lang.StringBuilder
-import java.net.URLClassLoader
-import java.util.*
 
 class SubcommandPlugin(
     plugin: AtumPlugin,
@@ -97,6 +87,14 @@ class SubcommandPlugin(
 
     }
 
+    override fun getDescription(): String {
+        return "Useful command to manage the plugins without reloading the whole server"
+    }
+
+    override fun getUsage(): String {
+        return "/atum plugin [action]"
+    }
+
 
     override fun onTabComplete(sender: CommandSender, args: MutableList<String>): MutableList<String> {
         return mutableListOf()
@@ -105,15 +103,15 @@ class SubcommandPlugin(
     private fun getHelp(): String {
         return StringUtils.colorFormat(
             """
-                ${ChatColor.GRAY}Available commands: 
-                ${ChatColor.GREEN}atum plugin list ${ChatColor.GRAY}- sends the list of all loaded plugins
-                ${ChatColor.GREEN}atum plugin info [plugin name] ${ChatColor.GRAY}- sends the plugin version, its authors and current status
-                ${ChatColor.GREEN}atum plugin usage [plugin name] ${ChatColor.GRAY}- sends all commands plugin registered
-                ${ChatColor.GREEN}atum plugin enable [plugin name] ${ChatColor.GRAY}- enables the plugin
-                ${ChatColor.GREEN}atum plugin disable [plugin name] ${ChatColor.GRAY}- disables the plugin
-                ${ChatColor.GREEN}atum plugin load [plugin name] ${ChatColor.GRAY}- loads the plugin from /plugins folder
-                ${ChatColor.GREEN}atum plugin unload [plugin name] ${ChatColor.GRAY}- unloads the plugin
-                ${ChatColor.GREEN}atum plugin restart [plugin name] ${ChatColor.GRAY}- unloads and loads the plugin
+                ${ChatColor.GREEN}Available commands: 
+                ${ChatColor.RED}/atum plugin list ${ChatColor.WHITE}- sends the list of all loaded plugins
+                ${ChatColor.RED}/atum plugin info [plugin name] ${ChatColor.GRAY}-${ChatColor.WHITE} sends the plugin version, its authors and current status
+                ${ChatColor.RED}/atum plugin usage [plugin name] ${ChatColor.GRAY}-${ChatColor.WHITE} sends all commands plugin registered
+                ${ChatColor.RED}/atum plugin enable [plugin name] ${ChatColor.GRAY}-${ChatColor.WHITE} enables the plugin
+                ${ChatColor.RED}/atum plugin disable [plugin name] ${ChatColor.GRAY}-${ChatColor.WHITE} disables the plugin
+                ${ChatColor.RED}/atum plugin load [plugin name] ${ChatColor.GRAY}-${ChatColor.WHITE} loads the plugin from /plugins folder
+                ${ChatColor.RED}/atum plugin unload [plugin name] ${ChatColor.GRAY}-${ChatColor.WHITE} unloads the plugin
+                ${ChatColor.RED}/atum plugin restart [plugin name] ${ChatColor.GRAY}-${ChatColor.WHITE} unloads and loads the plugin
                 """.trimIndent()
         );
     }
