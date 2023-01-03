@@ -29,9 +29,9 @@ public abstract class AtumCommand implements CommandBase, CommandExecutor, TabCo
     private final HashMap<String,CommandBase> subcommands;
 
     @Getter @Setter
-    private boolean playersAllowed;
+    private boolean playersAllowed = true;
     @Getter @Setter
-    private boolean consoleAllowed;
+    private boolean consoleAllowed = true;
 
     /**
      * Create a new command.
