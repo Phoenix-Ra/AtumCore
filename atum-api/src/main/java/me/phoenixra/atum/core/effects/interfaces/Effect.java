@@ -51,6 +51,14 @@ public interface Effect extends Cloneable{
     int getIterations();
 
     /**
+     * set this to true if u want to use run() method yourself, separately from effectsManager.
+     * <p>[!] You will not be able to use repeat feature, only manually as well.</p>
+     *
+     * @param manually whether to run this effect yourself
+     */
+    void runManually(boolean manually);
+
+    /**
      * get the second location of an effect (for specific effect types)
      *
      * @return the effect location
