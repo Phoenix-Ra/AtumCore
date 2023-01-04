@@ -100,9 +100,9 @@ public interface Effect extends Cloneable{
      * @param color the color of a particle
      * @param amount the amount of particles
      */
-    default void displayParticle(Particle particle,
-                                 Location location,
-                                 Color color,
+    default void displayParticle(@NotNull Particle particle,
+                                 @NotNull Location location,
+                                 @Nullable Color color,
                                  int amount) {
         ParticleUtils.display(particle, location, 0, 0, 0, 0, amount,
                 color, null, 100);
@@ -119,9 +119,9 @@ public interface Effect extends Cloneable{
      * @param offsetZ the offset Z of the particle (can be useful with >1 particle amount)
      * @param amount the amount of particles
      */
-    default void displayParticle(Particle particle,
-                                 Location location,
-                                 Color color,
+    default void displayParticle(@NotNull Particle particle,
+                                 @NotNull Location location,
+                                 @Nullable Color color,
                                  float offsetX,
                                  float offsetY,
                                  float offsetZ,
@@ -145,28 +145,27 @@ public interface Effect extends Cloneable{
      * @param material the material of the particle
      * @param range the display range of the particle
      */
-    default void displayParticle(Particle particle,
-                                 Location location,
-                                 Color color,
+    default void displayParticle(@NotNull Particle particle,
+                                 @NotNull Location location,
+                                 @Nullable Color color,
                                  float offsetX,
                                  float offsetY,
                                  float offsetZ,
                                  int amount,
                                  float speed,
-                                 Material material,
+                                 @Nullable Material material,
                                  double range) {
 
         ParticleUtils.display(particle, location, offsetX, offsetY, offsetZ, speed, amount,
                 color, material, range);
     }
 
-
-    Effect clone();
     /**
      * get effects manager the effect attached to
      *
      * @return The effects manager
      */
+    @NotNull
     EffectsManager getEffectsManager();
 
     /**
@@ -174,7 +173,12 @@ public interface Effect extends Cloneable{
      *
      * @return The effect id
      */
+    @NotNull
     default String getId(){
         return id;
     }
+
+
+
+    Effect clone();
 }

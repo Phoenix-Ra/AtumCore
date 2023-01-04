@@ -27,6 +27,7 @@ public interface EffectLocation extends Cloneable{
      *
      * @return The location
      */
+    @NotNull
     Location getCurrentLocation();
 
     /**
@@ -34,6 +35,7 @@ public interface EffectLocation extends Cloneable{
      *
      * @return The location
      */
+    @NotNull
     Location updateLocation();
 
 
@@ -45,6 +47,7 @@ public interface EffectLocation extends Cloneable{
      * @param offsetZ the Z value
      * @return this
      */
+    @NotNull
     EffectLocation setOffsetXYZ(double offsetX, double offsetY, double offsetZ);
 
     /**
@@ -53,6 +56,7 @@ public interface EffectLocation extends Cloneable{
      * @param offsetYaw the value
      * @return this
      */
+    @NotNull
     EffectLocation setOffsetYaw(float offsetYaw);
 
     /**
@@ -61,6 +65,7 @@ public interface EffectLocation extends Cloneable{
      * @param offsetPitch the value
      * @return this
      */
+    @NotNull
     EffectLocation setOffsetPitch(float offsetPitch);
 
 
@@ -72,6 +77,7 @@ public interface EffectLocation extends Cloneable{
      * @param velocityZ the Z value
      * @return this
      */
+    @NotNull
     EffectLocation setVelocityXYZ(double velocityX,double velocityY,double velocityZ);
 
     /**
@@ -80,6 +86,7 @@ public interface EffectLocation extends Cloneable{
      * @param velocityYaw the value
      * @return this
      */
+    @NotNull
     EffectLocation setVelocityYaw(float velocityYaw);
 
     /**
@@ -88,6 +95,7 @@ public interface EffectLocation extends Cloneable{
      * @param velocityPitch the value
      * @return this
      */
+    @NotNull
     EffectLocation setVelocityPitch(float velocityPitch);
 
 

@@ -12,21 +12,21 @@ public interface EffectsManager {
      *
      * @param effect The effect
      */
-    void startEffect(Effect effect);
+    void startEffect(@NotNull Effect effect);
 
     /**
      * Finish an effect
      *
      * @param effect The effect
      */
-    void finishEffect(Effect effect);
+    void finishEffect(@NotNull Effect effect);
 
     /**
      * cancel effects with specified id.
      *
      * @param id An effect Id
      */
-    void cancelEffectsByID(String id);
+    void cancelEffectsByID(@NotNull String id);
 
     /**
      * cancel all effects attached to this manager
@@ -38,7 +38,7 @@ public interface EffectsManager {
      * get all effects with specified id
      *
      */
-    List<Effect> getRunningEffectsByID(String id);
+    List<Effect> getRunningEffectsByID(@NotNull String id);
 
 
     /**
