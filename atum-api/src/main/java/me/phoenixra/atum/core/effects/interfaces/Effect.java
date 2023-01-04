@@ -46,29 +46,35 @@ public interface Effect extends Cloneable{
      * returns amount of iterations left
      * @apiNote
      * <p></p>
-     * <i>'-1' -> uses runTask() than runTaskTimer()<i/>
-     * <p></p>
-     * <i>'-2' -> infinite, can be stopped only manually.<i/>
+     * <i>'-1' -> infinite, can be stopped only manually.<i/>
      */
     int getIterations();
 
     /**
      * get the second location of an effect (for specific effect types)
+     *
+     * @return the effect location
      */
     @Nullable
     EffectLocation getTarget();
     /**
      * sets the second location of an effect (for specific effect types)
+     *
+     * @param location the effect location
      */
     void setTarget(@Nullable EffectLocation location);
 
     /**
      * returns an original location of effect
+     *
+     * @return the effect location
      */
     @NotNull
     EffectLocation getOrigin();
     /**
      * sets an original location of effect
+     *
+     * @param location the effect location
      */
     void setOrigin(@NotNull EffectLocation location);
 

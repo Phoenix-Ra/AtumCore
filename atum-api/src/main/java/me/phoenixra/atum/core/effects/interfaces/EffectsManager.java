@@ -37,6 +37,8 @@ public interface EffectsManager {
     /**
      * get all effects with specified id
      *
+     * @param id the effect id
+     * @return list of effects
      */
     @NotNull
     List<Effect> getRunningEffectsByID(@NotNull String id);
