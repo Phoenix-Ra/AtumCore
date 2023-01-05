@@ -5,6 +5,7 @@ import me.phoenixra.atum.core.config.ConfigManager;
 import me.phoenixra.atum.core.config.ConfigType;
 import me.phoenixra.atum.core.config.LoadableConfig;
 import me.phoenixra.atum.core.config.base.LangYml;
+import me.phoenixra.atum.core.effects.interfaces.EffectsManager;
 import me.phoenixra.atum.core.events.EventManager;
 import me.phoenixra.atum.core.gui.GuiController;
 import me.phoenixra.atum.core.schedule.Scheduler;
@@ -12,6 +13,7 @@ import lombok.Getter;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -32,6 +34,8 @@ public abstract class AtumPlugin extends JavaPlugin {
     private final ConfigManager configManager;
     @Getter
     private final GuiController guiController;
+    @Getter
+    private final EffectsManager effectsManager;
 
 
     private final Logger logger;
@@ -63,6 +67,7 @@ public abstract class AtumPlugin extends JavaPlugin {
         this.eventManager = atumAPI.createEventManager(this);
         this.configManager = atumAPI.createConfigManager(this);
         this.guiController = atumAPI.createGuiController(this);
+        this.effectsManager = atumAPI.createEffectsManager(this);
 
         configYml = createConfig();
         langYml = createLang();

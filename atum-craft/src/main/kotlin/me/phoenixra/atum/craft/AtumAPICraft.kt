@@ -5,11 +5,13 @@ import me.phoenixra.atum.core.AtumPlugin
 import me.phoenixra.atum.core.config.ConfigManager
 import me.phoenixra.atum.core.config.ConfigType
 import me.phoenixra.atum.core.config.LoadableConfig
+import me.phoenixra.atum.core.effects.interfaces.EffectsManager
 import me.phoenixra.atum.core.events.EventManager
 import me.phoenixra.atum.core.gui.GuiController
 import me.phoenixra.atum.core.schedule.Scheduler
 import me.phoenixra.atum.craft.config.AtumConfigManager
 import me.phoenixra.atum.craft.config.AtumLoadableConfig
+import me.phoenixra.atum.craft.effects.AtumEffectsManager
 import me.phoenixra.atum.craft.event.AtumEventManager
 import me.phoenixra.atum.craft.gui.AtumGuiController
 import me.phoenixra.atum.craft.logger.AtumLogger
@@ -33,6 +35,10 @@ class AtumAPICraft : AtumAPI {
 
     override fun createGuiController(plugin: AtumPlugin): GuiController {
         return AtumGuiController(plugin)
+    }
+
+    override fun createEffectsManager(plugin: AtumPlugin): EffectsManager {
+        return AtumEffectsManager(plugin)
     }
 
     override fun createLogger(plugin: AtumPlugin): Logger {

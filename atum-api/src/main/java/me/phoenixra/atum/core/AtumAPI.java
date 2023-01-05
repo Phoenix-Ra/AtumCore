@@ -3,6 +3,8 @@ package me.phoenixra.atum.core;
 import me.phoenixra.atum.core.config.ConfigManager;
 import me.phoenixra.atum.core.config.ConfigType;
 import me.phoenixra.atum.core.config.LoadableConfig;
+import me.phoenixra.atum.core.effects.interfaces.EffectVariable;
+import me.phoenixra.atum.core.effects.interfaces.EffectsManager;
 import me.phoenixra.atum.core.events.EventManager;
 import me.phoenixra.atum.core.gui.GuiController;
 import me.phoenixra.atum.core.schedule.Scheduler;
@@ -50,6 +52,15 @@ public interface AtumAPI {
     GuiController createGuiController(@NotNull AtumPlugin plugin);
 
     /**
+     * Create EffectsManager
+     *
+     * @param plugin The plugin.
+     * @return The controller
+     */
+    @NotNull
+    EffectsManager createEffectsManager(@NotNull AtumPlugin plugin);
+
+    /**
      * Create a logger.
      *
      * @param plugin The plugin.
@@ -68,7 +79,7 @@ public interface AtumAPI {
      *
      * @param plugin The plugin.
      * @param name name of a config (without extension)
-     * @param directory The directory of a config. Use empty String if root folder
+     * @param directory The directory of a config. Use empty if root directory
      * @param type The type of a config
      * @param forceLoadResource if true -> throws NullPointerException
      *                       when file not found inside the resources folder,
@@ -81,6 +92,8 @@ public interface AtumAPI {
                               @NotNull String directory,
                               @NotNull ConfigType type,
                               boolean forceLoadResource);
+
+
     /**
      * Get plugin by name
      *
