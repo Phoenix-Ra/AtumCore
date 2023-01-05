@@ -99,6 +99,42 @@ public interface EffectLocation extends Cloneable{
     EffectLocation setVelocityPitch(float velocityPitch);
 
 
-    EffectLocation clone();
+    /**
+     * set the Value limit to x y z.
+     * Null to disable
+     *
+     * @param limitX the value limit of X
+     * @param limitY the value limit of Y
+     * @param limitZ the value limit of Z
+     * @return this
+     */
+    @NotNull
+    EffectLocation setLimitXYZ(@Nullable ValueLimit<Double> limitX,
+                               @Nullable ValueLimit<Double> limitY,
+                               @Nullable ValueLimit<Double> limitZ);
+
+    /**
+     * set the Value limit of yaw
+     * Null to disable
+     *
+     * @param limitYaw the value limit of Yaw
+     * @return this
+     */
+    @NotNull
+    EffectLocation setLimitYaw(@Nullable ValueLimit<Float> limitYaw);
+
+    /**
+     * set the Value limit of pitch
+     * Null to disable
+     *
+     * @param limitPitch the value limit of Pitch
+     * @return this
+     */
+    @NotNull
+    EffectLocation setLimitPitch(@Nullable ValueLimit<Float> limitPitch);
+
+
+
+    EffectLocation clone() throws CloneNotSupportedException;
 
 }

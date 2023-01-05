@@ -36,12 +36,13 @@ public interface Effect extends Cloneable{
     /**
      * returns effect update delay in ticks
      */
-    int getDelay();
+    long getDelay();
 
     /**
      * returns effect update period in ticks
      */
-    int getPeriod();
+    long getPeriod();
+
     /**
      * returns amount of iterations left
      * @apiNote
@@ -49,6 +50,27 @@ public interface Effect extends Cloneable{
      * <i>'-1' -> infinite, can be stopped only manually.<i/>
      */
     int getIterations();
+
+    /**
+     * get the amount of effect repeats.
+     * <p></p>
+     * The repeated effect is a different object but with
+     * the same id and parameters
+     * <p>-1 to makes effect repeat infinitely.</p>
+     */
+    int getRepeats();
+
+    /**
+     * get the effect repeat delay specified by the amount of run() calls.
+     * <p></p>
+     * for example: delay 10 means after 10 iterations, the effect will be repeated.
+     * <p></p>
+     * If the effect wasn't finished yet, it will create a new effect with the same id
+     * and continue its own iterations.
+     *
+     * <p>-1 to repeat an effect after it has been finished</p>
+     */
+    int getRepeatDelay();
 
     /**
      * set this to true if u want to use run() method yourself, separately from effectsManager.
@@ -65,6 +87,7 @@ public interface Effect extends Cloneable{
      */
     @Nullable
     EffectLocation getTarget();
+
     /**
      * sets the second location of an effect (for specific effect types)
      *
@@ -79,6 +102,7 @@ public interface Effect extends Cloneable{
      */
     @NotNull
     EffectLocation getOrigin();
+
     /**
      * sets an original location of effect
      *
@@ -194,5 +218,5 @@ public interface Effect extends Cloneable{
 
 
 
-    Effect clone();
+    Effect clone() throws CloneNotSupportedException;
 }
