@@ -9,10 +9,9 @@ class AtumCoreCommand(
 ): AtumCommand(plugin,"atum","atum.admin") {
 
     init {
-        isPlayersAllowed = false
-        isConsoleAllowed = true
         addSubcommand(PluginSubcommand(plugin,this))
         addSubcommand(ReloadSubcommand(plugin,this))
+        addSubcommand(EffectSubcommand(plugin,this))
     }
 
     override fun getDescription(): String {

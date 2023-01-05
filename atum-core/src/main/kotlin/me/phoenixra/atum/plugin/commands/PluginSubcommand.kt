@@ -14,6 +14,10 @@ class PluginSubcommand(
     parent: CommandBase
 ) : AtumSubcommand(plugin, "plugin", parent) {
 
+    init {
+        isPlayersAllowed = false
+        isConsoleAllowed = true
+    }
 
     override fun onCommandExecute(sender: CommandSender, args: MutableList<String>) {
         notifyFalse(args.isNotEmpty(), getHelp(), false)
