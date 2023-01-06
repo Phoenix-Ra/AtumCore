@@ -11,10 +11,8 @@ import java.util.List;
 public class GuiClickType {
     @Getter @Setter @Accessors(chain = true)
     private List<ClickType> clickTypes;
-    @Getter @Setter @Accessors(chain = true)
-    private InventoryType inventoryType=InventoryType.CHEST;
 
-    public boolean isEquals(ClickType click, InventoryType invType){
-        return inventoryType == invType && clickTypes.contains(click);
+    public boolean isEquals(ClickType click){
+        return  clickTypes.contains(click);
     }
 }

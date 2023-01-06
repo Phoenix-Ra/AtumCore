@@ -26,12 +26,12 @@ class AtumGuiDrawer(
     @Getter @Setter @Accessors(chain = true)
     private val debug = false
 
-    override fun open(frame: GuiFrame) {
+    override fun open(frame: GuiFrame, async: Boolean) {
         val uuid = frame.viewer.uniqueId
         if (frame == OPENING[uuid]) return
 
         OPENING[uuid] = frame
-        Bukkit.getScheduler().runTaskAsynchronously(plugin, Runnable {
+        val task = Runnable {
             val viewer = frame.viewer
             try {
                 val inventory: Inventory = prepareInventory(frame)
@@ -39,15 +39,16 @@ class AtumGuiDrawer(
                 Bukkit.getScheduler().runTask(plugin, Runnable {
                     val event = GuiFrameOpenEvent(viewer, frame)
                     Bukkit.getPluginManager().callEvent(event)
-                    if (event.isCancelled) return@Runnable
-                    viewer.openInventory(inventory)
-                    guiController.registerFrame(frame)
-                    OPENING.remove(uuid)
+                    if (!event.isCancelled) {
+                        viewer.openInventory(inventory)
+                        guiController.registerFrame(frame)
+                    }
                 })
+                OPENING.remove(uuid)
             } catch (ex: AtumException) {
                 ex.printStackTrace()
                 if (frame !is WarningFrame) {
-                    open(WarningFrame(this, null, viewer, ex.messageToPlayer))
+                    open(WarningFrame(this, null, viewer, ex.messageToPlayer),async)
                 } else viewer.closeInventory()
             } catch (e: Exception) {
                 e.printStackTrace()
@@ -58,11 +59,17 @@ class AtumGuiDrawer(
                             null,
                             viewer,
                             "&8&oUnhandled error,\n&8&o please contact with server administration"
-                        )
+                        ),
+                        async
                     )
                 } else viewer.closeInventory()
             }
-        })
+        }
+        if(async){
+            Bukkit.getScheduler().runTaskAsynchronously(plugin, task)
+        }else {
+            Bukkit.getScheduler().runTask(plugin,task)
+        }
     }
 
     override fun update(frame: GuiFrame, async: Boolean) {
@@ -75,7 +82,7 @@ class AtumGuiDrawer(
             } catch (ex: AtumException) {
                 ex.printStackTrace()
                 if (frame !is WarningFrame) {
-                    open(WarningFrame(this, null, viewer, ex.messageToPlayer))
+                    open(WarningFrame(this, null, viewer, ex.messageToPlayer),async)
                 } else viewer.closeInventory()
 
             } catch (e: java.lang.Exception) {
@@ -87,7 +94,8 @@ class AtumGuiDrawer(
                             null,
                             viewer,
                             "&8&oUnhandled error,\n&8&o please contact with server administration"
-                        )
+                        ),
+                        async
                     )
                 } else viewer.closeInventory()
             }

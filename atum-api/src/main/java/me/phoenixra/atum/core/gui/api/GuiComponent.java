@@ -46,9 +46,9 @@ public abstract class GuiComponent {
         permissions.put(click, permission);
     }
     @Nullable
-    public String getPermission(@NotNull ClickType click, @NotNull InventoryType inventoryType) {
+    public String getPermission(@NotNull ClickType click) {
         for(Map.Entry<GuiClickType,String> entry : permissions.entrySet())
-            if(entry.getKey().isEquals(click,inventoryType)) return entry.getValue();
+            if(entry.getKey().isEquals(click)) return entry.getValue();
         return null;
     }
 
@@ -59,9 +59,9 @@ public abstract class GuiComponent {
     }
 
     @Nullable
-    public Runnable getListener(@NotNull ClickType click,@NotNull InventoryType inventoryType) {
+    public Runnable getListener(@NotNull ClickType click) {
         for(Map.Entry<GuiClickType,Runnable> entry : listeners.entrySet())
-            if(entry.getKey().isEquals(click,inventoryType)) return entry.getValue();
+            if(entry.getKey().isEquals(click)) return entry.getValue();
         return null;
     }
 
@@ -69,9 +69,9 @@ public abstract class GuiComponent {
         confirmationRequired.add(click);
     }
 
-    public boolean isConfirmationRequired(@NotNull ClickType click,@NotNull InventoryType inventoryType) {
+    public boolean isConfirmationRequired(@NotNull ClickType click) {
         for(GuiClickType clickType : confirmationRequired)
-            if(clickType.isEquals(click,inventoryType)) return true;
+            if(clickType.isEquals(click)) return true;
        return false;
     }
 

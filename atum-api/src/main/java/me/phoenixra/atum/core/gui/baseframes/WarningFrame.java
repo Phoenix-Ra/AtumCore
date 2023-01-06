@@ -9,6 +9,7 @@ import me.phoenixra.atum.core.gui.api.GuiFrame;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import me.phoenixra.atum.core.utils.StringUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
@@ -43,7 +44,7 @@ public class WarningFrame extends GuiFrame {
 				getViewer().closeInventory();
 				return;
 			}
-			guiDrawer.open(getParent());
+			guiDrawer.open(getParent(),!Bukkit.isPrimaryThread());
 		});
 		add(component);
 	}

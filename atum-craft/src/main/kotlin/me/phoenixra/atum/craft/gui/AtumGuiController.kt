@@ -54,19 +54,19 @@ class AtumGuiController(
 
         val component = frame.getComponent(event.slot, clickedInventory.type) ?: return
         val click = event.click
-        var listener = component.getListener(click, clickedInventory.type) ?: return
-        val permission = component.getPermission(click, clickedInventory.type)
+        var listener = component.getListener(click) ?: return
+        val permission = component.getPermission(click)
         if (permission != null && !player.hasPermission(permission)) {
             guiDrawer.open(WarningFrame(guiDrawer, frame, player, "lack of permission"))
             return
         }
-        if (component.isConfirmationRequired(click, clickedInventory.type)) {
+        if (component.isConfirmationRequired(click)) {
             listener = Runnable {
-                guiDrawer.open(
-                    ConfirmationFrame(
-                        guiDrawer, frame, frame.viewer, component.getListener(
-                            click, clickedInventory.type
-                        )
+                guiDrawer.open(ConfirmationFrame(
+                        guiDrawer,
+                        frame,
+                        frame.viewer,
+                        component.getListener(click)
                     ))
             }
         }
@@ -74,8 +74,7 @@ class AtumGuiController(
         Bukkit.getScheduler().runTask(plugin, Runnable {
             try {
                 event.currentItem ?: return@Runnable
-                val frameComponentClickEvent =
-                    GuiComponentClickEvent(
+                val frameComponentClickEvent = GuiComponentClickEvent(
                         player,
                         frame,
                         component
