@@ -3,14 +3,15 @@ package me.phoenixra.atum.core;
 import me.phoenixra.atum.core.config.ConfigManager;
 import me.phoenixra.atum.core.config.ConfigType;
 import me.phoenixra.atum.core.config.LoadableConfig;
-import me.phoenixra.atum.core.effects.interfaces.EffectVariable;
 import me.phoenixra.atum.core.effects.interfaces.EffectsManager;
 import me.phoenixra.atum.core.events.EventManager;
+import me.phoenixra.atum.core.exceptions.AtumException;
 import me.phoenixra.atum.core.gui.GuiController;
 import me.phoenixra.atum.core.schedule.Scheduler;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.io.File;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -68,6 +69,17 @@ public interface AtumAPI {
      */
     @NotNull
     Logger createLogger(@NotNull AtumPlugin plugin);
+
+    /**
+     * Load configuration from file
+     *
+     * @param plugin The plugin.
+     * @param file the file to load configuration from
+     * @return loaded config
+     */
+    @NotNull
+    LoadableConfig loadConfiguration(@NotNull AtumPlugin plugin,
+                                     @NotNull File file) throws AtumException;
 
     /**
      * loads an existing config from plugin folder
