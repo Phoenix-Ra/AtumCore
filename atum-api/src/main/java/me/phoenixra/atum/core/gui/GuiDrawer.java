@@ -20,8 +20,9 @@ public interface GuiDrawer {
      * in order to update the frame much faster
      *
      * @param frame the frame
+     * @param async whether to update the frame asynchronously
      */
-    void update(@NotNull GuiFrame frame);
+    void update(@NotNull GuiFrame frame, boolean async);
 
 
     /**

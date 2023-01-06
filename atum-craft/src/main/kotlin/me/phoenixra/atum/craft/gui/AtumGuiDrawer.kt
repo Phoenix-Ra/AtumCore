@@ -65,8 +65,8 @@ class AtumGuiDrawer(
         })
     }
 
-    override fun update(frame: GuiFrame) {
-        Bukkit.getScheduler().runTaskAsynchronously(plugin, Runnable {
+    override fun update(frame: GuiFrame, async: Boolean) {
+        val task = Runnable {
             val viewer = frame.viewer
 
             try {
@@ -91,8 +91,12 @@ class AtumGuiDrawer(
                     )
                 } else viewer.closeInventory()
             }
-
-        })
+        }
+        if(async){
+            Bukkit.getScheduler().runTaskAsynchronously(plugin, task)
+        }else {
+            Bukkit.getScheduler().runTask(plugin,task)
+        }
     }
 
 
