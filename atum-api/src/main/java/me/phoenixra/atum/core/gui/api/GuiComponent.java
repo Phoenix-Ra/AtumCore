@@ -7,15 +7,12 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public abstract class GuiComponent {
-    private final HashMap<GuiClickType, Runnable> listeners = new HashMap<>();
-    private final HashMap<GuiClickType, String> permissions = new HashMap<>();
-    private final Set<GuiClickType> confirmationRequired = new HashSet<>();
+    private final Map<GuiClickType, Runnable> listeners = Collections.synchronizedMap(new HashMap<>());
+    private final Map<GuiClickType, String> permissions = Collections.synchronizedMap(new HashMap<>());
+    private final Set<GuiClickType> confirmationRequired = Collections.synchronizedSet(new HashSet<>());
     private @Nullable String lorePermission;
 
     @NotNull
