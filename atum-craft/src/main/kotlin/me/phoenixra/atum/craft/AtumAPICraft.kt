@@ -16,6 +16,7 @@ import me.phoenixra.atum.craft.event.AtumEventManager
 import me.phoenixra.atum.craft.gui.AtumGuiController
 import me.phoenixra.atum.craft.logger.AtumLogger
 import me.phoenixra.atum.craft.shedule.AtumScheduler
+import java.io.File
 import java.util.logging.Logger
 
 class AtumAPICraft : AtumAPI {
@@ -45,6 +46,10 @@ class AtumAPICraft : AtumAPI {
         return AtumLogger(plugin)
     }
 
+    override fun loadConfiguration(plugin: AtumPlugin, file: File): LoadableConfig {
+        return AtumLoadableConfig(plugin, file)
+    }
+
     override fun createLoadableConfig(
         plugin: AtumPlugin,
         name: String,
@@ -52,7 +57,7 @@ class AtumAPICraft : AtumAPI {
         type: ConfigType,
         forceLoadResource: Boolean
     ): LoadableConfig {
-        return AtumLoadableConfig(type, plugin, directory, name,forceLoadResource)
+        return AtumLoadableConfig(plugin, type, directory, name,forceLoadResource)
     }
 
     override fun getPluginByName(name: String): AtumPlugin? {

@@ -12,8 +12,8 @@ import java.util.*
 
 
 class AtumLoadableConfig(
-    type: ConfigType,
     private val plugin: AtumPlugin,
+    type: ConfigType,
     private val subDirectoryPath: String,
     confName: String,
     forceResourceLoad: Boolean
@@ -22,6 +22,14 @@ class AtumLoadableConfig(
     private val file: File
     private var extraHeader: MutableList<String> = mutableListOf()
 
+    constructor(plugin: AtumPlugin, file: File) :
+            this(
+                plugin,
+                ConfigType.fromFile(file),
+                file.path.replace(plugin.dataFolder.path,"").replace(file.name,""),
+                file.nameWithoutExtension,
+                false
+            )
     init {
         val dir = File(this.plugin.dataFolder, subDirectoryPath)
         if (!dir.exists()) {
