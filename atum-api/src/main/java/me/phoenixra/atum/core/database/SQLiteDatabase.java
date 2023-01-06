@@ -33,16 +33,18 @@ public class SQLiteDatabase implements Database {
         this.dbName = dbName;
         this.dbLocation = dbLocation;
         this.log = getPlugin().getLogger();
-        initialize();
+        if(initialize()) {
+            plugin.addTaskOnDisable(this::close);
+        }
     }
 
-    private void initialize() {
+    private boolean initialize() {
         if (file == null) {
             File dbFolder = new File(dbLocation);
 
             if (!dbFolder.exists() && !dbFolder.mkdir()) {
                 log.severe("Failed to create database folder!");
-                return;
+                return false;
             }
 
             file = new File(dbFolder.getAbsolutePath() + File.separator + dbName + ".db");
@@ -52,12 +54,13 @@ public class SQLiteDatabase implements Database {
             Class.forName("org.sqlite.JDBC");
 
             connection = DriverManager.getConnection("jdbc:sqlite:" + file.getAbsolutePath());
-
+            return true;
         } catch (SQLException ex) {
             log.severe("SQLite exception on initialize " + ex);
         } catch (ClassNotFoundException ex) {
             log.severe("You need the SQLite library " + ex);
         }
+        return false;
     }
 
     @Override

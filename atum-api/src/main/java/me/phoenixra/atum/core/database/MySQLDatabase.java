@@ -39,18 +39,22 @@ public class MySQLDatabase implements Database {
         this.username = username;
         this.password = password;
         this.log = getPlugin().getLogger();
-        initialize();
+        if(initialize()) {
+            plugin.addTaskOnDisable(this::close);
+        }
     }
 
-    private void initialize() {
+    private boolean initialize() {
         try {
             Class.forName("com.mysql.jdbc.Driver");
             connection = DriverManager.getConnection("jdbc:mysql://" + host + ":" + port + "/" + database + "?useUnicode=true&characterEncoding=utf-8&autoReconnect=true&useSSL=false", username, password);
+            return true;
         } catch (ClassNotFoundException e) {
             log.severe("ClassNotFoundException! " + e.getMessage());
         } catch (SQLException e) {
             log.severe("SQLException! " + e.getMessage());
         }
+        return false;
     }
 
     @Override
