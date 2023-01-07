@@ -44,7 +44,7 @@ public abstract class AtumCommand implements CommandBase, CommandExecutor, TabCo
      */
     protected AtumCommand(@NotNull final AtumPlugin plugin,
                           @NotNull final String commandName,
-                          @NotNull final String permission) {
+                          @Nullable final String permission) {
         this.plugin = plugin;
         this.commandName = commandName;
         this.requiredPermission = permission;

@@ -3,6 +3,7 @@ package me.phoenixra.atum.core.command;
 import lombok.Getter;
 import me.phoenixra.atum.core.AtumPlugin;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public abstract class AtumSubcommand extends AtumCommand{
     @Getter
@@ -16,7 +17,7 @@ public abstract class AtumSubcommand extends AtumCommand{
      * @param permission  The permission
      * @param parent      The parent of a subcommand
      */
-    protected AtumSubcommand(@NotNull AtumPlugin plugin, @NotNull String commandName, @NotNull String permission, @NotNull CommandBase parent) {
+    protected AtumSubcommand(@NotNull AtumPlugin plugin, @NotNull String commandName, @Nullable String permission, @NotNull CommandBase parent) {
         super(plugin, commandName, permission);
         this.setConsoleAllowed(parent.isConsoleAllowed());
         this.setPlayersAllowed(parent.isPlayersAllowed());

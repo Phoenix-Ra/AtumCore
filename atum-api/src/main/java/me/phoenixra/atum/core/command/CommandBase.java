@@ -40,7 +40,7 @@ public interface CommandBase {
      *
      * @return The permission of the command.
      */
-    @NotNull
+    @Nullable
     String getRequiredPermission();
 
 
@@ -116,7 +116,7 @@ public interface CommandBase {
             if(notifyOnFalse) sender.sendMessage(getPlugin().getCorePlugin().getLangYml().getMessage("console-only"));
             return false;
         }
-        if (!sender.hasPermission(getRequiredPermission())) {
+        if (getRequiredPermission()!=null&&!sender.hasPermission(getRequiredPermission())) {
             if(notifyOnFalse) sender.sendMessage(getPlugin().getCorePlugin().getLangYml().getMessage("no-permission"));
             return false;
         }
