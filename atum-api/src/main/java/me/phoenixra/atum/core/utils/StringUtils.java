@@ -5,6 +5,7 @@ import org.apache.commons.lang.Validate;
 import org.bukkit.Color;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -50,10 +51,11 @@ public class StringUtils {
 
     @NotNull
     public static List<String> format(@NotNull List<String> list) {
-        for (int i = 0; i < list.size(); ++i) {
-            list.set(i, format(list.get(i)));
+        List<String> output= new ArrayList<>();
+        for (String entry : list) {
+            output.add(format(entry));
         }
-        return list;
+        return output;
     }
 
     public static Color parseColor(String s) {
