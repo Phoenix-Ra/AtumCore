@@ -21,21 +21,21 @@ class AtumGuiDrawer(
     private val plugin: AtumPlugin,
     private val guiController: AtumGuiController
     ) : GuiDrawer {
-    private val OPENING = ConcurrentHashMap<UUID, GuiFrame>()
+    private val openingFrame = ConcurrentHashMap<UUID, GuiFrame>()
 
     @Getter @Setter @Accessors(chain = true)
     private val debug = false
 
     override fun open(frame: GuiFrame, async: Boolean) {
         val uuid = frame.viewer.uniqueId
-        if (frame == OPENING[uuid]) return
+        if (frame == openingFrame[uuid]) return
 
-        OPENING[uuid] = frame
+        openingFrame[uuid] = frame
         val task = Runnable {
             val viewer = frame.viewer
             try {
                 val inventory: Inventory = prepareInventory(frame)
-                if (frame != OPENING[uuid]) return@Runnable
+                if (frame != openingFrame[uuid]) return@Runnable
                 Bukkit.getScheduler().runTask(plugin, Runnable {
                     val event = GuiFrameOpenEvent(viewer, frame)
                     Bukkit.getPluginManager().callEvent(event)
@@ -44,7 +44,7 @@ class AtumGuiDrawer(
                         guiController.registerFrame(frame)
                     }
                 })
-                OPENING.remove(uuid)
+                openingFrame.remove(uuid)
             } catch (ex: AtumException) {
                 ex.printStackTrace()
                 if (frame !is WarningFrame) {
@@ -135,15 +135,17 @@ class AtumGuiDrawer(
             plugin.logger.warning("Frame ${frame.title} has no components")
             return
         }
-        for (c in frame.components) {
-            if (c.inventoryType == InventoryType.PLAYER) {
-                if (c.slot >= frame.viewer.inventory.size) continue
-                checkLorePermission(frame, c)
-                frame.viewer.inventory.setItem(c.slot, c.item)
-            } else {
-                if (c.slot >= frame.size) continue
-                checkLorePermission(frame, c)
-                inventory.setItem(c.slot, c.item)
+        for (component in frame.components) {
+            for(slot in component.slots){
+                if (component.inventoryType == InventoryType.PLAYER) {
+                    if (slot >= frame.viewer.inventory.size) continue
+                    checkLorePermission(frame, component)
+                    frame.viewer.inventory.setItem(slot, component.item)
+                } else {
+                    if (slot >= frame.size) continue
+                    checkLorePermission(frame, component)
+                    inventory.setItem(slot, component.item)
+                }
             }
         }
     }

@@ -32,7 +32,7 @@ public abstract class GuiFrame {
     @Nullable
     public GuiComponent getComponent(int slot, InventoryType inventoryType) {
         for (GuiComponent c : getComponents()) {
-            if (c.getSlot() == slot && c.getInventoryType() == inventoryType) {
+            if (c.getSlots().contains(slot) && c.getInventoryType() == inventoryType) {
                 return c;
             }
         }
@@ -51,8 +51,7 @@ public abstract class GuiFrame {
 
     @Override
     public boolean equals(Object other) {
-        if (other instanceof GuiFrame) {
-            GuiFrame otherFrame = (GuiFrame) other;
+        if (other instanceof GuiFrame otherFrame) {
             return getSize() == otherFrame.getSize() && getTitle().equals(otherFrame.getTitle())
                     && getComponents().equals(otherFrame.getComponents());
         }

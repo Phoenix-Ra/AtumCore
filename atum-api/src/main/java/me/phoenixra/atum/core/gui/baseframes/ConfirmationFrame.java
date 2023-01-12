@@ -39,12 +39,12 @@ public class ConfirmationFrame extends GuiFrame {
     @Override
     public void createComponents() {
         GuiComponent confirm = new BaseGuiComponent.Builder(new ItemBuilder().setType(Material.LIME_WOOL)
-                .setDisplayName(cancel_name)).withSlot(12).build();
+                .setDisplayName(confirm_name)).withSlots(12).build();
         confirm.setListener(new GuiClickType().setClickTypes(Arrays.asList(ClickType.LEFT)), listener);
         add(confirm);
 
         GuiComponent returnC = new BaseGuiComponent.Builder(new ItemBuilder().setType(Material.RED_WOOL)
-                .setDisplayName(cancel_name)).withSlot(14).build();
+                .setDisplayName(cancel_name)).withSlots(14).build();
         returnC.setListener(new GuiClickType().setClickTypes(Arrays.asList(ClickType.LEFT)), () -> {
             if(getParent()==null) {
                 getViewer().closeInventory();

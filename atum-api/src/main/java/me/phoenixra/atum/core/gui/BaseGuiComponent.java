@@ -4,24 +4,23 @@ import me.phoenixra.atum.core.utils.ItemBuilder;
 import me.phoenixra.atum.core.gui.api.GuiComponent;
 import lombok.Setter;
 import lombok.experimental.Accessors;
-import org.bukkit.Material;
 import org.bukkit.event.inventory.InventoryType;
-import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
-import java.util.List;
+import java.util.ArrayList;
 
 public class BaseGuiComponent extends GuiComponent {
 
     @NotNull
     private ItemStack item;
+    BaseGuiComponent(@NotNull ItemStack item){
+        this.item=item;
+    }
 
     @Setter @Accessors(chain = true)
     private InventoryType inventoryType=InventoryType.CHEST;
-    private int slot;
+    private ArrayList<Integer> slots;
 
     @Override
     public @NotNull ItemStack getItem() {
@@ -29,8 +28,8 @@ public class BaseGuiComponent extends GuiComponent {
     }
 
     @Override
-    public int getSlot() {
-        return slot;
+    public ArrayList<Integer> getSlots() {
+        return slots;
     }
 
     @Override
@@ -39,19 +38,26 @@ public class BaseGuiComponent extends GuiComponent {
     }
 
     public static class Builder {
-        private final BaseGuiComponent component = new BaseGuiComponent();
+        private final BaseGuiComponent component;
         private final ItemBuilder itemBuilder;
 
-        public Builder(@NotNull ItemBuilder item) {
-            itemBuilder = item;
+        public Builder(@NotNull ItemBuilder itemBuilder) {
+            this.itemBuilder = itemBuilder;
+            component = new BaseGuiComponent(itemBuilder.getItem());
         }
 
-        public Builder withSlot(int slot) {
-            component.slot = slot;
+        public Builder withSlots(int ... slots) {
+            component.slots = new ArrayList<>();
+            for(int slot : slots){
+                component.slots.add(slot);
+            }
             return this;
         }
-        public Builder withSlot(int slot,InventoryType inventoryType) {
-            component.slot = slot;
+        public Builder withSlots(InventoryType inventoryType, int ... slots) {
+            component.slots = new ArrayList<>();
+            for(int slot : slots){
+                component.slots.add(slot);
+            }
             component.setInventoryType(inventoryType);
             return this;
         }

@@ -31,14 +31,12 @@ public class WarningFrame extends GuiFrame {
 
 	@Override
 	public void createComponents() {
-		for (int slot = 0; slot < 9; slot++) {
-			add(new BaseGuiComponent.Builder(new ItemBuilder(Material.BLACK_STAINED_GLASS_PANE).
-					setDisplayName("")).withSlot(slot).build());
-		}
+		add(new BaseGuiComponent.Builder(new ItemBuilder(Material.BLACK_STAINED_GLASS_PANE).
+				setDisplayName("")).withSlots(0,1,2,3,4,5,6,7,8).build());
 		BaseGuiComponent component = new BaseGuiComponent.Builder(new ItemBuilder().
 				setCustomOwner(SkullSkin.WARNING.getSkin()).setDisplayName("&eWarning!").
 				setLores(" ","&7Action has been cancelled","","&7warning message:","&8&o"+message, "","&aL Click to return"))
-				.withSlot(13).build();
+				.withSlots(13).build();
 		component.setListener(new GuiClickType().setClickTypes(Arrays.asList(ClickType.LEFT)),()->{
 			if(getParent()==null) {
 				getViewer().closeInventory();

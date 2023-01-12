@@ -18,7 +18,7 @@ public abstract class GuiComponent {
     @NotNull
     public abstract ItemStack getItem();
 
-    public abstract int getSlot();
+    public abstract ArrayList<Integer> getSlots();
     public abstract InventoryType getInventoryType();
 
     @Nullable
