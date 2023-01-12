@@ -13,7 +13,9 @@ class AtumScoreboardManager(
     private var boards = HashMap<String, Scoreboard>()
 
     init {
-        this.runTaskTimer(plugin,0,2)
+        plugin.addTaskAfterLoad{
+            this.runTaskTimer(plugin,0,2)
+        }
     }
 
     override fun run() {
