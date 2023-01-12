@@ -22,6 +22,9 @@ public final class ItemBuilder {
     public ItemBuilder(Material material) {
         this.itemStack = new ItemStack(material);
     }
+    public ItemBuilder(ItemStack itemStack) {
+        this.itemStack = itemStack;
+    }
 
     public ItemBuilder makeUnbreakable(){
         ItemMeta itemMeta = this.itemStack.getItemMeta();
@@ -128,10 +131,6 @@ public final class ItemBuilder {
         return this;
     }
 
-    public ItemBuilder copyFrom(ItemStack item){
-        itemStack=item;
-        return this;
-    }
 
     public ItemStack getItem() {
         return this.itemStack;
