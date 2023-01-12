@@ -72,6 +72,7 @@ class AtumScoreboardManager(
         for(board in boards.values){
             board.removeAllPlayers()
         }
+        boards.clear()
     }
 
     override fun getPlugin(): AtumPlugin {
