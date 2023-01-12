@@ -8,6 +8,8 @@ import me.phoenixra.atum.core.events.EventManager;
 import me.phoenixra.atum.core.exceptions.AtumException;
 import me.phoenixra.atum.core.gui.GuiController;
 import me.phoenixra.atum.core.schedule.Scheduler;
+import me.phoenixra.atum.core.scoreboard.Scoreboard;
+import me.phoenixra.atum.core.scoreboard.ScoreboardManager;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -34,14 +36,24 @@ public interface AtumAPI {
      */
     @NotNull
     EventManager createEventManager(@NotNull AtumPlugin plugin);
+
     /**
-     * Create a config handler.
+     * Create a config manager
      *
      * @param plugin The plugin.
-     * @return The handler.
+     * @return The manager
      */
     @NotNull
     ConfigManager createConfigManager(@NotNull AtumPlugin plugin);
+
+    /**
+     * Create a scoreboard manager
+     *
+     * @param plugin The plugin.
+     * @return The manager
+     */
+    @NotNull
+    ScoreboardManager createScoreboardManager(@NotNull AtumPlugin plugin);
 
     /**
      * Create GuiController
@@ -69,6 +81,19 @@ public interface AtumAPI {
      */
     @NotNull
     Logger createLogger(@NotNull AtumPlugin plugin);
+
+    /**
+     * Create the scoreboard
+     *
+     * @param id the id of the scoreboard
+     * @param displayName the scoreboard's displayName (each 2 ticks updates)
+     * @param scores the scores
+     * @return The scoreboard
+     */
+    @NotNull
+    Scoreboard createScoreboard(@NotNull String id,
+                                @NotNull List<String> displayName,
+                                @NotNull List<String> scores);
 
     /**
      * Load configuration from file

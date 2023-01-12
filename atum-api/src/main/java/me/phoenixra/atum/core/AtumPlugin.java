@@ -10,6 +10,7 @@ import me.phoenixra.atum.core.events.EventManager;
 import me.phoenixra.atum.core.gui.GuiController;
 import me.phoenixra.atum.core.schedule.Scheduler;
 import lombok.Getter;
+import me.phoenixra.atum.core.scoreboard.ScoreboardManager;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -32,6 +33,8 @@ public abstract class AtumPlugin extends JavaPlugin {
     private final EventManager eventManager;
     @Getter
     private final ConfigManager configManager;
+    @Getter
+    private final ScoreboardManager scoreboardManager;
     @Getter
     private final GuiController guiController;
     @Getter
@@ -66,6 +69,7 @@ public abstract class AtumPlugin extends JavaPlugin {
         this.scheduler = atumAPI.createScheduler(this);
         this.eventManager = atumAPI.createEventManager(this);
         this.configManager = atumAPI.createConfigManager(this);
+        this.scoreboardManager = atumAPI.createScoreboardManager(this);
         this.guiController = atumAPI.createGuiController(this);
         this.effectsManager = atumAPI.createEffectsManager(this);
 

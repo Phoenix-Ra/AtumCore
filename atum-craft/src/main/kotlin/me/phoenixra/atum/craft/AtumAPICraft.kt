@@ -9,12 +9,16 @@ import me.phoenixra.atum.core.effects.interfaces.EffectsManager
 import me.phoenixra.atum.core.events.EventManager
 import me.phoenixra.atum.core.gui.GuiController
 import me.phoenixra.atum.core.schedule.Scheduler
+import me.phoenixra.atum.core.scoreboard.Scoreboard
+import me.phoenixra.atum.core.scoreboard.ScoreboardManager
 import me.phoenixra.atum.craft.config.AtumConfigManager
 import me.phoenixra.atum.craft.config.AtumLoadableConfig
 import me.phoenixra.atum.craft.effects.AtumEffectsManager
 import me.phoenixra.atum.craft.event.AtumEventManager
 import me.phoenixra.atum.craft.gui.AtumGuiController
 import me.phoenixra.atum.craft.logger.AtumLogger
+import me.phoenixra.atum.craft.scoreboard.AtumScoreboard
+import me.phoenixra.atum.craft.scoreboard.AtumScoreboardManager
 import me.phoenixra.atum.craft.shedule.AtumScheduler
 import java.io.File
 import java.util.logging.Logger
@@ -34,6 +38,10 @@ class AtumAPICraft : AtumAPI {
         return AtumConfigManager(plugin)
     }
 
+    override fun createScoreboardManager(plugin: AtumPlugin): ScoreboardManager {
+        return AtumScoreboardManager(plugin)
+    }
+
     override fun createGuiController(plugin: AtumPlugin): GuiController {
         return AtumGuiController(plugin)
     }
@@ -44,6 +52,14 @@ class AtumAPICraft : AtumAPI {
 
     override fun createLogger(plugin: AtumPlugin): Logger {
         return AtumLogger(plugin)
+    }
+
+    override fun createScoreboard(
+        id: String,
+        displayName: MutableList<String>,
+        scores: MutableList<String>
+    ): Scoreboard {
+        return AtumScoreboard(id,displayName,scores)
     }
 
     override fun loadConfiguration(plugin: AtumPlugin, file: File): LoadableConfig {
