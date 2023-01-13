@@ -8,15 +8,9 @@ import org.bukkit.scheduler.BukkitRunnable
 
 class AtumScoreboardManager(
     private val plugin: AtumPlugin
-): ScoreboardManager, BukkitRunnable() {
+): ScoreboardManager {
 
     private var boards = HashMap<String, Scoreboard>()
-
-    init {
-        plugin.addTaskAfterLoad{
-            this.runTaskTimer(plugin,0,2)
-        }
-    }
 
     override fun run() {
         for (board in boards.values) {
@@ -27,6 +21,8 @@ class AtumScoreboardManager(
             }
         }
     }
+
+
 
     override fun addPlayerToScoreboard(player: Player, id: String) {
         try {

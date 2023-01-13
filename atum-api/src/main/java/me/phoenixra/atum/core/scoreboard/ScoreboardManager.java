@@ -9,7 +9,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public interface ScoreboardManager {
+public interface ScoreboardManager extends Runnable{
     /**
      * Adds the player to the scoreboard
      * and removes him from all other scoreboards

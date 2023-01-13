@@ -19,7 +19,7 @@ class AtumScoreboard(
     private var replacer = TextReplacer()
 
     override fun update() {
-        for ((key) in players) {
+        for (key in players.keys) {
             try {
                 if (!key.isOnline) continue
                 val objective = sb[key]!!.getObjective(id)
