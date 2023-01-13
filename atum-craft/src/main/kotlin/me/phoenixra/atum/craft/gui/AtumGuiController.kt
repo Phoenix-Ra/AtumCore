@@ -50,6 +50,7 @@ class AtumGuiController(
         val frame = registeredFrames[player.uniqueId] ?: return
         val clickedInventory = event.clickedInventory
         event.isCancelled = true
+        event.cursor = null
         if (clickedInventory == null) return
 
         val component = frame.getComponent(event.slot, clickedInventory.type) ?: return
