@@ -9,6 +9,7 @@ import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class BaseGuiComponent extends GuiComponent {
 
@@ -53,11 +54,22 @@ public class BaseGuiComponent extends GuiComponent {
             }
             return this;
         }
+        public Builder withSlots(List<Integer> slots) {
+            component.slots = new ArrayList<>();
+            component.slots.addAll(slots);
+            return this;
+        }
         public Builder withSlots(InventoryType inventoryType, int ... slots) {
             component.slots = new ArrayList<>();
             for(int slot : slots){
                 component.slots.add(slot);
             }
+            component.setInventoryType(inventoryType);
+            return this;
+        }
+        public Builder withSlots(InventoryType inventoryType, List<Integer> slots) {
+            component.slots = new ArrayList<>();
+            component.slots.addAll(slots);
             component.setInventoryType(inventoryType);
             return this;
         }
