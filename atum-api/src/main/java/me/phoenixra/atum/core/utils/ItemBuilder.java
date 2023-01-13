@@ -119,6 +119,14 @@ public final class ItemBuilder {
         this.itemStack.setItemMeta(itemMeta);
         return this;
     }
+    public ItemBuilder hideAllAttributes(){
+        ItemMeta itemMeta = this.itemStack.getItemMeta();
+        for(ItemFlag flag : ItemFlag.values()){
+            itemMeta.addItemFlags(flag);
+        }
+        this.itemStack.setItemMeta(itemMeta);
+        return this;
+    }
 
     public ItemBuilder addEnchant(Enchantment enchantment, int n) {
         this.itemStack.addUnsafeEnchantment(enchantment, n);
