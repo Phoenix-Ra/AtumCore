@@ -6,6 +6,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class LocationUtils {
     //to prevent java reflections usage
@@ -50,25 +51,20 @@ public class LocationUtils {
      *
      * @param locationSection config section with location parameters
      * @return the location
-     * @throws AtumException if failed to parse config section to location
      */
-    @NotNull
-    public static Location getLocationFromConfig(@NotNull Config locationSection) throws AtumException{
+    @Nullable
+    public static Location getLocationFromConfig(@NotNull Config locationSection) {
         if(!locationSection.hasPath("world")){
-            throw new AtumException("Failed to get location from Configuration Section!" +
-                    " 'world' wasn't specified");
+            return null;
         }
         if(!locationSection.hasPath("x")){
-            throw new AtumException("Failed to get location from Configuration Section!" +
-                    " 'x' wasn't specified");
+            return null;
         }
         if(!locationSection.hasPath("y")){
-            throw new AtumException("Failed to get location from Configuration Section!" +
-                    " 'y' wasn't specified");
+            return null;
         }
         if(!locationSection.hasPath("z")){
-            throw new AtumException("Failed to get location from Configuration Section!" +
-                    " 'z' wasn't specified");
+            return null;
         }
         try {
             String worldName = locationSection.getString("world");
@@ -86,7 +82,7 @@ public class LocationUtils {
 
             return loc;
         }catch (Exception e){
-            throw new AtumException(e);
+            return null;
         }
     }
     /**
@@ -118,18 +114,18 @@ public class LocationUtils {
                 +location.getZ();
     }
     /**
-     * Save location to config section
+     * Set location in config section
      *
      * @param config the config section
      * @param location The location
      * @param withCamera Ignores Yaw and Pitch values on false
      * @throws AtumException if world of the location is null
      */
-    public static void saveLocationToConfig(@NotNull Config config,
+    public static void setLocationInConfig(@NotNull Config config,
                                             @NotNull Location location,
                                             boolean withCamera) throws AtumException{
         if(location.getWorld()==null) {
-            throw new AtumException("The world of the parsing location cannot be NULL");
+            throw new AtumException("The world of the location cannot be NULL");
         }
         config.set("world",location.getWorld().getName());
         config.set("x",location.getX());

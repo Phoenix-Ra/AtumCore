@@ -1,5 +1,6 @@
 package me.phoenixra.atum.core.utils
 
+import me.phoenixra.atum.core.config.Config
 import org.bukkit.Location
 
 fun String.asBukkitLocation(): Location{
@@ -7,4 +8,13 @@ fun String.asBukkitLocation(): Location{
 }
 fun Location.asString(withCamera: Boolean): String{
     return LocationUtils.parseLocationToString(this, withCamera)
+}
+
+fun Location.setInConfig(config: Config, withCamera: Boolean){
+    return LocationUtils.setLocationInConfig(config,this,withCamera)
+}
+
+fun Config.getLocation(path: String): Location?{
+    val config = this.getSubsection(path) ?: return null
+    return LocationUtils.getLocationFromConfig(config)
 }
