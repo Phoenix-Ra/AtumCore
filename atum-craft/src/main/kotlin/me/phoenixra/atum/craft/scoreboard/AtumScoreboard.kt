@@ -32,7 +32,7 @@ class AtumScoreboard(
                     val old = players[key]!![i - 1]
                     val s = StringBuilder(replacer.replace(key, scores[scores.size - i]))
                     if (s.toString() == old || old.isBlank()) continue
-                    if (s.toString().trim { it <= ' ' }.isEmpty()) {
+                    if (s.toString().trim().isEmpty()) {
                         s.append(" ".repeat(i))
                     }
                     sb[key]!!.resetScores(old)

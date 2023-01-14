@@ -10,6 +10,23 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 
 public interface ScoreboardManager extends Runnable{
+
+    /**
+     * turn on / turn off
+     * task timer for this manager that updates the scoreboards
+     * <p></p>
+     * By default, it is disabled
+     *
+     * @param value  true / false
+     */
+    void enable(boolean value);
+
+    /**
+     *
+     * @return  is scoreboard update task enabled?
+     */
+    boolean isEnabled();
+
     /**
      * Adds the player to the scoreboard
      * and removes him from all other scoreboards

@@ -5,12 +5,16 @@ import me.phoenixra.atum.core.scoreboard.Scoreboard
 import me.phoenixra.atum.core.scoreboard.ScoreboardManager
 import org.bukkit.entity.Player
 import org.bukkit.scheduler.BukkitRunnable
+import org.bukkit.scheduler.BukkitTask
 
 class AtumScoreboardManager(
     private val plugin: AtumPlugin
 ): ScoreboardManager {
 
     private var boards = HashMap<String, Scoreboard>()
+
+    private var taskEnabled = false
+    private var  task: BukkitTask? = null
 
     override fun run() {
         for (board in boards.values) {
@@ -22,6 +26,24 @@ class AtumScoreboardManager(
         }
     }
 
+    override fun enable(value: Boolean) {
+        taskEnabled = value
+        val localTask = task
+        if(taskEnabled) {
+            if(localTask == null || localTask.isCancelled){
+                task = plugin.scheduler.runTimer(0, 2, this)
+            }
+        }else{
+            if(localTask != null && !localTask.isCancelled){
+                localTask.cancel()
+            }
+            task = null
+        }
+    }
+
+    override fun isEnabled(): Boolean {
+        return taskEnabled
+    }
 
 
     override fun addPlayerToScoreboard(player: Player, id: String) {

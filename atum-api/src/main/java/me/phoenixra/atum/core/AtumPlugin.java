@@ -144,8 +144,9 @@ public abstract class AtumPlugin extends JavaPlugin {
 
         this.handleReload();
         this.onReloadTasks.forEach(Runnable::run);
-
-        getScheduler().runTimer(0,2,scoreboardManager);
+        if(scoreboardManager.isEnabled()) {
+            scoreboardManager.enable(true);
+        }
     }
 
 
