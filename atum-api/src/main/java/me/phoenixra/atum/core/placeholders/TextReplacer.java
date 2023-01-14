@@ -20,10 +20,11 @@ public class TextReplacer {
 
     public String replace(@NotNull Player player,@NotNull String text){
         for(PhoenixPlaceholder task: placeholders.values()){
-            if(text.contains("%"+task.getPlaceholder()+"_")) {
+            while (text.contains("%"+task.getPlaceholder()+"_")){
                 String arg = text.split("%" + task.getPlaceholder() + "_")[1].split("%")[0];
                 text = text.replace("%"+task.getPlaceholder()+"_"+arg+"%", task.getReplacement(player,arg));
-            }else if(text.contains("%"+task.getPlaceholder()+"%")){
+            }
+            while (text.contains("%"+task.getPlaceholder()+"%")){
                 text = text.replace("%"+task.getPlaceholder()+"%", task.getReplacement(player, null));
             }
         }

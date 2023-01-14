@@ -64,11 +64,11 @@ class AtumScoreboard(
             )
             for (i in scores.size downTo 1) {
                 val s = StringBuilder(replacer.replace(player, scores[scores.size - i]))
-                if (s.toString().trim { it <= ' ' }.isEmpty()) {
+                if (s.toString().trim().isEmpty()) {
                     s.append(" ".repeat(i))
                 }
-                objective.getScore(replacer.replace(player, s.toString())).score = i - 1
-                players[player]!![i - 1] = StringUtils.format(s.toString())
+                objective.getScore(s.toString()).score = i - 1
+                players[player]!![i - 1] = s.toString()
             }
             player.scoreboard = sb[player]!!
         } catch (e: Exception) {
