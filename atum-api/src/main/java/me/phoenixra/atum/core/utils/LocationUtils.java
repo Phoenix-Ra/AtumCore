@@ -1,8 +1,10 @@
 package me.phoenixra.atum.core.utils;
 
+import me.phoenixra.atum.core.config.Config;
 import me.phoenixra.atum.core.exceptions.AtumException;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.World;
 import org.jetbrains.annotations.NotNull;
 
 public class LocationUtils {
@@ -43,6 +45,51 @@ public class LocationUtils {
         }
     }
     /**
+     * Get location from Config section
+     * Yaw and Pitch are optional
+     *
+     * @param locationSection config section with location parameters
+     * @return the location
+     * @throws AtumException if failed to parse config section to location
+     */
+    @NotNull
+    public static Location getLocationFromConfig(@NotNull Config locationSection) throws AtumException{
+        if(!locationSection.hasPath("world")){
+            throw new AtumException("Failed to get location from Configuration Section!" +
+                    " 'world' wasn't specified");
+        }
+        if(!locationSection.hasPath("x")){
+            throw new AtumException("Failed to get location from Configuration Section!" +
+                    " 'x' wasn't specified");
+        }
+        if(!locationSection.hasPath("y")){
+            throw new AtumException("Failed to get location from Configuration Section!" +
+                    " 'y' wasn't specified");
+        }
+        if(!locationSection.hasPath("z")){
+            throw new AtumException("Failed to get location from Configuration Section!" +
+                    " 'z' wasn't specified");
+        }
+        try {
+            String worldName = locationSection.getString("world");
+            World world = Bukkit.getWorld(worldName);
+            if(world==null){
+                throw new AtumException("Failed to get location from Configuration Section!" +
+                        " world '"+worldName+"' not found");
+            }
+            double posX = locationSection.getDouble("x");
+            double posY = locationSection.getDouble("y");
+            double posZ = locationSection.getDouble("z");
+            Location loc = new Location(world, posX, posY, posZ);
+            loc.setYaw((float) locationSection.getDouble("yaw"));
+            loc.setPitch((float) locationSection.getDouble("pitch"));
+
+            return loc;
+        }catch (Exception e){
+            throw new AtumException(e);
+        }
+    }
+    /**
      * Parse location to string
      * <p></p>
      * Pattern: world;X;Y;Z;Yaw;Pitch
@@ -70,4 +117,28 @@ public class LocationUtils {
                 +location.getY()+";"
                 +location.getZ();
     }
+    /**
+     * Save location to config section
+     *
+     * @param config the config section
+     * @param location The location
+     * @param withCamera Ignores Yaw and Pitch values on false
+     * @throws AtumException if world of the location is null
+     */
+    public static void saveLocationToConfig(@NotNull Config config,
+                                            @NotNull Location location,
+                                            boolean withCamera) throws AtumException{
+        if(location.getWorld()==null) {
+            throw new AtumException("The world of the parsing location cannot be NULL");
+        }
+        config.set("world",location.getWorld().getName());
+        config.set("x",location.getX());
+        config.set("y",location.getY());
+        config.set("z",location.getZ());
+        if(withCamera){
+            config.set("yaw",location.getYaw());
+            config.set("pitch",location.getPitch());
+        }
+    }
+
 }
