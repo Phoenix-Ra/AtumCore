@@ -16,8 +16,6 @@ import org.bukkit.event.inventory.ClickType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Arrays;
-
 public class WarningFrame extends GuiFrame {
 	private final String message;
 	private final GuiDrawer guiDrawer;
@@ -37,7 +35,7 @@ public class WarningFrame extends GuiFrame {
 				setCustomOwner(SkullSkin.WARNING.getSkin()).setDisplayName("&eWarning!").
 				setLores(" ","&7Action has been cancelled","","&7warning message:","&8&o"+message, "","&aL Click to return"))
 				.withSlots(13).build();
-		component.setListener(new GuiClickType().setClickTypes(Arrays.asList(ClickType.LEFT)),()->{
+		component.setListener(new GuiClickType(ClickType.LEFT),()->{
 			if(getParent()==null) {
 				getViewer().closeInventory();
 				return;

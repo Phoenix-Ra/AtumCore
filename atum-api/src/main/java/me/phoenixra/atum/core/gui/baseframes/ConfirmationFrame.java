@@ -16,7 +16,6 @@ import org.bukkit.event.inventory.ClickType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Arrays;
 
 public class ConfirmationFrame extends GuiFrame {
 
@@ -40,12 +39,12 @@ public class ConfirmationFrame extends GuiFrame {
     public void createComponents() {
         GuiComponent confirm = new BaseGuiComponent.Builder(new ItemBuilder().setType(Material.LIME_WOOL)
                 .setDisplayName(confirm_name)).withSlots(12).build();
-        confirm.setListener(new GuiClickType().setClickTypes(Arrays.asList(ClickType.LEFT)), listener);
+        confirm.setListener(new GuiClickType(ClickType.LEFT), listener);
         add(confirm);
 
         GuiComponent returnC = new BaseGuiComponent.Builder(new ItemBuilder().setType(Material.RED_WOOL)
                 .setDisplayName(cancel_name)).withSlots(14).build();
-        returnC.setListener(new GuiClickType().setClickTypes(Arrays.asList(ClickType.LEFT)), () -> {
+        returnC.setListener(new GuiClickType(ClickType.LEFT), () -> {
             if(getParent()==null) {
                 getViewer().closeInventory();
                 return;
