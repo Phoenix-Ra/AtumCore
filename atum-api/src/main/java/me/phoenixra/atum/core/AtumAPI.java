@@ -1,5 +1,6 @@
 package me.phoenixra.atum.core;
 
+import me.phoenixra.atum.core.config.Config;
 import me.phoenixra.atum.core.config.ConfigManager;
 import me.phoenixra.atum.core.config.ConfigType;
 import me.phoenixra.atum.core.config.LoadableConfig;
@@ -15,6 +16,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
 
 public interface AtumAPI {
@@ -130,6 +132,17 @@ public interface AtumAPI {
                               @NotNull ConfigType type,
                               boolean forceLoadResource);
 
+
+    /**
+     * Create config.
+     *
+     * @param values The values.
+     * @param type   The config type.
+     * @return The config
+     */
+    @NotNull
+    Config createConfig(@Nullable Map<String, Object> values,
+                        @NotNull ConfigType type);
 
     /**
      * Get plugin by name

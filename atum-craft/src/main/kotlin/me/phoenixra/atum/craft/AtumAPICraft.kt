@@ -2,6 +2,7 @@ package me.phoenixra.atum.craft
 
 import me.phoenixra.atum.core.AtumAPI
 import me.phoenixra.atum.core.AtumPlugin
+import me.phoenixra.atum.core.config.Config
 import me.phoenixra.atum.core.config.ConfigManager
 import me.phoenixra.atum.core.config.ConfigType
 import me.phoenixra.atum.core.config.LoadableConfig
@@ -11,6 +12,7 @@ import me.phoenixra.atum.core.gui.GuiController
 import me.phoenixra.atum.core.schedule.Scheduler
 import me.phoenixra.atum.core.scoreboard.Scoreboard
 import me.phoenixra.atum.core.scoreboard.ScoreboardManager
+import me.phoenixra.atum.craft.config.AtumConfig
 import me.phoenixra.atum.craft.config.AtumConfigManager
 import me.phoenixra.atum.craft.config.AtumLoadableConfig
 import me.phoenixra.atum.craft.effects.AtumEffectsManager
@@ -74,6 +76,13 @@ class AtumAPICraft : AtumAPI {
         forceLoadResource: Boolean
     ): LoadableConfig {
         return AtumLoadableConfig(plugin, type, directory, name,forceLoadResource)
+    }
+
+    override fun createConfig(values: MutableMap<String, Any>?, type: ConfigType): Config {
+        val config =  AtumConfig(type)
+        if(values == null) return config
+        config.init(values)
+        return config
     }
 
     override fun getPluginByName(name: String): AtumPlugin? {

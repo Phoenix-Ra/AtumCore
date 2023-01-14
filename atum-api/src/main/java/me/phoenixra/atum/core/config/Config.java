@@ -55,9 +55,11 @@ public interface Config {
      * Set an object in config
      * <p></p>
      * Set null to remove the config section
+     * <p></p>
+     * You can also set a {@link Config} object, so it will be a section
      *
-     * @param path   The path.
-     * @param obj The object.
+     * @param path The path.
+     * @param obj  The object.
      */
     void set(@NotNull String path,
              @Nullable Object obj);
