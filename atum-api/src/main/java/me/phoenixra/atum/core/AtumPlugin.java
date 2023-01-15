@@ -55,6 +55,19 @@ public abstract class AtumPlugin extends JavaPlugin {
 
         this.getLogger().info("Initializing "  + this.getName());
 
+        if(!getName().equals("AtumCore")){
+            AtumPlugin corePlugin = getCorePlugin();
+            if(this.getAtumAPIVersion() != corePlugin.getAtumAPIVersion()){
+                logger.info("&cYour server uses an unsupported Atum API version!");
+                logger.info("&cPlugin supports:&e "+this.getAtumAPIVersion());
+                logger.info("&cYour server have:&e "+corePlugin.getAtumAPIVersion());
+                logger.info(
+                        String.format("&eDownload the AtumCore v2.%s &eor use this plugin at your own risk",
+                        corePlugin.getAtumAPIVersion())
+                );
+            }
+        }
+
         this.scheduler = atumAPI.createScheduler(this);
         this.eventManager = atumAPI.createEventManager(this);
         this.configManager = atumAPI.createConfigManager(this);
@@ -81,10 +94,10 @@ public abstract class AtumPlugin extends JavaPlugin {
 
         this.loadPluginCommands().forEach(AtumCommand::register);
 
-        this.getScheduler().runLater(1,this::afterLoad);
-
         this.handleEnable();
         this.onEnableTasks.forEach(Runnable::run);
+
+        this.getScheduler().runLater(1,this::afterLoad);
 
         this.getLogger().info("");
     }
@@ -143,11 +156,49 @@ public abstract class AtumPlugin extends JavaPlugin {
 
     protected abstract void handleEnable();
     protected abstract void handleDisable();
+
+    /**
+     * Get the AtumAPI version the plugin uses
+     * <p>Pattern:</p>
+     * <p>2.6.5 = 6</p>
+     * <p>2.15.0 = 15</p>
+     *
+     * If the supported API version and
+     * the version the server have are different
+     * the warning will be sent
+     *
+     * @return The version
+     */
+    protected abstract int getAtumAPIVersion();
+
+    /**
+     * Method with empty implementation,
+     * that is called on plugin load.
+     * <p></p>
+     * Override if needed
+     *
+     */
     protected void handleLoad() {
     }
+
+    /**
+     * Method with empty implementation,
+     * that is called on plugin reload
+     * <p></p>
+     * Override if needed
+     *
+     */
     protected void handleReload() {
 
     }
+
+    /**
+     * Method with empty implementation,
+     * that is called after plugin has been loaded and enabled
+     * <p></p>
+     * Override if needed
+     *
+     */
     protected void handleAfterLoad() {
     }
 
@@ -176,6 +227,7 @@ public abstract class AtumPlugin extends JavaPlugin {
     protected List<AtumCommand> loadPluginCommands() {
         return new ArrayList<>();
     }
+
     /**
      * All listeners to be registered.
      *

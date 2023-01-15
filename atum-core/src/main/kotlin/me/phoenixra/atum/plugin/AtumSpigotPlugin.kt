@@ -20,6 +20,10 @@ class AtumSpigotPlugin : AtumPlugin() {
 
     }
 
+    override fun getAtumAPIVersion(): Int {
+        return description.version.split(".")[1].toInt()
+    }
+
     override fun loadPluginCommands(): MutableList<AtumCommand> {
         return mutableListOf(
             AtumCoreCommand(this)
