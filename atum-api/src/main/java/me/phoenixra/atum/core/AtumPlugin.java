@@ -59,13 +59,13 @@ public abstract class AtumPlugin extends JavaPlugin {
             AtumPlugin corePlugin = getCorePlugin();
             if(this.getAtumAPIVersion() != corePlugin.getAtumAPIVersion()){
                 logger.info("&cYour server uses an unsupported Atum API version!");
-                logger.info("&cPlugin supports:&e "+this.getAtumAPIVersion());
-                logger.info("&cYour server have:&e "+corePlugin.getAtumAPIVersion());
+                logger.info(String.format("&c%s supports:&e 2.%s",this.getName(),this.getAtumAPIVersion()));
+                logger.info("&cYour server have:&e 2."+corePlugin.getAtumAPIVersion());
                 logger.info(
-                        String.format("&eDownload the AtumCore v2.%s here: https://github.com/Phoenix-Ra/AtumCore/releases",
-                        corePlugin.getAtumAPIVersion())
+                        String.format("&cDownload the &6AtumCore v2.%s &chere:&e https://github.com/Phoenix-Ra/AtumCore/releases",
+                        this.getAtumAPIVersion())
                 );
-                logger.info("&eor use this plugin at your own risk");
+                logger.info("&cOr use this plugin at your own risk");
             }
         }
 
