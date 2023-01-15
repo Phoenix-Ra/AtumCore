@@ -9,7 +9,6 @@ import me.phoenixra.atum.core.effects.interfaces.EffectsManager;
 import me.phoenixra.atum.core.events.EventManager;
 import me.phoenixra.atum.core.gui.GuiController;
 import me.phoenixra.atum.core.schedule.Scheduler;
-import lombok.Getter;
 import me.phoenixra.atum.core.scoreboard.ScoreboardManager;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.Listener;
@@ -22,29 +21,21 @@ import java.util.Objects;
 import java.util.logging.Logger;
 
 public abstract class AtumPlugin extends JavaPlugin {
-    @Getter
+
     private final AtumAPI atumAPI;
 
-    @Getter
     private final Scheduler scheduler;
-    @Getter
     private final EventManager eventManager;
-    @Getter
     private final ConfigManager configManager;
-    @Getter
     private final ScoreboardManager scoreboardManager;
-    @Getter
     private final GuiController guiController;
-    @Getter
     private final EffectsManager effectsManager;
 
 
     private final Logger logger;
 
 
-    @Getter
     private final LoadableConfig configYml;
-    @Getter
     private final LangYml langYml;
 
     private final List<Runnable> onEnableTasks = new ArrayList<>();
@@ -311,8 +302,92 @@ public abstract class AtumPlugin extends JavaPlugin {
     }
 
     /**
-     * Get colored plugin name
+     * AtumAPI instance
+     *
+     * @return The scheduler
+     */
+    public AtumAPI getAtumAPI() {
+        return atumAPI;
+    }
+
+    /**
+     * Get Scheduler
      * <p></p>
+     * Works via Bukkit#getScheduler
+     * but with more convenient methods
+     *
+     * @return The scheduler
+     */
+    public Scheduler getScheduler() {
+        return scheduler;
+    }
+
+    /**
+     * Get Scoreboard Manager
+     *
+     * @return The scoreboard manager
+     */
+    public EventManager getEventManager() {
+        return eventManager;
+    }
+
+    /**
+     * Get Config Manager
+     *
+     * @return The config manager
+     */
+    public ConfigManager getConfigManager() {
+        return configManager;
+    }
+
+    /**
+     * Get Scoreboard Manager
+     *
+     * @return The scoreboard manager
+     */
+    public ScoreboardManager getScoreboardManager() {
+        return scoreboardManager;
+    }
+
+    /**
+     * Get Gui Controller
+     *
+     * @return The gui controller
+     */
+    public GuiController getGuiController(){
+        return guiController;
+    }
+
+    /**
+     * Get Effects Manager
+     *
+     * @return The effects manager
+     */
+    public EffectsManager getEffectsManager() {
+        return effectsManager;
+    }
+
+    /**
+     * Get ConfigYml
+     *
+     * @return The config
+     */
+    public LoadableConfig getConfigYml() {
+        return configYml;
+    }
+
+    /**
+     * Get LangYml
+     *
+     * @return The langYml
+     */
+    public LangYml getLangYml() {
+        return langYml;
+    }
+
+    /**
+     * Get colored plugin name
+     *
      * Override to make your plugin name look unique
      * @return The colored name of a plugin
      */
