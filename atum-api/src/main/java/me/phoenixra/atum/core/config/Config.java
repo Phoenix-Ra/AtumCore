@@ -62,7 +62,7 @@ public interface Config {
      * @param deserializer the config serializer
      */
     @Nullable
-    default <T>Object getDeserializedObject(@NotNull String path,
+    default <T> T getDeserializedObject(@NotNull String path,
                                             @NotNull ConfigDeserializer<T> deserializer){
         Config subsection = getSubsection(path);
         if(subsection == null) return null;
