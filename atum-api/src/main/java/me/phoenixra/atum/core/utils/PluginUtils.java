@@ -7,13 +7,14 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.command.SimpleCommandMap;
+import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.plugin.*;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
-import java.io.IOException;
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.net.URLClassLoader;
 import java.util.*;
 
@@ -151,6 +152,16 @@ public class PluginUtils {
         target.onLoad();
         Bukkit.getPluginManager().enablePlugin(target);
 
+        try {
+            Method syncCommands = Class.forName("org.bukkit.craftbukkit." + AtumUtils.getNMSVersion() + ".CraftServer")
+                    .getDeclaredMethod("syncCommands");
+            syncCommands.setAccessible(true);
+
+            syncCommands.invoke(Bukkit.getServer());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
 
         return target;
     }
@@ -209,13 +220,15 @@ public class PluginUtils {
         if (commandMap != null) {
             for (Iterator<Map.Entry<String, Command>> it = commands.entrySet().iterator(); it.hasNext(); ) {
                 Map.Entry<String, Command> entry = it.next();
-                if (entry.getValue() instanceof PluginCommand) {
-                    PluginCommand c = (PluginCommand) entry.getValue();
+                if (entry.getValue() instanceof PluginCommand c) {
                     if (c.getPlugin() == plugin) {
                         c.unregister(commandMap);
                         it.remove();
                     }
                 }
+            }
+            for(Player player : Bukkit.getOnlinePlayers()){
+                player.updateCommands();
             }
         }
 
@@ -243,7 +256,6 @@ public class PluginUtils {
         }
 
         // Will not work on processes started with the -XX:+DisableExplicitGC flag
-        // This tries to get around the issue where Windows refuses to unlock jar files that were previously loaded into the JVM.
         System.gc();
     }
 }
