@@ -184,9 +184,9 @@ public final class ItemBuilder {
     public final ItemBuilder setDisplayName(@Nullable String displayName) {
         ItemMeta itemMeta = getItem().getItemMeta();
         if (displayName == null) {
-            itemMeta.setDisplayName(null);
-        } else {
             itemMeta.setDisplayName(StringUtils.format(displayName));
+        } else {
+            itemMeta.setDisplayName(null);
         }
         getItem().setItemMeta(itemMeta);
         return this;
@@ -228,7 +228,7 @@ public final class ItemBuilder {
     @NotNull
     public final ItemBuilder setLore(@Nullable String... input) {
         ItemMeta itemMeta = getItem().getItemMeta();
-        if (input == null) {
+        if (input != null) {
             List<String> list = new ArrayList<>();
             for (String string : input) {
                 if (string.contains("\n"))
