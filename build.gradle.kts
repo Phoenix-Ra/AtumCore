@@ -68,6 +68,8 @@ allprojects {
         //To not to shade the kotlin
         //compileOnly("org.jetbrains.kotlin:kotlin-stdlib:1.7.10")
 
+        
+        implementation("org.reflections:reflections:0.10.2")
 
         compileOnly("org.jetbrains:annotations:23.0.0")
         compileOnly("org.projectlombok:lombok:1.18.24")
