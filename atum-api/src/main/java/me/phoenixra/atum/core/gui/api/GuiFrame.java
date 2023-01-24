@@ -29,6 +29,12 @@ public abstract class GuiFrame {
 
     public abstract void onClose();
 
+    public void updateComponents(){
+        for(GuiComponent component : components){
+            component.update();
+        }
+    }
+
     @Nullable
     public GuiComponent getComponent(int slot, InventoryType inventoryType) {
         for (GuiComponent c : getComponents()) {

@@ -14,13 +14,17 @@ public abstract class GuiComponent {
     private final Map<GuiClickType, String> permissions = Collections.synchronizedMap(new HashMap<>());
     private final Set<GuiClickType> confirmationRequired = Collections.synchronizedSet(new HashSet<>());
     private @Nullable String lorePermission;
+    protected @Nullable GuiComponentUpdater updater;
 
     @NotNull
     public abstract ItemStack getItem();
-
     public abstract ArrayList<Integer> getSlots();
     public abstract InventoryType getInventoryType();
+    public abstract void update();
 
+    public void setUpdater(@Nullable GuiComponentUpdater updater){
+        this.updater = updater;
+    }
     @Nullable
     public ItemMeta getItemMeta() {
         return getItem().getItemMeta();

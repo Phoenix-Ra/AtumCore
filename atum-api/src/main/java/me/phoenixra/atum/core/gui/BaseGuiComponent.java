@@ -1,5 +1,6 @@
 package me.phoenixra.atum.core.gui;
 
+import me.phoenixra.atum.core.gui.api.GuiComponentUpdater;
 import me.phoenixra.atum.core.utils.ItemBuilder;
 import me.phoenixra.atum.core.gui.api.GuiComponent;
 import lombok.Setter;
@@ -38,6 +39,12 @@ public class BaseGuiComponent extends GuiComponent {
         return inventoryType;
     }
 
+    @Override
+    public void update() {
+        if(updater == null) return;
+        item = updater.run(new ItemBuilder(item));
+    }
+
     public static class Builder {
         private final BaseGuiComponent component;
         private final ItemBuilder itemBuilder;
@@ -47,6 +54,10 @@ public class BaseGuiComponent extends GuiComponent {
             component = new BaseGuiComponent(itemBuilder.getItem());
         }
 
+        public Builder withUpdater(GuiComponentUpdater updater){
+            component.updater = updater;
+            return this;
+        }
         public Builder withSlots(int ... slots) {
             component.slots = new ArrayList<>();
             for(int slot : slots){

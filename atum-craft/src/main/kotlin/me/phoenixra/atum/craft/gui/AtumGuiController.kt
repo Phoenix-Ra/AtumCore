@@ -11,18 +11,30 @@ import me.phoenixra.atum.core.gui.events.GuiComponentClickEvent
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
+import org.bukkit.event.Listener
 import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.event.inventory.InventoryCloseEvent
 import org.bukkit.event.server.PluginDisableEvent
+import org.bukkit.scheduler.BukkitTask
 import java.util.*
 import java.util.concurrent.ConcurrentHashMap
 
 class AtumGuiController(
     private val plugin: AtumPlugin
-) : GuiController {
+) : GuiController, Runnable {
 
     private val registeredFrames = ConcurrentHashMap<UUID, GuiFrame>()
     private val guiDrawer = AtumGuiDrawer(plugin, this)
+
+    private var updaterEnabled = false
+    private var task: BukkitTask? = null
+
+
+    override fun run() {
+        for(frame in registeredFrames.values){
+            frame.updateComponents()
+        }
+    }
 
     @EventHandler(ignoreCancelled = true)
     fun onPluginDisable(event: PluginDisableEvent) {
@@ -98,6 +110,25 @@ class AtumGuiController(
                 } else player.closeInventory()
             }
         })
+    }
+
+    override fun enableUpdater(value: Boolean) {
+        updaterEnabled = value
+        val localTask = task
+        if(updaterEnabled) {
+            if(localTask == null || localTask.isCancelled){
+                task = plugin.scheduler.runTimer(0, 2, this)
+            }
+        }else{
+            if(localTask != null && !localTask.isCancelled){
+                localTask.cancel()
+            }
+            task = null
+        }
+    }
+
+    override fun isUpdaterEnabled(): Boolean {
+        return updaterEnabled
     }
 
 

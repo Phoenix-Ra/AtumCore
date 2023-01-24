@@ -152,6 +152,9 @@ public abstract class AtumPlugin extends JavaPlugin {
         if(scoreboardManager.isEnabled()) {
             scoreboardManager.enable(true);
         }
+        if(guiController.isUpdaterEnabled()){
+            guiController.enableUpdater(true);
+        }
     }
 
 

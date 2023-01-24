@@ -12,6 +12,22 @@ import java.util.List;
 public interface GuiController extends Listener {
 
     /**
+     * turn on / turn off
+     * components updater
+     * <p></p>
+     * By default, it is disabled
+     *
+     * @param value  true / false
+     */
+    void enableUpdater(boolean value);
+
+    /**
+     *
+     * @return  is component updater enabled?
+     */
+    boolean isUpdaterEnabled();
+
+    /**
      * Register the frame
      *
      * @param frame the frame
