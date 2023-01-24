@@ -183,7 +183,7 @@ public final class ItemBuilder {
     @NotNull
     public final ItemBuilder setDisplayName(@Nullable String displayName) {
         ItemMeta itemMeta = getItem().getItemMeta();
-        if (displayName == null) {
+        if (displayName != null) {
             itemMeta.setDisplayName(StringUtils.format(displayName));
         } else {
             itemMeta.setDisplayName(null);
@@ -319,5 +319,15 @@ public final class ItemBuilder {
     @NotNull
     public ItemStack getItem() {
         return this.itemStack;
+    }
+
+    /**
+     * builds the itemStack
+     *
+     * @return The item
+     */
+    @NotNull
+    public ItemStack build() {
+        return this.itemStack.clone();
     }
 }
