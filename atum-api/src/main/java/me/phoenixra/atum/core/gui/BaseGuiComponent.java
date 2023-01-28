@@ -42,7 +42,11 @@ public class BaseGuiComponent extends GuiComponent {
     @Override
     public void update() {
         if(updater == null) return;
-        item = updater.run(new ItemBuilder(item));
+        updaterTimer++;
+        if(updaterTimer >= updaterPeriod) {
+            item = updater.run(new ItemBuilder(item));
+            updaterTimer = 0;
+        }
     }
 
     public static class Builder {
@@ -54,8 +58,9 @@ public class BaseGuiComponent extends GuiComponent {
             component = new BaseGuiComponent(itemBuilder.getItem());
         }
 
-        public Builder withUpdater(GuiComponentUpdater updater){
+        public Builder withUpdater(GuiComponentUpdater updater, int period){
             component.updater = updater;
+            component.updaterPeriod = period;
             return this;
         }
         public Builder withSlots(int ... slots) {

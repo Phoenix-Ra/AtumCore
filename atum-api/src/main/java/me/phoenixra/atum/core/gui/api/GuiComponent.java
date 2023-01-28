@@ -15,6 +15,8 @@ public abstract class GuiComponent {
     private final Set<GuiClickType> confirmationRequired = Collections.synchronizedSet(new HashSet<>());
     private @Nullable String lorePermission;
     protected @Nullable GuiComponentUpdater updater;
+    protected int updaterPeriod;
+    protected int updaterTimer;
 
     @NotNull
     public abstract ItemStack getItem();

@@ -7,14 +7,15 @@ import org.bukkit.event.Cancellable;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.player.PlayerEvent;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
-public class GuiComponentClickEvent extends PlayerEvent implements Cancellable {
+public class GuiFrameClickEvent extends PlayerEvent implements Cancellable {
     private static final HandlerList HANDLER_LIST = new HandlerList();
     private final GuiFrame frame;
     private final GuiComponent component;
     private boolean cancelled;
 
-    public GuiComponentClickEvent(@NotNull Player player, @NotNull GuiFrame frame, @NotNull GuiComponent component) {
+    public GuiFrameClickEvent(@NotNull Player player, @NotNull GuiFrame frame, @Nullable GuiComponent component) {
         super(player);
         this.frame = frame;
         this.component = component;
@@ -24,7 +25,7 @@ public class GuiComponentClickEvent extends PlayerEvent implements Cancellable {
         return frame;
     }
 
-    public @NotNull GuiComponent getComponent() {
+    public @Nullable GuiComponent getClickedComponent() {
         return component;
     }
 

@@ -4,8 +4,10 @@ import me.phoenixra.atum.core.exceptions.AtumException;
 import lombok.Getter;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryType;
+import org.bukkit.inventory.Inventory;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -14,10 +16,20 @@ public abstract class GuiFrame {
     @Nullable @Getter private final GuiFrame parent;
     @NotNull @Getter private final Player viewer;
     @NotNull @Getter private final Set<GuiComponent> components = ConcurrentHashMap.newKeySet();
+    /**
+     * Vanilla inventory interaction
+     * By default disabled
+     *
+     */
+    @Getter private boolean inventoryInteractive;
 
     public GuiFrame(@Nullable GuiFrame parent, @NotNull Player viewer) {
+        this(parent,viewer,false);
+    }
+    public GuiFrame(@Nullable GuiFrame parent, @NotNull Player viewer, boolean invInteractive) {
         this.parent = parent;
         this.viewer = viewer;
+        this.inventoryInteractive = invInteractive;
     }
 
     @NotNull
@@ -31,7 +43,13 @@ public abstract class GuiFrame {
 
     public void updateComponents(){
         for(GuiComponent component : components){
+            if(component.updater == null) continue;
             component.update();
+            Inventory inventory = component.getInventoryType() == InventoryType.PLAYER ?
+                    viewer.getInventory() : viewer.getOpenInventory().getTopInventory();
+            for (int slot : component.getSlots()) {
+                inventory.setItem(slot, component.getItem());
+            }
         }
     }
 

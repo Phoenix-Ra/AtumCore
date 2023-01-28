@@ -7,11 +7,10 @@ import me.phoenixra.atum.core.gui.api.GuiFrame
 import me.phoenixra.atum.core.gui.baseframes.ConfirmationFrame
 import me.phoenixra.atum.core.gui.baseframes.WarningFrame
 import me.phoenixra.atum.core.gui.events.GuiFrameCloseEvent
-import me.phoenixra.atum.core.gui.events.GuiComponentClickEvent
+import me.phoenixra.atum.core.gui.events.GuiFrameClickEvent
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
-import org.bukkit.event.Listener
 import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.event.inventory.InventoryCloseEvent
 import org.bukkit.event.server.PluginDisableEvent
@@ -59,21 +58,33 @@ class AtumGuiController(
     @EventHandler(ignoreCancelled = true)
     fun onInteract(event: InventoryClickEvent) {
         val player = event.whoClicked as? Player ?: return
+        val clickedInventory = event.clickedInventory ?: return
         val frame = registeredFrames[player.uniqueId] ?: return
-        val clickedInventory = event.clickedInventory
-        event.isCancelled = true
-        event.cursor = null
-        if (clickedInventory == null) return
+        if(!frame.isInventoryInteractive) {
+            event.isCancelled = true
+            event.cursor = null
+        }
 
-        val component = frame.getComponent(event.slot, clickedInventory.type) ?: return
+        //frame click event
+        val component = frame.getComponent(event.slot, clickedInventory.type)
+        val frameComponentClickEvent = GuiFrameClickEvent(
+            player,
+            frame,
+            component
+        )
+        Bukkit.getPluginManager().callEvent(frameComponentClickEvent)
+        if (frameComponentClickEvent.isCancelled) return
+
+        if(component == null) return
+
         val click = event.click
-        var listener = component.getListener(click) ?: return
+        var listener = component.getListener(click)
         val permission = component.getPermission(click)
         if (permission != null && !player.hasPermission(permission)) {
             guiDrawer.open(WarningFrame(guiDrawer, frame, player, "lack of permission"))
             return
         }
-        if (component.isConfirmationRequired(click)) {
+        if (listener!=null && component.isConfirmationRequired(click)) {
             listener = Runnable {
                 guiDrawer.open(ConfirmationFrame(
                         guiDrawer,
@@ -87,16 +98,7 @@ class AtumGuiController(
         Bukkit.getScheduler().runTask(plugin, Runnable {
             try {
                 event.currentItem ?: return@Runnable
-                val frameComponentClickEvent = GuiComponentClickEvent(
-                        player,
-                        frame,
-                        component
-                    )
-                Bukkit.getPluginManager().callEvent(frameComponentClickEvent)
-
-                if (frameComponentClickEvent.isCancelled) return@Runnable
-
-                finalListener.run()
+                finalListener?.run()
             } catch (e: java.lang.Exception) {
                 e.printStackTrace()
                 if (frame !is WarningFrame) {
