@@ -74,11 +74,7 @@ class AtumGuiController(
             event
         )
         Bukkit.getPluginManager().callEvent(frameComponentClickEvent)
-        if (frameComponentClickEvent.isCancelled) {
-            event.isCancelled = true
-            event.cursor = null
-            return
-        }
+        if (frameComponentClickEvent.isCancelled) return
 
         if(component == null) return
 
