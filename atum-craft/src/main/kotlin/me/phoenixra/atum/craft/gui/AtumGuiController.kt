@@ -119,7 +119,7 @@ class AtumGuiController(
         val localTask = task
         if(updaterEnabled) {
             if(localTask == null || localTask.isCancelled){
-                task = plugin.scheduler.runTimer(0, 2, this)
+                task = plugin.scheduler.runTimer(0, 1, this)
             }
         }else{
             if(localTask != null && !localTask.isCancelled){
