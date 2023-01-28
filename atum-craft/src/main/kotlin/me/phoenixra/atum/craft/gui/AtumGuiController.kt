@@ -70,10 +70,15 @@ class AtumGuiController(
         val frameComponentClickEvent = GuiFrameClickEvent(
             player,
             frame,
-            component
+            component,
+            event
         )
         Bukkit.getPluginManager().callEvent(frameComponentClickEvent)
-        if (frameComponentClickEvent.isCancelled) return
+        if (frameComponentClickEvent.isCancelled) {
+            event.isCancelled = true
+            event.cursor = null
+            return
+        }
 
         if(component == null) return
 
