@@ -58,7 +58,7 @@ public class BaseGuiComponent extends GuiComponent {
             component = new BaseGuiComponent(itemBuilder.getItem());
         }
 
-        public Builder withUpdater(GuiComponentUpdater updater, int period){
+        public Builder withUpdater(int period, GuiComponentUpdater updater){
             component.updater = updater;
             component.updaterPeriod = period;
             return this;
