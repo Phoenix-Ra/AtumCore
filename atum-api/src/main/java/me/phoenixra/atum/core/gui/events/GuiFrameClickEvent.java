@@ -52,4 +52,8 @@ public class GuiFrameClickEvent extends PlayerEvent implements Cancellable {
     public @NotNull HandlerList getHandlers() {
         return HANDLER_LIST;
     }
+    @NotNull
+    public static HandlerList getHandlerList() {
+        return HANDLER_LIST;
+    }
 }
