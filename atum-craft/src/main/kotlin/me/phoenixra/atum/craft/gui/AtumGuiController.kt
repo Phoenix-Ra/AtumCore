@@ -11,6 +11,7 @@ import me.phoenixra.atum.core.gui.events.GuiFrameClickEvent
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
+import org.bukkit.event.EventPriority
 import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.event.inventory.InventoryCloseEvent
 import org.bukkit.event.server.PluginDisableEvent
@@ -35,13 +36,13 @@ class AtumGuiController(
         }
     }
 
-    @EventHandler(ignoreCancelled = true)
+    @EventHandler(priority = EventPriority.HIGH)
     fun onPluginDisable(event: PluginDisableEvent) {
         if (event.plugin !== plugin) return
         unregisterAllFrames()
     }
 
-    @EventHandler(ignoreCancelled = true)
+    @EventHandler(priority = EventPriority.HIGH)
     fun onClose(event: InventoryCloseEvent) {
         val entity = event.player as? Player ?: return
         val frame = registeredFrames[entity.uniqueId] ?: return
@@ -55,18 +56,19 @@ class AtumGuiController(
         registeredFrames.remove(entity.uniqueId)
     }
 
-    @EventHandler(ignoreCancelled = true)
+    @EventHandler(priority = EventPriority.HIGH)
     fun onInteract(event: InventoryClickEvent) {
         val player = event.whoClicked as? Player ?: return
-        val clickedInventory = event.clickedInventory ?: return
+        val clickedInventory = event.clickedInventory
         val frame = registeredFrames[player.uniqueId] ?: return
+
         if(!frame.isInventoryInteractive) {
             event.isCancelled = true
             event.cursor = null
         }
 
         //frame click event
-        val component = frame.getComponent(event.slot, clickedInventory.type)
+        val component = frame.getComponent(event.slot, clickedInventory?.type)
         val frameComponentClickEvent = GuiFrameClickEvent(
             player,
             frame,
