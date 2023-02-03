@@ -10,6 +10,7 @@ import me.phoenixra.atum.core.gui.api.GuiComponent
 import me.phoenixra.atum.core.gui.api.GuiFrame
 import me.phoenixra.atum.core.gui.baseframes.WarningFrame
 import me.phoenixra.atum.core.gui.events.GuiFrameOpenEvent
+import me.phoenixra.atum.core.misc.AtumDebugger
 import org.bukkit.Bukkit
 import org.bukkit.event.inventory.InventoryType
 import org.bukkit.inventory.Inventory
@@ -34,17 +35,24 @@ class AtumGuiDrawer(
         val task = Runnable {
             val viewer = frame.viewer
             try {
-                val inventory: Inventory = prepareInventory(frame)
-                if (frame != openingFrame[uuid]) return@Runnable
-                Bukkit.getScheduler().runTask(plugin, Runnable {
-                    val event = GuiFrameOpenEvent(viewer, frame)
-                    Bukkit.getPluginManager().callEvent(event)
-                    if (!event.isCancelled) {
-                        viewer.openInventory(inventory)
-                        guiController.registerFrame(frame)
-                    }
-                })
-                openingFrame.remove(uuid)
+                AtumDebugger(
+                    plugin,
+                    "OpenFrame",
+                    "&eFrameTitle:&6 ${frame.title}\n&eViewer:&6 ${frame.viewer.name}"
+                ) {
+                    val inventory: Inventory = prepareInventory(frame)
+                    if (frame != openingFrame[uuid]) return@AtumDebugger
+                    Bukkit.getScheduler().runTask(plugin, Runnable {
+                        val event = GuiFrameOpenEvent(viewer, frame)
+                        Bukkit.getPluginManager().callEvent(event)
+                        if (!event.isCancelled) {
+                            viewer.openInventory(inventory)
+                            guiController.registerFrame(frame)
+                        }
+                    })
+                    openingFrame.remove(uuid)
+                }.start()
+
             } catch (ex: AtumException) {
                 ex.printStackTrace()
                 if (frame !is WarningFrame) {
@@ -77,7 +85,13 @@ class AtumGuiDrawer(
             val viewer = frame.viewer
 
             try {
-                setComponents(viewer.openInventory.topInventory, frame)
+                AtumDebugger(
+                    plugin,
+                    "UpdateFrame",
+                    "&eFrameTitle:&6 ${frame.title}\n&eViewer:&6 ${frame.viewer.name}"
+                ) {
+                    setComponents(viewer.openInventory.topInventory, frame)
+                }.start()
 
             } catch (ex: AtumException) {
                 ex.printStackTrace()

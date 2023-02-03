@@ -427,7 +427,7 @@ public abstract class AtumPlugin extends JavaPlugin {
      *
      * @return The config
      */
-    public LoadableConfig getConfigYml() {
+    public ConfigYml getConfigYml() {
         return configYml;
     }
 
