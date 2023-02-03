@@ -8,12 +8,12 @@ import me.phoenixra.atum.core.gui.baseframes.ConfirmationFrame
 import me.phoenixra.atum.core.gui.baseframes.WarningFrame
 import me.phoenixra.atum.core.gui.events.GuiFrameCloseEvent
 import me.phoenixra.atum.core.gui.events.GuiFrameClickEvent
+import me.phoenixra.atum.core.gui.events.GuiFrameDragEvent
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.EventPriority
-import org.bukkit.event.inventory.InventoryClickEvent
-import org.bukkit.event.inventory.InventoryCloseEvent
+import org.bukkit.event.inventory.*
 import org.bukkit.event.server.PluginDisableEvent
 import org.bukkit.scheduler.BukkitTask
 import java.util.*
@@ -56,6 +56,20 @@ class AtumGuiController(
         registeredFrames.remove(entity.uniqueId)
     }
 
+    @EventHandler(priority = EventPriority.HIGH)
+    fun onDrag(event: InventoryDragEvent){
+        val player = event.whoClicked as? Player ?: return
+        val frame = registeredFrames[player.uniqueId] ?: return
+        val frameComponentClickEvent = GuiFrameDragEvent(
+            player,
+            frame,
+            event
+        )
+        Bukkit.getPluginManager().callEvent(frameComponentClickEvent)
+        if (frameComponentClickEvent.isCancelled || !frame.isInventoryInteractive) {
+            event.isCancelled = true
+        }
+    }
     @EventHandler(priority = EventPriority.HIGH)
     fun onInteract(event: InventoryClickEvent) {
         val player = event.whoClicked as? Player ?: return
