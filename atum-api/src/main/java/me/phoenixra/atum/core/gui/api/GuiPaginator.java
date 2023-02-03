@@ -1,12 +1,16 @@
 package me.phoenixra.atum.core.gui.api;
 
 import lombok.Getter;
-@Deprecated
-public class PhoenixPaginator {
-    @Getter private int currentPage;
+import lombok.Setter;
+
+public class GuiPaginator {
     @Getter private final int elementsPerPage;
-    @Getter private final int totalElements;
-    public PhoenixPaginator(int elementsPerPage, int totalElements) {
+
+    @Getter @Setter private int totalElements;
+
+    @Getter @Setter
+    private int currentPage;
+    public GuiPaginator(int elementsPerPage, int totalElements) {
         if (elementsPerPage < 1) {
             throw new IllegalArgumentException("elementsPerPage cannot be less than 1");
         }
