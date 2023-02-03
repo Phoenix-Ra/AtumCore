@@ -4,6 +4,7 @@ import me.phoenixra.atum.core.command.AtumCommand;
 import me.phoenixra.atum.core.config.ConfigManager;
 import me.phoenixra.atum.core.config.ConfigType;
 import me.phoenixra.atum.core.config.LoadableConfig;
+import me.phoenixra.atum.core.config.base.ConfigYml;
 import me.phoenixra.atum.core.config.base.LangYml;
 import me.phoenixra.atum.core.effects.interfaces.EffectsManager;
 import me.phoenixra.atum.core.events.EventManager;
@@ -35,7 +36,7 @@ public abstract class AtumPlugin extends JavaPlugin {
     private final Logger logger;
 
 
-    private final LoadableConfig configYml;
+    private final ConfigYml configYml;
     private final LangYml langYml;
 
     private final List<Runnable> onEnableTasks = new ArrayList<>();
@@ -282,15 +283,13 @@ public abstract class AtumPlugin extends JavaPlugin {
      *
      * @return config.yml.
      */
-    protected LoadableConfig createConfig() {
+    protected ConfigYml createConfig() {
         try {
-            return getAtumAPI()
-                    .createLoadableConfig(this, "config", "", ConfigType.YAML,true);
+            return new ConfigYml(this,"config",ConfigType.YAML,true);
         }catch (NullPointerException ex){
             this.getLogger().severe("Failed to load 'config.yml' from the plugin resources");
 
-            return getAtumAPI()
-                    .createLoadableConfig(this, "config", "", ConfigType.YAML,true);
+            return new ConfigYml(this,"config",ConfigType.YAML,false);
         }
     }
     /**
