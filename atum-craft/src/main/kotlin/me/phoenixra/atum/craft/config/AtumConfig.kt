@@ -7,6 +7,7 @@ import me.phoenixra.atum.craft.config.utils.normalizeToConfig
 import me.phoenixra.atum.craft.config.utils.toString
 import org.bukkit.configuration.file.YamlConfiguration
 import java.util.concurrent.ConcurrentHashMap
+import java.util.function.Predicate
 
 
 open class AtumConfig(
@@ -131,7 +132,13 @@ open class AtumConfig(
     }
 
     override fun getSubsectionListOrNull(path: String): List<Config>? {
-        return getList<Config>(path)?.toList()
+        val asIterable = get(path) as? Iterable<*> ?: return null
+        val asList = asIterable.toMutableList()
+        asList.removeIf {
+            it !is Config
+        }
+
+        return asList as List<Config>
     }
 
     override fun getType(): ConfigType {
