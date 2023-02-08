@@ -6,19 +6,33 @@ import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ParticleUtils {
-    public static void display(@NotNull Particle particle, @NotNull Location center, float offsetX, float offsetY, float offsetZ, float speed, int amount, @Nullable Color color, @Nullable Material material, double range) {
+
+    public static void display(@NotNull Particle particle,
+                               @NotNull Location center,
+                               float offsetX,
+                               float offsetY,
+                               float offsetZ,
+                               float speed,
+                               int amount,
+                               @Nullable Color color,
+                               @Nullable Material material,
+                               List<Player> viewers
+    ) {
 
         if(material==null) material = Material.BARRIER;
         if (color == null) color = Color.RED;
 
         if (particle == Particle.ITEM_CRACK) {
-            displayItemCrack(particle, center, offsetX, offsetY, offsetZ, speed, amount, material, range);
+            displayItemCrack(particle, center, offsetX, offsetY, offsetZ, speed, amount, material, viewers);
             return;
         }
 
         if (particle == Particle.SPELL_MOB_AMBIENT || particle == Particle.SPELL_MOB) {
-            displayLegacyColoredParticle(particle, center,speed, color,range);
+            displayLegacyColoredParticle(particle, center,speed, color, viewers);
             return;
         }
 
@@ -32,17 +46,43 @@ public class ParticleUtils {
             data = new Particle.DustOptions(color, 1);
         }
 
-        display(particle, center, offsetX, offsetY, offsetZ, speed, amount, data, range);
+        display(particle, center, offsetX, offsetY, offsetZ, speed, amount, data, viewers);
     }
 
+    public static void display(@NotNull Particle particle,
+                               @NotNull Location center,
+                               float offsetX,
+                               float offsetY,
+                               float offsetZ,
+                               float speed,
+                               int amount,
+                               @Nullable Color color,
+                               @Nullable Material material,
+                               double range
+    ) {
 
-    private static void display(@NotNull Particle particle, @NotNull Location center, float offsetX, float offsetY, float offsetZ, float speed, int amount, @Nullable Object data, double range) {
+        List<Player> viewers = new ArrayList<>();
+        double squaredRange = range * range;
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            if (player.getWorld() != center.getWorld() || player.getLocation().distanceSquared(center) > squaredRange) {
+                continue;
+            }
+            viewers.add(player);
+        }
+        display(particle, center, offsetX, offsetY, offsetZ, speed, amount, color, material, viewers);
+    }
+
+    private static void display(@NotNull Particle particle,
+                                @NotNull Location center,
+                                float offsetX,
+                                float offsetY,
+                                float offsetZ,
+                                float speed,
+                                int amount,
+                                @Nullable Object data,
+                                @NotNull List<Player> viewers) {
         try {
-            double squaredRange = range * range;
-            for (Player player : Bukkit.getOnlinePlayers()) {
-                if (player.getWorld() != center.getWorld() || player.getLocation().distanceSquared(center) > squaredRange) {
-                    continue;
-                }
+            for (Player player : viewers) {
                 player.spawnParticle(particle, center, amount, offsetX, offsetY, offsetZ, speed, data);
             }
 
@@ -51,16 +91,30 @@ public class ParticleUtils {
         }
     }
 
-    private static void displayItemCrack(@NotNull Particle particle,@NotNull Location center, float offsetX, float offsetY, float offsetZ, float speed, int amount, @NotNull Material material, double range) {
+    private static void displayItemCrack(@NotNull Particle particle,
+                                         @NotNull Location center,
+                                         float offsetX,
+                                         float offsetY,
+                                         float offsetZ,
+                                         float speed,
+                                         int amount,
+                                         @NotNull Material material,
+                                         @NotNull List<Player> viewers
+    ) {
         if (material == Material.AIR) {
             return;
         }
 
         ItemStack item = new ItemStack(material);
-        display(particle, center, offsetX, offsetY, offsetZ, speed, amount, item, range);
+        display(particle, center, offsetX, offsetY, offsetZ, speed, amount, item, viewers);
     }
 
-    private static void displayLegacyColoredParticle(@NotNull Particle particle, @NotNull Location center, float speed,  Color color, double range) {
+    private static void displayLegacyColoredParticle(@NotNull Particle particle,
+                                                     @NotNull Location center,
+                                                     float speed,
+                                                     Color color,
+                                                     @NotNull List<Player> viewers
+    ) {
         int amount = 0;
 
         if (speed == 0) {
@@ -75,6 +129,10 @@ public class ParticleUtils {
             offsetX = Float.MIN_NORMAL;
         }
 
-        display(particle, center, offsetX, offsetY, offsetZ, speed, amount, null, range);
+        display(particle, center, offsetX, offsetY, offsetZ, speed, amount, null, viewers);
     }
+
+
+
+
 }
