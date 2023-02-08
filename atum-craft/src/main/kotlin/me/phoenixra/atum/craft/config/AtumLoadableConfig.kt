@@ -51,13 +51,10 @@ class AtumLoadableConfig(
         if(inputStream==null && forceResourceLoad) {
             throw NullPointerException("file not found inside the resources folder of a plugin")
         }
-        val outFile = File(this.plugin.dataFolder, resourcePath)
-        val outDir = File(this.plugin.dataFolder, resourcePath.substring(0, resourcePath.lastIndexOf('/').coerceAtLeast(0)))
-        if (!outDir.exists()) outDir.mkdirs()
 
-        if (!outFile.exists()) {
-            outFile.createNewFile()
-            val out: OutputStream = FileOutputStream(outFile)
+        if (!file.exists()) {
+            file.createNewFile()
+            val out: OutputStream = FileOutputStream(file)
             val headerWrite = StringBuilder()
             for (s in header) {
                 headerWrite.append(s + "\n")
