@@ -3,13 +3,17 @@ package me.phoenixra.atum.craft.effects
 import me.phoenixra.atum.core.AtumPlugin
 import me.phoenixra.atum.core.effects.interfaces.Effect
 import me.phoenixra.atum.core.effects.interfaces.EffectsManager
+import me.phoenixra.atum.core.effects.types.ImageEffect
 import org.bukkit.Bukkit
 import org.bukkit.scheduler.BukkitTask
+import java.awt.image.BufferedImage
+import java.io.File
 
 class AtumEffectsManager(
     private val plugin: AtumPlugin
 ): EffectsManager {
     private val runningEffects: HashMap<Effect, BukkitTask> = hashMapOf()
+    private val imageCache = hashMapOf<String, Array<BufferedImage>>()
 
     override fun startEffect(effect: Effect) {
 
@@ -76,6 +80,24 @@ class AtumEffectsManager(
 
     override fun getRunningEffectsByID(id: String): MutableList<Effect> {
         return runningEffects.keys.filter { it.id == id }.toMutableList()
+    }
+
+    override fun loadImage(file: File, callback: ImageEffect.ImageLoadCallback) {
+        val images = imageCache[file.name]
+        if (images != null) {
+            callback.loaded(images)
+            return
+        }
+
+        plugin.server.scheduler.runTaskAsynchronously(plugin, ImageLoadTask(
+            this,
+            file
+        ) { output ->
+            plugin.server.scheduler.runTask(plugin, Runnable {
+                imageCache[file.name] = output
+                callback.loaded(output)
+            })
+        })
     }
 
     override fun getPlugin(): AtumPlugin {

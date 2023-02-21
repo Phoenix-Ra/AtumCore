@@ -1,8 +1,10 @@
 package me.phoenixra.atum.core.effects.interfaces;
 
 import me.phoenixra.atum.core.AtumPlugin;
+import me.phoenixra.atum.core.effects.types.ImageEffect;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.File;
 import java.util.List;
 
 public interface EffectsManager {
@@ -43,6 +45,11 @@ public interface EffectsManager {
     @NotNull
     List<Effect> getRunningEffectsByID(@NotNull String id);
 
+    /**
+     * save the image in cache or get already saved
+     *
+     */
+    void loadImage(@NotNull File file, @NotNull ImageEffect.ImageLoadCallback callback);
 
     /**
      * Get the plugin.
