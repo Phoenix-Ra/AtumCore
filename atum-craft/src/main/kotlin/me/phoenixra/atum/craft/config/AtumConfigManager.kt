@@ -10,9 +10,15 @@ class AtumConfigManager(private val plugin : AtumPlugin) :
     private val configs = mutableMapOf<String, LoadableConfig>()
 
     override fun reloadAllConfigs() {
-        for(conf in configs.values){
-            conf.reload()
+        val removal = mutableListOf<String>()
+        for(entry in configs.entries){
+            if(!entry.value.file.exists()||!entry.value.file.isFile){
+                removal.add(entry.key)
+                continue
+            }
+            entry.value.reload()
         }
+        removal.forEach { configs.remove(it) }
     }
 
     override fun reloadConfig(name: String) {
@@ -20,9 +26,15 @@ class AtumConfigManager(private val plugin : AtumPlugin) :
     }
 
     override fun saveAllConfigs() {
-        for(conf in configs.values){
-            conf.save()
+        val removal = mutableListOf<String>()
+        for(entry in configs.entries){
+            if(!entry.value.file.exists()||!entry.value.file.isFile){
+                removal.add(entry.key)
+                continue
+            }
+            entry.value.save()
         }
+        removal.forEach { configs.remove(it) }
     }
 
     override fun saveConfig(name: String) {
