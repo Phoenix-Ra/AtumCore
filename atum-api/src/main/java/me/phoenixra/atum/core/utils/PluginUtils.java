@@ -112,7 +112,7 @@ public class PluginUtils {
         for (String cmd : pluginCommands) {
             usage.append(ChatColor.GREEN).append("\"").append(cmd).append("\"").append("\n");
         }
-        usage.deleteCharAt(usage.length()-1);
+        usage.deleteCharAt(usage.length() - 1);
         return usage.toString();
     }
 
@@ -127,17 +127,25 @@ public class PluginUtils {
         }
 
         File pluginFile = new File(pluginsDir, name + ".jar");
-
-        if (!pluginFile.isFile()) for (File f : pluginsDir.listFiles())
-            if (f.getName().endsWith(".jar")) try {
-                PluginDescriptionFile desc = getPluginLoader().getPluginDescription(f);
-                if (desc.getName().equalsIgnoreCase(name)) {
-                    pluginFile = f;
-                    break;
+        if(!pluginFile.exists()||!pluginFile.isFile()){
+            boolean found = false;
+            for (File f : pluginsDir.listFiles()) {
+                if (f.getName().endsWith(".jar")) {
+                    try {
+                        PluginDescriptionFile desc = getPluginLoader().getPluginDescription(f);
+                        if (desc.getName().equalsIgnoreCase(name)) {
+                            pluginFile = f;
+                            found = true;
+                            break;
+                        }
+                    } catch (Exception e) {
+                    }
                 }
-            } catch (InvalidDescriptionException e) {
-                throw new NotificationException("&cThe specified plugin not found", false);
             }
+            if(!found){
+                throw new NotificationException("&cThe Plugin not found", false);
+            }
+        }
 
         try {
             target = Bukkit.getPluginManager().loadPlugin(pluginFile);
@@ -192,8 +200,8 @@ public class PluginUtils {
                 Field listenersField = Bukkit.getPluginManager().getClass().getDeclaredField("listeners");
                 listenersField.setAccessible(true);
                 listeners = (Map<Event, SortedSet<RegisteredListener>>) listenersField.get(pluginManager);
-            }catch (Exception e){
-                listeners=null;
+            } catch (Exception e) {
+                listeners = null;
             }
             Field commandMapField = Bukkit.getPluginManager().getClass().getDeclaredField("commandMap");
             commandMapField.setAccessible(true);
@@ -227,7 +235,7 @@ public class PluginUtils {
                     }
                 }
             }
-            for(Player player : Bukkit.getOnlinePlayers()){
+            for (Player player : Bukkit.getOnlinePlayers()) {
                 player.updateCommands();
             }
         }
