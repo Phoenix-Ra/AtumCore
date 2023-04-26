@@ -1,6 +1,5 @@
 package me.phoenixra.atum.core.utils;
 
-import me.phoenixra.atum.core.AtumPlugin;
 import me.phoenixra.atum.core.exceptions.NotificationException;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -16,11 +15,12 @@ import java.io.File;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.net.URLClassLoader;
+import java.nio.file.Path;
 import java.util.*;
 
-public class PluginUtils {
+public class PaperPluginUtils {
     //to prevent java reflections usage
-    private PluginUtils() {
+    private PaperPluginUtils() {
         throw new UnsupportedOperationException("This is an utility class and cannot be instantiated");
     }
 
@@ -28,100 +28,10 @@ public class PluginUtils {
         return Bukkit.getPluginManager().getPlugins()[0].getPluginLoader();
     }
 
-    public static File getPluginsDirectory() {
-        return new File(".", "plugins");
-    }
-
-
-    @NotNull
-    public static List<String> getLoadedPlugins() {
-        String pluginName;
-        StringBuilder list = new StringBuilder();
-        ArrayList<String> pluginList = new ArrayList<>();
-        for (Plugin pl : Bukkit.getServer().getPluginManager().getPlugins()) {
-            pluginName = (pl.isEnabled() ? ChatColor.GREEN : ChatColor.RED) + pl.getDescription().getName();
-            pluginList.add(pluginName);
-        }
-        pluginList.sort(String.CASE_INSENSITIVE_ORDER);
-        for (String name : pluginList) {
-            if (list.length() > 0) list.append(ChatColor.WHITE).append(", ");
-            list.append(name);
-        }
-        return pluginList;
-    }
-
-    public static Plugin getLoadedPlugin(@NotNull String pluginName) {
-        for (Plugin pl : Bukkit.getServer().getPluginManager().getPlugins()) {
-            if (!pl.getDescription().getName().equalsIgnoreCase(pluginName)) continue;
-            return pl;
-        }
-        return null;
-    }
-
-    @NotNull
-    public static String getPluginInfo(@NotNull String pluginName) {
-        StringBuilder info = new StringBuilder();
-        Plugin targetPlugin = getLoadedPlugin(pluginName);
-        if (targetPlugin == null) {
-            return ChatColor.RED + "&cThe specified plugin not found";
-        }
-        info.append("Plugin Info: ").append(ChatColor.GREEN)
-                .append(targetPlugin.getName()).append("\n");
-        info.append(ChatColor.GREEN).append("Version: ").append(ChatColor.GRAY)
-                .append(targetPlugin.getDescription().getVersion()).append("\n");
-        info.append(ChatColor.GREEN).append("Authors: ").append(ChatColor.GRAY)
-                .append(targetPlugin.getDescription().getAuthors()).append("\n");
-        info.append(ChatColor.GREEN).append("Status: ").append(targetPlugin.isEnabled()
-                ? ChatColor.GREEN + "Enabled" : ChatColor.RED + "Disabled");
-        if (targetPlugin instanceof AtumPlugin) {
-            info.append("\n").append(ChatColor.GOLD).append(ChatColor.BOLD)
-                    .append("This lovely plugin uses AtumAPI!");
-        }
-
-        return info.toString();
-    }
-
-    public static boolean enablePlugin(@NotNull final Plugin plugin) {
-        if (plugin.isEnabled()) return false;
-
-        Bukkit.getPluginManager().enablePlugin(plugin);
-        return true;
-
-    }
-
-    public static boolean disablePlugin(@NotNull final Plugin plugin) {
-        if (!plugin.isEnabled()) return false;
-        Bukkit.getPluginManager().disablePlugin(plugin);
-        return true;
-
-    }
-
-    @NotNull
-    public static String getPluginUsage(@NotNull final Plugin plugin) {
-        ArrayList<String> out = new ArrayList<>();
-        ArrayList<String> pluginCommands = new ArrayList<>();
-        Map<String, Map<String, Object>> commands = plugin.getDescription().getCommands();
-        for (Map.Entry<String, Map<String, Object>> entry : commands.entrySet()) {
-            pluginCommands.add(entry.getKey());
-        }
-        if (pluginCommands.isEmpty()) {
-            return ChatColor.RED + "The plugin has no registered commands";
-        }
-        StringBuilder usage = new StringBuilder();
-        usage.append(ChatColor.GRAY).append("Command List: \n");
-        for (String cmd : pluginCommands) {
-            usage.append(ChatColor.GREEN).append("\"").append(cmd).append("\"").append("\n");
-        }
-        usage.deleteCharAt(usage.length() - 1);
-        return usage.toString();
-    }
 
 
     public static Plugin loadPlugin(@NotNull final String name) throws NotificationException {
-        if(ClassUtils.exists("com.destroystokyo.paper.event.block.BeaconEffectEvent")){
-            return PaperPluginUtils.loadPlugin(name);
-        }
-        Plugin target;
+        Plugin target = null;
 
         File pluginsDir = new File("plugins");
 
@@ -150,20 +60,41 @@ public class PluginUtils {
                 throw new NotificationException("&cThe Plugin not found", false);
             }
         }
-
+        boolean paperLoaded = false;
         try {
-            target = Bukkit.getPluginManager().loadPlugin(pluginFile);
-        } catch (InvalidDescriptionException e) {
-            e.printStackTrace();
-            throw new NotificationException("&cThe Plugin has invalid description", false);
-        } catch (InvalidPluginException e) {
-            e.printStackTrace();
-            throw new NotificationException("&cThe Plugin is invalid", false);
+            Class paper = Class.forName("io.papermc.paper.plugin.manager.PaperPluginManagerImpl");
+            Object paperPluginManagerImpl = paper.getMethod("getInstance").invoke(null);
+
+            Field instanceManagerF = paperPluginManagerImpl.getClass().getDeclaredField("instanceManager");
+            instanceManagerF.setAccessible(true);
+            Object instanceManager = instanceManagerF.get(paperPluginManagerImpl);
+
+            Method loadMethod = instanceManager.getClass().getMethod("loadPlugin", Path.class);
+            loadMethod.setAccessible(true);
+            target = (Plugin) loadMethod.invoke(instanceManager, pluginFile.toPath());
+
+            Method enableMethod = instanceManager.getClass().getMethod("enablePlugin", Plugin.class);
+            enableMethod.setAccessible(true);
+            enableMethod.invoke(instanceManager, target);
+
+            paperLoaded = true;
+        } catch (Exception ignore) {
+        } // Paper most likely not loaded
+
+        if (!paperLoaded) {
+            try {
+                target = Bukkit.getPluginManager().loadPlugin(pluginFile);
+            } catch (InvalidDescriptionException e) {
+                e.printStackTrace();
+                throw new NotificationException("&cThe Plugin has invalid description", false);
+            } catch (InvalidPluginException e) {
+                e.printStackTrace();
+                throw new NotificationException("&cThe Plugin is invalid", false);
+            }
+
+            target.onLoad();
+            Bukkit.getPluginManager().enablePlugin(target);
         }
-
-        target.onLoad();
-        Bukkit.getPluginManager().enablePlugin(target);
-
         try {
             Method syncCommands = Class.forName("org.bukkit.craftbukkit." + AtumUtils.getNMSVersion() + ".CraftServer")
                     .getDeclaredMethod("syncCommands");
@@ -180,10 +111,7 @@ public class PluginUtils {
 
 
     public static void unloadPlugin(@NotNull final Plugin plugin) throws NotificationException {
-        if(ClassUtils.exists("com.destroystokyo.paper.event.block.BeaconEffectEvent")){
-            PaperPluginUtils.unloadPlugin(plugin);
-            return;
-        }
+
         String name = plugin.getName();
 
         PluginManager pluginManager = Bukkit.getPluginManager();
@@ -269,6 +197,32 @@ public class PluginUtils {
             }
 
         }
+        try {
+
+            Class paper = Class.forName("io.papermc.paper.plugin.manager.PaperPluginManagerImpl");
+            Object paperPluginManagerImpl = paper.getMethod("getInstance").invoke(null);
+
+            Field instanceManagerField = paperPluginManagerImpl.getClass().getDeclaredField("instanceManager");
+            instanceManagerField.setAccessible(true);
+            Object instanceManager = instanceManagerField.get(paperPluginManagerImpl);
+
+            Field lookupNamesField = instanceManager.getClass().getDeclaredField("lookupNames");
+            lookupNamesField.setAccessible(true);
+            Map<String, Object> lookupNames1 = (Map<String, Object>) lookupNamesField.get(instanceManager);
+
+            Method disableMethod = instanceManager.getClass().getMethod("disablePlugin", Plugin.class);
+            disableMethod.setAccessible(true);
+            disableMethod.invoke(instanceManager, plugin);
+
+            lookupNames1.remove(plugin.getName().toLowerCase());
+
+            Field pluginListField = instanceManager.getClass().getDeclaredField("plugins");
+            pluginListField.setAccessible(true);
+            List<Plugin> pluginList = (List<Plugin>) pluginListField.get(instanceManager);
+            pluginList.remove(plugin);
+
+        } catch (Exception ignore) {
+        } // Paper most likely not loaded
 
         // Will not work on processes started with the -XX:+DisableExplicitGC flag
         System.gc();
