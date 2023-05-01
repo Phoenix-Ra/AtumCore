@@ -10,7 +10,6 @@ import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
 
 public class SuperShape2D extends BaseEffect {
-    private Particle particle;
 
     private double n1 = 0.3;
     private double n2 = 0.3;
@@ -87,7 +86,7 @@ public class SuperShape2D extends BaseEffect {
                         vector.rotateAroundY(rotation.getY() * MathUtils.degreesToRadians);
                         vector.rotateAroundZ(rotation.getZ() * MathUtils.degreesToRadians);
                     }
-                    displayParticle(particle, location.add(vector));
+                    displayParticle(getParticleType().getValue(), location.add(vector));
                     location.subtract(vector);
                     currentDrawStep++;
                 }
@@ -106,7 +105,7 @@ public class SuperShape2D extends BaseEffect {
                     vector.rotateAroundY(rotation.getY() * MathUtils.degreesToRadians);
                     vector.rotateAroundZ(rotation.getZ() * MathUtils.degreesToRadians);
                 }
-                displayParticle(particle, location.add(vector));
+                displayParticle(getParticleType().getValue(), location.add(vector));
                 location.subtract(vector);
             }
         }

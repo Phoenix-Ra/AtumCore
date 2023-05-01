@@ -48,9 +48,9 @@ public abstract class BaseEffect implements Effect {
     @EffectVar @Getter private EffectVariable<Material> particleMaterial = new BaseEffectVariable<>(Material.BARRIER);
     @EffectVar @Getter private EffectVariable<Float> particleSpeed       = new BaseEffectVariable<>(0.0f);
     @EffectVar @Getter private EffectVariable<Integer> particleCount     = new BaseEffectVariable<>(1);
-    @EffectVar @Getter private EffectVariable<Float> particleOffsetX     = new BaseEffectVariable<>(0.0f);
-    @EffectVar @Getter private EffectVariable<Float> particleOffsetY     = new BaseEffectVariable<>(0.0f);
-    @EffectVar @Getter private EffectVariable<Float> particleOffsetZ     = new BaseEffectVariable<>(0.0f);
+    @EffectVar @Getter private EffectVariable<Double> particleOffsetX     = new BaseEffectVariable<>(0.0);
+    @EffectVar @Getter private EffectVariable<Double> particleOffsetY     = new BaseEffectVariable<>(0.0);
+    @EffectVar @Getter private EffectVariable<Double> particleOffsetZ     = new BaseEffectVariable<>(0.0);
 
     @EffectVar @Getter protected EffectVariable<Double> thickness        = new BaseEffectVariable<>(1.0);
 
@@ -255,21 +255,21 @@ public abstract class BaseEffect implements Effect {
     /**
      * set default particle offsetX
      */
-    public final void setParticleOffsetX(EffectVariable<Float> value) {
+    public final void setParticleOffsetX(EffectVariable<Double> value) {
         particleOffsetX=value;
 
     }
     /**
      * set default particle offsetY
      */
-    public final void setParticleOffsetY(EffectVariable<Float> value) {
+    public final void setParticleOffsetY(EffectVariable<Double> value) {
         particleOffsetY=value;
 
     }
     /**
      * set default particle offsetZ
      */
-    public final void setParticleOffsetZ(EffectVariable<Float> value) {
+    public final void setParticleOffsetZ(EffectVariable<Double> value) {
         particleOffsetZ=value;
 
     }
