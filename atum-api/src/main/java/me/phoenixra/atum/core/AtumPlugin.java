@@ -378,9 +378,9 @@ public abstract class AtumPlugin extends JavaPlugin {
     }
 
     /**
-     * Get Scoreboard Manager
+     * Get Events Manager
      *
-     * @return The scoreboard manager
+     * @return The events manager
      */
     public EventManager getEventManager() {
         return eventManager;
