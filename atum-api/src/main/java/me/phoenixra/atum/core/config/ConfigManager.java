@@ -1,6 +1,7 @@
 package me.phoenixra.atum.core.config;
 
 import me.phoenixra.atum.core.AtumPlugin;
+import me.phoenixra.atum.core.config.category.ConfigCategory;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -46,6 +47,33 @@ public interface ConfigManager {
      */
     ConfigManager addConfig(@NotNull LoadableConfig config);
 
+    /**
+     * reload all config categories
+     */
+    void reloadAllConfigCategories();
+
+    /**
+     * reload the config category
+     *
+     * @param id the id
+     */
+    void reloadConfigCategory(@NotNull String id);
+
+    /**
+     * get config category added to the manager
+     * or null if not found
+     * @param id The id
+     * @return The config category
+     */
+    @Nullable
+    ConfigCategory getConfigCategory(@NotNull String id);
+
+    /**
+     * Add new config category
+     *
+     * @param configCategory The config category
+     */
+    void addConfigCategory(@NotNull ConfigCategory configCategory);
 
     /**
      * Get the plugin.
