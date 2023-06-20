@@ -58,7 +58,7 @@ public class StringUtils {
         return output;
     }
 
-    public static Color parseColor(String s) {
+    public static Color colorFromString(String s) {
         return switch (s.toLowerCase()) {
             case "aqua" -> Color.AQUA;
             case "red" -> Color.RED;
