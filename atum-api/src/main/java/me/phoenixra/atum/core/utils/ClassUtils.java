@@ -4,9 +4,15 @@ import org.jetbrains.annotations.NotNull;
 
 public class ClassUtils {
 
-    public static boolean exists(@NotNull final String className) {
+    /**
+     * Get if class exists
+     *
+     * @param classPach the class path
+     * @return if string is a number
+     */
+    public static boolean exists(@NotNull final String classPach) {
         try {
-            Class.forName(className);
+            Class.forName(classPach);
             return true;
         } catch (ClassNotFoundException e) {
             return false;

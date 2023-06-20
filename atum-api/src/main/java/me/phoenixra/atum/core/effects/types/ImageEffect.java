@@ -4,7 +4,7 @@ package me.phoenixra.atum.core.effects.types;
 import me.phoenixra.atum.core.effects.BaseEffect;
 import me.phoenixra.atum.core.effects.interfaces.EffectLocation;
 import me.phoenixra.atum.core.effects.interfaces.EffectsManager;
-import me.phoenixra.atum.core.utils.effects.MathUtils;
+import me.phoenixra.atum.core.utils.MathUtils;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -18,7 +18,6 @@ import java.io.File;
 import java.io.IOException;
 
 public class ImageEffect extends BaseEffect {
-    protected Particle particle;
     private File imageFile = null;
 
     private boolean transparency = true;
@@ -139,7 +138,7 @@ public class ImageEffect extends BaseEffect {
         int r = color.getRed();
         int g = color.getGreen();
         int b = color.getBlue();
-        displayParticle(particle, location.add(v), org.bukkit.Color.fromRGB(r, g, b), 1);
+        displayParticle(getParticleType().getValue(), location.add(v), org.bukkit.Color.fromRGB(r, g, b), 1);
         location.subtract(v);
 
     }

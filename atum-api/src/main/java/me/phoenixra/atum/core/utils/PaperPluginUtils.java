@@ -19,10 +19,6 @@ import java.nio.file.Path;
 import java.util.*;
 
 public class PaperPluginUtils {
-    //to prevent java reflections usage
-    private PaperPluginUtils() {
-        throw new UnsupportedOperationException("This is an utility class and cannot be instantiated");
-    }
 
     public static PluginLoader getPluginLoader() {
         return Bukkit.getPluginManager().getPlugins()[0].getPluginLoader();
@@ -226,5 +222,10 @@ public class PaperPluginUtils {
 
         // Will not work on processes started with the -XX:+DisableExplicitGC flag
         System.gc();
+    }
+
+
+    private PaperPluginUtils() {
+        throw new UnsupportedOperationException("This is an utility class and cannot be instantiated");
     }
 }

@@ -5,12 +5,32 @@ import me.phoenixra.atum.core.config.serialization.impl.LocationSerialization;
 import me.phoenixra.atum.core.exceptions.NotificationException;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.World;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class LocationUtils {
-    private LocationUtils() {
-        throw new UnsupportedOperationException("This is an utility class and cannot be instantiated");
+
+
+    /**
+     * Get central location from given locations
+     *
+     * @param locations the locations
+     * @return the central location
+     */
+    public static Location getCentralLocation(Location ... locations){
+        World world = locations[0].getWorld();
+        double x = 0, y = 0, z = 0;
+        int dots=0;
+        for(Location loc : locations){
+            if(loc.getWorld()!=world) continue;
+            x+=loc.getX();
+            y+=loc.getY();
+            z+=loc.getZ();
+            dots++;
+        }
+        return new Location(world,x/dots,y/dots,z/dots);
+
     }
 
     /**
@@ -92,6 +112,11 @@ public class LocationUtils {
     public static Config parseLocationToConfig(@NotNull Location location,
                                                boolean withCamera) {
         return LocationSerialization.serializer(withCamera).serializeToConfig(location);
+    }
+
+
+    private LocationUtils() {
+        throw new UnsupportedOperationException("This is an utility class and cannot be instantiated");
     }
 
 }

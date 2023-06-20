@@ -19,10 +19,6 @@ import java.net.URLClassLoader;
 import java.util.*;
 
 public class PluginUtils {
-    //to prevent java reflections usage
-    private PluginUtils() {
-        throw new UnsupportedOperationException("This is an utility class and cannot be instantiated");
-    }
 
     public static PluginLoader getPluginLoader() {
         return Bukkit.getPluginManager().getPlugins()[0].getPluginLoader();
@@ -272,5 +268,9 @@ public class PluginUtils {
 
         // Will not work on processes started with the -XX:+DisableExplicitGC flag
         System.gc();
+    }
+
+    private PluginUtils() {
+        throw new UnsupportedOperationException("This is an utility class and cannot be instantiated");
     }
 }

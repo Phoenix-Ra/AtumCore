@@ -4,7 +4,7 @@ package me.phoenixra.atum.core.effects.types;
 import me.phoenixra.atum.core.effects.BaseEffect;
 import me.phoenixra.atum.core.effects.interfaces.EffectLocation;
 import me.phoenixra.atum.core.effects.interfaces.EffectsManager;
-import me.phoenixra.atum.core.utils.effects.MathUtils;
+import me.phoenixra.atum.core.utils.MathUtils;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.util.Vector;

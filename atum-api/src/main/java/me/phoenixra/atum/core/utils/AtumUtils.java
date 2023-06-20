@@ -1,6 +1,7 @@
 package me.phoenixra.atum.core.utils;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
@@ -31,6 +32,23 @@ public class AtumUtils {
         int x2 = point.getBlockX();
         int z2 = point.getBlockZ();
         return x2 < x1 + radius && z2 < z1 + radius && x2 > x1 - radius && z2 > z1 - radius;
+    }
+
+    public static Color[][] sortImageArray(String data){
+        int imageWidth= Integer.parseInt(data.split("@")[0].split("x")[0]);
+        int imageHeight= Integer.parseInt(data.split("@")[0].split("x")[1]);
+        Color[][] out = new Color[imageWidth][imageHeight];
+        for(String s : data.split(";")){
+            int x=Integer.parseInt(s.split(":")[1].split(",")[0]);
+            int y=Integer.parseInt(s.split(":")[1].split(",")[1]);
+            java.awt.Color color;
+            if(s.contains("@")) {
+                color = new java.awt.Color(Integer.parseInt(s.split("@")[1].split(":")[0]));
+            }else color = new java.awt.Color(Integer.parseInt(s.split(":")[0]));
+
+            out[x][y] = Color.fromRGB(color.getRed(), color.getGreen(), color.getBlue());
+        }
+        return out;
     }
 
     public static Class<?> getNMSClass(String pack, String name) {
