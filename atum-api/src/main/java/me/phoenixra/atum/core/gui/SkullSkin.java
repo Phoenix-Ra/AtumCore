@@ -1,6 +1,6 @@
 package me.phoenixra.atum.core.gui;
 
-import me.phoenixra.atum.core.utils.ItemBuilder;
+import me.phoenixra.atum.core.utils.item.ItemBuilder;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 

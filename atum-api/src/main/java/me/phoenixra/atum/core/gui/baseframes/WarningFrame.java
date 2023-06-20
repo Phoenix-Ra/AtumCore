@@ -1,6 +1,6 @@
 package me.phoenixra.atum.core.gui.baseframes;
 
-import me.phoenixra.atum.core.utils.ItemBuilder;
+import me.phoenixra.atum.core.utils.item.ItemBuilder;
 import me.phoenixra.atum.core.gui.BaseGuiComponent;
 import me.phoenixra.atum.core.gui.GuiDrawer;
 import me.phoenixra.atum.core.gui.SkullSkin;

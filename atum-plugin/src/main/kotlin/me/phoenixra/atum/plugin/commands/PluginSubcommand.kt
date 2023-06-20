@@ -3,7 +3,7 @@ package me.phoenixra.atum.plugin.commands
 import me.phoenixra.atum.core.AtumPlugin
 import me.phoenixra.atum.core.command.AtumSubcommand
 import me.phoenixra.atum.core.command.CommandBase
-import me.phoenixra.atum.core.utils.PluginUtils
+import me.phoenixra.atum.core.utils.plugin.PluginUtils
 import me.phoenixra.atum.core.utils.StringUtils
 import org.bukkit.ChatColor
 import org.bukkit.command.CommandSender
@@ -24,7 +24,7 @@ class PluginSubcommand(
 
         when(args[0].lowercase()){
             "list" -> {
-                val plugins=PluginUtils.getLoadedPlugins();
+                val plugins = PluginUtils.getLoadedPlugins();
                 val sb = StringBuilder()
                 sb.append("${ChatColor.GRAY}Loaded Plugins(${plugins.size}): \n")
                 for(plugin in PluginUtils.getLoadedPlugins()){

@@ -2,7 +2,6 @@ package me.phoenixra.atum.core.scoreboard;
 
 
 import me.phoenixra.atum.core.AtumPlugin;
-import me.phoenixra.atum.core.exceptions.AtumException;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -33,9 +32,8 @@ public interface ScoreboardManager extends Runnable{
      *
      * @param player The player
      * @param id The id
-     * @throws AtumException if scoreboard not found
      */
-    void addPlayerToScoreboard(@NotNull Player player, @NotNull String id) throws AtumException;
+    void addPlayerToScoreboard(@NotNull Player player, @NotNull String id);
 
     /**
      * remove player from all scoreboards of this manager

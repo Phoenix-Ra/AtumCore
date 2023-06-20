@@ -1,7 +1,7 @@
 package me.phoenixra.atum.core.gui.api;
 
-import me.phoenixra.atum.core.exceptions.AtumException;
 import lombok.Getter;
+import me.phoenixra.atum.core.exceptions.NotificationException;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
@@ -37,7 +37,7 @@ public abstract class GuiFrame {
 
     public abstract int getSize();
 
-    public abstract void createComponents() throws AtumException;
+    public abstract void createComponents() throws NotificationException;
 
     public abstract void onClose();
 

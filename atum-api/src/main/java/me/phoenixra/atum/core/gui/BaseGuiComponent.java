@@ -1,7 +1,7 @@
 package me.phoenixra.atum.core.gui;
 
 import me.phoenixra.atum.core.gui.api.GuiComponentUpdater;
-import me.phoenixra.atum.core.utils.ItemBuilder;
+import me.phoenixra.atum.core.utils.item.ItemBuilder;
 import me.phoenixra.atum.core.gui.api.GuiComponent;
 import lombok.Setter;
 import lombok.experimental.Accessors;
