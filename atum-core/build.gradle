@@ -3,14 +3,7 @@ version rootProject.version
 
 dependencies {
     compileOnly project(":atum-api")
-    compileOnly project(":atum-craft")
 
-    compileOnly 'io.papermc.paper:paper-api:1.17.1-R0.1-SNAPSHOT'
+    compileOnly 'com.moandjiezana.toml:toml4j:0.7.2'
+    compileOnly("io.papermc.paper:paper-api:1.17.1-R0.1-SNAPSHOT")
 }
-
-processResources {
-    filesNotMatching(["**/*.png", "**/models/**", "**/textures/**"]) {
-        expand projectVersion: project.version
-    }
-}
-
