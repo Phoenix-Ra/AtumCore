@@ -6,13 +6,15 @@ import lombok.Setter;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * Two nullable values.
+ * Three nullable values.
  *
  * @param <A> The first value type.
  * @param <B> The second value type.
+ * @param <C> The third value type.
  */
 @AllArgsConstructor
-public class Pair<A, B> {
+public class Triplet<A,B,C> {
+
     /**
      * The first item in the tuple.
      */
@@ -24,4 +26,10 @@ public class Pair<A, B> {
      */
     @Nullable @Getter @Setter
     private B second;
+
+    /**
+     * The third item in the tuple.
+     */
+    @Nullable @Getter @Setter
+    private C third;
 }
