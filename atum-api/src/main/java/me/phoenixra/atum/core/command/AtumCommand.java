@@ -68,7 +68,10 @@ public abstract class AtumCommand implements CommandBase, CommandExecutor, TabCo
         aliases.addAll(this.getAliases());
         command.setAliases(aliases);
 
-        addSubcommand(loadHelp());
+        CommandBase help = loadSubcommandHelp();
+        CommandBase reload = loadSubcommandReload();
+        if(help != null) addSubcommand(help);
+        if(reload != null) addSubcommand(reload);
 
     }
 
@@ -78,6 +81,7 @@ public abstract class AtumCommand implements CommandBase, CommandExecutor, TabCo
 
         command.unregister(getCommandMap());
     }
+
     /**
      * The default help command
      * <p></p>
@@ -85,7 +89,7 @@ public abstract class AtumCommand implements CommandBase, CommandExecutor, TabCo
      *
      * @return  The help command
      */
-    protected CommandBase loadHelp(){
+    protected @Nullable CommandBase loadSubcommandHelp(){
         return (new AtumSubcommand(getPlugin(),"help",this) {
             @Override
             protected void onCommandExecute(@NotNull CommandSender sender, @NotNull List<String> args) throws NotificationException {
@@ -95,7 +99,7 @@ public abstract class AtumCommand implements CommandBase, CommandExecutor, TabCo
                     return;
                 }
                 StringBuilder sb = new StringBuilder();
-                sb.append("&a------ ").append(getPlugin().getColoredName()).append(" &a------").append("\n");
+                sb.append("&a------ ").append(getPlugin().getName()).append(" &a------").append("\n");
                 for(CommandBase subcommand : subcommands.values()){
                     if(!subcommand.canExecute(sender,true)) continue;
                     sb.append("&c").append(subcommand.getUsage()).append("&7 - &f").append(subcommand.getDescription())
@@ -111,7 +115,7 @@ public abstract class AtumCommand implements CommandBase, CommandExecutor, TabCo
 
             @Override
             public @NotNull String getDescription() {
-                return "list of available commands";
+                return "List of available commands";
             }
 
             @Override
@@ -120,6 +124,41 @@ public abstract class AtumCommand implements CommandBase, CommandExecutor, TabCo
             }
         });
     }
+
+    /**
+     * The default reload command
+     * <p></p>
+     * Override if you want to make your own implementation
+     *
+     * @return  The help command
+     */
+    protected @Nullable CommandBase loadSubcommandReload(){
+        return (new AtumSubcommand(getPlugin(),"reload",
+                plugin.getName().toLowerCase()+".admin",
+                this) {
+            @Override
+            protected void onCommandExecute(@NotNull CommandSender sender, @NotNull List<String> args) throws NotificationException {
+                plugin.reload();
+                sender.sendMessage(StringUtils.format("&aSuccessfully reloaded the plugin"));
+            }
+
+            @Override
+            protected @NotNull List<String> onTabComplete(@NotNull CommandSender sender, @NotNull List<String> args) {
+                return new ArrayList<>();
+            }
+
+            @Override
+            public @NotNull String getDescription() {
+                return "Reload the plugin";
+            }
+
+            @Override
+            public @NotNull String getUsage() {
+                return getParent().getUsage() + " reload";
+            }
+        });
+    }
+
     /**
      * Executes help command
      *
