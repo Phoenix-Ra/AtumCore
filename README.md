@@ -2,6 +2,8 @@
 
 convenient lib I use for my own plugins
 
+My YT where I used this lib to make effects: https://www.youtube.com/@phoenixra1908/videos
+
 Gradle:
 ```
 repositories {
