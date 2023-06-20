@@ -197,11 +197,7 @@ public abstract class AtumCommand implements CommandBase, CommandExecutor, TabCo
         try{
             handleCommand(sender, args);
         }catch (NotificationException e){
-
-            if(e.isLangKey()&&plugin.getLangYml()!=null)
-                sender.sendMessage(plugin.getLangYml().getStringOrDefault(e.getMessage(),""));
-            else
-                sender.sendMessage(StringUtils.format(e.getMessage()));
+            sender.sendMessage(e.getLangMessage(plugin));
 
          }catch (Exception e){
             e.printStackTrace();

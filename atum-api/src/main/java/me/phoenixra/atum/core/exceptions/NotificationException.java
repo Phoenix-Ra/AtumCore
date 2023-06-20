@@ -1,6 +1,8 @@
 package me.phoenixra.atum.core.exceptions;
 
 import lombok.Getter;
+import lombok.Setter;
+import me.phoenixra.atum.core.AtumPlugin;
 import me.phoenixra.atum.core.utils.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -23,7 +25,7 @@ public class NotificationException extends Exception{
     @Getter
     private final boolean langKey;
 
-    public NotificationException(String msg, boolean langKey) {
+    public NotificationException(@NotNull String msg, boolean langKey) {
         super(msg);
         this.message = msg;
         this.langKey = langKey;
@@ -38,8 +40,17 @@ public class NotificationException extends Exception{
      * @return the message
      */
     @Override
-    public String getMessage() {
+    public @NotNull String getMessage() {
         return StringUtils.format(message);
+    }
+
+    /**
+     * Get formatted Notification message from langYml
+     *
+     * @return the message
+     */
+    public @NotNull String getLangMessage(@NotNull AtumPlugin plugin) {
+        return isLangKey() ? plugin.getLangYml().getMessage(message) : StringUtils.format(message);
     }
 
     /**
