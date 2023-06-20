@@ -2,6 +2,8 @@ package me.phoenixra.atum.core.config.wrapper;
 
 import me.phoenixra.atum.core.config.Config;
 import me.phoenixra.atum.core.config.ConfigType;
+import me.phoenixra.atum.core.placeholders.InjectablePlaceholder;
+import me.phoenixra.atum.core.placeholders.context.PlaceholderContext;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -96,11 +98,37 @@ public class ConfigWrapper<T extends Config> implements Config {
     }
 
     @Override
+    public double getEvaluated(@NotNull String path, @NotNull PlaceholderContext context) {
+        return handle.getEvaluated(path,context);
+    }
+
+    @Override
     public @NotNull ConfigType getType() {
         return handle.getType();
+    }
+
+    @Override
+    public void addInjectablePlaceholder(@NotNull Iterable<InjectablePlaceholder> placeholders) {
+        handle.addInjectablePlaceholder(placeholders);
+    }
+
+    @Override
+    public void removeInjectablePlaceholder(@NotNull Iterable<InjectablePlaceholder> placeholders) {
+        handle.removeInjectablePlaceholder(placeholders);
+    }
+
+    @Override
+    public void clearInjectedPlaceholders() {
+        handle.clearInjectedPlaceholders();
+    }
+
+    @Override
+    public @NotNull List<InjectablePlaceholder> getPlaceholderInjections() {
+        return handle.getPlaceholderInjections();
     }
 
     public T getHandle(){
         return handle;
     }
+
 }
