@@ -1,6 +1,7 @@
 package me.phoenixra.atum.craft.scoreboard
 
-import me.phoenixra.atum.core.placeholders.TextReplacer
+import me.phoenixra.atum.core.placeholders.InjectablePlaceholder
+import me.phoenixra.atum.core.placeholders.context.PlaceholderContext
 import me.phoenixra.atum.core.utils.StringUtils
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
@@ -12,11 +13,27 @@ class AtumScoreboard(
     private var displayName: MutableList<String>,
     private var scores: MutableList<String>
 ): me.phoenixra.atum.core.scoreboard.Scoreboard {
+    var injections = mutableListOf<InjectablePlaceholder>()
+
     var update = 0
     var players = HashMap<Player, MutableList<String>>()
     var sb = HashMap<Player, Scoreboard>()
+    override fun addInjectablePlaceholder(placeholders: MutableIterable<InjectablePlaceholder>) {
+        injections.addAll(placeholders);
+    }
 
-    private var replacer = TextReplacer()
+    override fun removeInjectablePlaceholder(placeholders: MutableIterable<InjectablePlaceholder>) {
+        injections.removeAll(placeholders);
+    }
+
+    override fun clearInjectedPlaceholders() {
+        injections.clear();
+    }
+
+    override fun getPlaceholderInjections(): MutableList<InjectablePlaceholder> {
+        return injections;
+    }
+
 
     override fun update() {
         for (key in players.keys) {
@@ -30,7 +47,10 @@ class AtumScoreboard(
                 objective!!.displayName = displayName[update]
                 for (i in scores.size downTo 1) {
                     val old = players[key]!![i - 1]
-                    val s = StringBuilder(replacer.replace(key, scores[scores.size - i]))
+                    val s = StringBuilder(StringUtils.formatWithPlaceholders(
+                        scores[scores.size - i],
+                        PlaceholderContext(key,null,this, mutableListOf())
+                    ))
                     if (s.toString() == old || old.isBlank()) continue
                     if (s.toString().trim().isEmpty()) {
                         s.append(" ".repeat(i))
@@ -48,7 +68,7 @@ class AtumScoreboard(
 
     override fun addPlayer(player: Player) {
         try {
-            sb[player] = Bukkit.getScoreboardManager()!!.newScoreboard
+            sb[player] = Bukkit.getScoreboardManager().newScoreboard
             players[player] = ArrayList()
             val objective = sb[player]!!.registerNewObjective(
                 id, "dummy", StringUtils.format(
@@ -57,13 +77,16 @@ class AtumScoreboard(
             )
             objective.displaySlot = DisplaySlot.SIDEBAR
             for (i in scores.size downTo 1) players[player]!!.add(
-                replacer.replace(
-                    player,
-                    scores[scores.size - i]
+                StringUtils.formatWithPlaceholders(
+                    scores[scores.size - i],
+                    PlaceholderContext(player,null,this, mutableListOf())
                 )
             )
             for (i in scores.size downTo 1) {
-                val s = StringBuilder(replacer.replace(player, scores[scores.size - i]))
+                val s = StringBuilder(StringUtils.formatWithPlaceholders(
+                    scores[scores.size - i],
+                    PlaceholderContext(player,null,this, mutableListOf())
+                ))
                 if (s.toString().trim().isEmpty()) {
                     s.append(" ".repeat(i))
                 }
@@ -80,14 +103,14 @@ class AtumScoreboard(
         players.remove(p)
         sb.remove(p)
         if (p.isOnline) {
-            p.scoreboard = Bukkit.getScoreboardManager()!!.newScoreboard
+            p.scoreboard = Bukkit.getScoreboardManager().newScoreboard
         }
     }
 
     override fun removeAllPlayers() {
         for (player in players.keys) {
             if (player.isOnline) {
-                player.scoreboard = Bukkit.getScoreboardManager()!!.newScoreboard
+                player.scoreboard = Bukkit.getScoreboardManager().newScoreboard
             }
         }
         players.clear()
@@ -97,10 +120,6 @@ class AtumScoreboard(
 
     override fun hasPlayer(player: Player): Boolean {
         return player.scoreboard === sb[player]
-    }
-
-    override fun getReplacer(): TextReplacer {
-        return replacer
     }
 
     override fun getId(): String {

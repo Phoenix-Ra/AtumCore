@@ -1,10 +1,10 @@
 package me.phoenixra.atum.core.scoreboard;
 
-import me.phoenixra.atum.core.placeholders.TextReplacer;
+import me.phoenixra.atum.core.placeholders.InjectablePlaceholderList;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-public interface Scoreboard {
+public interface Scoreboard extends InjectablePlaceholderList {
 
     /**
      * update the scoreboard
@@ -39,13 +39,6 @@ public interface Scoreboard {
      */
     boolean hasPlayer(@NotNull Player player);
 
-    /**
-     * Get the text replacer of the scoreboard
-     *
-     * @return The text replacer
-     */
-    @NotNull
-    TextReplacer getReplacer();
 
     /**
      * Get the scoreboard's id

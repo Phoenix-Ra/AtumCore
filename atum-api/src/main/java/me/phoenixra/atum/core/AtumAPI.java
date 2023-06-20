@@ -6,8 +6,8 @@ import me.phoenixra.atum.core.config.ConfigType;
 import me.phoenixra.atum.core.config.LoadableConfig;
 import me.phoenixra.atum.core.effects.interfaces.EffectsManager;
 import me.phoenixra.atum.core.events.EventManager;
-import me.phoenixra.atum.core.exceptions.AtumException;
 import me.phoenixra.atum.core.gui.GuiController;
+import me.phoenixra.atum.core.placeholders.context.PlaceholderContext;
 import me.phoenixra.atum.core.schedule.Scheduler;
 import me.phoenixra.atum.core.scoreboard.Scoreboard;
 import me.phoenixra.atum.core.scoreboard.ScoreboardManager;
@@ -76,7 +76,7 @@ public interface AtumAPI {
     EffectsManager createEffectsManager(@NotNull AtumPlugin plugin);
 
     /**
-     * Create a logger.
+     * Create a plugin logger.
      *
      * @param plugin The plugin.
      * @return The logger.
@@ -106,7 +106,7 @@ public interface AtumAPI {
      */
     @NotNull
     LoadableConfig loadConfiguration(@NotNull AtumPlugin plugin,
-                                     @NotNull File file) throws AtumException;
+                                     @NotNull File file);
 
     /**
      * loads an existing config from plugin folder
@@ -175,6 +175,15 @@ public interface AtumAPI {
      */
     void removePlugin(@NotNull AtumPlugin plugin);
 
+    /**
+     * Evaluate an expression.
+     *
+     * @param expression The expression.
+     * @param context    The context.
+     * @return The value of the expression, or zero if invalid.
+     */
+    double evaluate(@NotNull String expression,
+                    @NotNull PlaceholderContext context);
 
     static AtumAPI getInstance() {
         return Instance.get();

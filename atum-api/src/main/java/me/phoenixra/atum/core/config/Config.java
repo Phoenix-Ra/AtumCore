@@ -2,6 +2,8 @@ package me.phoenixra.atum.core.config;
 
 import me.phoenixra.atum.core.config.serialization.ConfigDeserializer;
 import me.phoenixra.atum.core.config.serialization.ConfigSerializer;
+import me.phoenixra.atum.core.placeholders.InjectablePlaceholderList;
+import me.phoenixra.atum.core.placeholders.context.PlaceholderContext;
 import me.phoenixra.atum.core.utils.StringUtils;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -10,7 +12,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 
-public interface Config {
+public interface Config extends InjectablePlaceholderList {
 
     /**
      * Convert the config into text
@@ -136,9 +138,34 @@ public interface Config {
 
 
     @NotNull
-    default String getFormattedString(@NotNull String path){
-        return StringUtils.format(getStringOrDefault(path, ""));
+    default String getFormattedString(@NotNull String path) {
+        return Objects.requireNonNullElse(getFormattedStringOrNull(path,null), "");
     }
+    @NotNull
+    default String getFormattedString(@NotNull String path,
+                                      @Nullable PlaceholderContext context) {
+        return Objects.requireNonNullElse(getFormattedStringOrNull(path,context), "");
+    }
+    @Nullable
+    default String getFormattedStringOrNull(@NotNull String path){
+        return getFormattedString(path,null);
+    }
+    @Nullable
+    default String getFormattedStringOrNull(@NotNull String path,
+                                            @Nullable PlaceholderContext context){
+        String text = getStringOrNull(path);
+        if(text == null) return null;
+        if(context == null){
+            return StringUtils.formatWithPlaceholders(text,
+                    new PlaceholderContext(null,null, this, new ArrayList<>())
+            );
+        }
+        context.getInjectableContext().addInjectablePlaceholder(getPlaceholderInjections());
+        String formatted = StringUtils.formatWithPlaceholders(text,context);;
+        context.getInjectableContext().removeInjectablePlaceholder(getPlaceholderInjections());
+        return formatted;
+    }
+
     @NotNull
     default String getString(@NotNull String path) {
         return getStringOrDefault(path, "");
@@ -150,19 +177,40 @@ public interface Config {
     @Nullable
     String getStringOrNull(@NotNull String path);
 
-
-    @NotNull
-    default List<String> getFormattedStringList(@NotNull String path) {
-        return StringUtils.format(
-                Objects.requireNonNullElse(getStringListOrNull(path), new ArrayList<>())
-        );
-    }
     @NotNull
     default List<String> getStringList(@NotNull String path) {
         return Objects.requireNonNullElse(getStringListOrNull(path), new ArrayList<>());
     }
     @Nullable
     List<String> getStringListOrNull(@NotNull String path);
+    @NotNull
+    default List<String> getFormattedStringList(@NotNull String path) {
+        return Objects.requireNonNullElse(getFormattedStringListOrNull(path,null), new ArrayList<>());
+    }
+    @NotNull
+    default List<String> getFormattedStringList(@NotNull String path,
+                                                @Nullable PlaceholderContext context) {
+        return Objects.requireNonNullElse(getFormattedStringListOrNull(path,context), new ArrayList<>());
+    }
+    @Nullable
+    default List<String> getFormattedStringListOrNull(@NotNull String path) {
+        return getFormattedStringListOrNull(path,null);
+    }
+    @Nullable
+    default List<String> getFormattedStringListOrNull(@NotNull String path,
+                                                      @Nullable PlaceholderContext context){
+        List<String> list = getStringListOrNull(path);
+        if(list == null) return null;
+        if(context == null){
+            return StringUtils.formatWithPlaceholders(list,
+                    new PlaceholderContext(null,null, this, new ArrayList<>())
+            );
+        }
+        return StringUtils.formatWithPlaceholders(
+                list,
+                context.withInjectableContext(this)
+        );
+    }
 
 
 
@@ -214,6 +262,11 @@ public interface Config {
     @Nullable
     List<? extends Config> getSubsectionListOrNull(@NotNull String path);
 
+
+    default double getEvaluated(@NotNull String path){
+        return getEvaluated(path,PlaceholderContext.EMPTY);
+    }
+    double getEvaluated(@NotNull String path, @NotNull PlaceholderContext context);
 
     @NotNull
     ConfigType getType();

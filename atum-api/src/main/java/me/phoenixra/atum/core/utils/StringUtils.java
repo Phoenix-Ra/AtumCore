@@ -1,5 +1,8 @@
 package me.phoenixra.atum.core.utils;
 
+import me.phoenixra.atum.core.placeholders.PlaceholderManager;
+import me.phoenixra.atum.core.placeholders.context.PlaceholderContext;
+import me.phoenixra.atum.core.tuples.PairRecord;
 import net.md_5.bungee.api.ChatColor;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Color;
@@ -7,9 +10,11 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 public class StringUtils {
     private static final List<Pattern> HEX_COLOR_PATTERNS = Arrays.asList(
@@ -29,10 +34,6 @@ public class StringUtils {
         }
     }
 
-    //to prevent java reflections usage
-    private StringUtils() {
-        throw new UnsupportedOperationException("This is an utility class and cannot be instantiated");
-    }
 
     @NotNull
     public static String format(@NotNull String text) {
@@ -50,6 +51,12 @@ public class StringUtils {
     }
 
     @NotNull
+    public static String formatWithPlaceholders(@NotNull String text,
+                                                @NotNull PlaceholderContext context) {
+        return PlaceholderManager.translatePlaceholders(format(text),context);
+    }
+
+    @NotNull
     public static List<String> format(@NotNull List<String> list) {
         List<String> output= new ArrayList<>();
         for (String entry : list) {
@@ -57,6 +64,106 @@ public class StringUtils {
         }
         return output;
     }
+
+    @NotNull
+    public static List<String> formatWithPlaceholders(@NotNull List<String> list,
+                                                      @NotNull PlaceholderContext context) {
+        List<String> out = new ArrayList<>();
+        for(String s : list){
+            out.add(PlaceholderManager.translatePlaceholders(format(s),context));
+        }
+        return out;
+    }
+
+    /**
+     * Fast implementation of {@link String#replace(CharSequence, CharSequence)}
+     *
+     * @param input       The input string.
+     * @param placeholder The placeholder pair.
+     * @return The replaced string.
+     */
+    @NotNull
+    public static String replaceFast(@NotNull final String input,
+                                     @NotNull final List<PairRecord<String,String>> placeholder) {
+        String out = input;
+        for (PairRecord<String,String> pair : placeholder) {
+            out = replaceFast(out, pair.first(), pair.second());
+        }
+        return out;
+    }
+    /**
+     * Fast implementation of {@link String#replace(CharSequence, CharSequence)}
+     *
+     * @param input       The input string.
+     * @param target      The target string.
+     * @param replacement The replacement string.
+     * @return The replaced string.
+     */
+    @NotNull
+    public static String replaceFast(@NotNull final String input,
+                                     @NotNull final String target,
+                                     @NotNull final String replacement) {
+        int targetLength = target.length();
+
+        // Count the number of original occurrences
+        int count = 0;
+        for (
+                int index = input.indexOf(target);
+                index != -1;
+                index = input.indexOf(target, index + targetLength)
+        ) {
+            count++;
+        }
+
+        if (count == 0) {
+            return input;
+        }
+
+        int replacementLength = replacement.length();
+        int inputLength = input.length();
+
+        // Pre-calculate the final size of the StringBuilder
+        int newSize = inputLength + (replacementLength - targetLength) * count;
+        StringBuilder result = new StringBuilder(newSize);
+
+        int start = 0;
+        for (
+                int index = input.indexOf(target);
+                index != -1;
+                index = input.indexOf(target, start)
+        ) {
+            result.append(input, start, index);
+            result.append(replacement);
+            start = index + targetLength;
+        }
+
+        result.append(input, start, inputLength);
+        return result.toString();
+    }
+
+    /**
+     * Better implementation of {@link Object#toString()}.
+     *
+     * @param object The object to convert.
+     * @return The nice string.
+     */
+    public static String toNiceString(Object object) {
+        if (object == null) {
+            return "null";
+        }
+        if (object instanceof Integer) {
+            return ((Integer) object).toString();
+        } else if (object instanceof String) {
+            return (String) object;
+        } else if (object instanceof Double) {
+            return NumberUtils.format((Double) object);
+        } else if (object instanceof Collection<?> c) {
+            return c.stream().map(StringUtils::toNiceString).collect(Collectors.joining(", "));
+        } else {
+            return String.valueOf(object);
+        }
+    }
+
 
     public static Color colorFromString(String s) {
         return switch (s.toLowerCase()) {
@@ -117,5 +224,9 @@ public class StringUtils {
         }
 
         return builder.toString();
+    }
+
+    private StringUtils() {
+        throw new UnsupportedOperationException("This is an utility class and cannot be instantiated");
     }
 }

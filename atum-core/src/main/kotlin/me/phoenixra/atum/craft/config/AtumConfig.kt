@@ -1,24 +1,42 @@
 package me.phoenixra.atum.craft.config
 
+import me.phoenixra.atum.core.AtumAPI
 import me.phoenixra.atum.core.config.Config
 import me.phoenixra.atum.core.config.ConfigType
+import me.phoenixra.atum.core.placeholders.InjectablePlaceholder
+import me.phoenixra.atum.core.placeholders.context.PlaceholderContext
 import me.phoenixra.atum.craft.config.utils.constrainConfigTypes
 import me.phoenixra.atum.craft.config.utils.normalizeToConfig
 import me.phoenixra.atum.craft.config.utils.toString
 import org.bukkit.configuration.file.YamlConfiguration
 import java.util.concurrent.ConcurrentHashMap
-import java.util.function.Predicate
 
 
 open class AtumConfig(
      private val configType : ConfigType
  ) : Config {
-
+    var injections = mutableListOf<InjectablePlaceholder>()
     private val values = ConcurrentHashMap<String, Any?>()
 
     fun init(values: Map<String, Any?>) {
         this.values.clear()
         this.values.putAll(values.normalizeToConfig(this.configType))
+    }
+
+    override fun addInjectablePlaceholder(placeholders: MutableIterable<InjectablePlaceholder>) {
+        injections.addAll(placeholders);
+    }
+
+    override fun removeInjectablePlaceholder(placeholders: MutableIterable<InjectablePlaceholder>) {
+        injections.removeAll(placeholders);
+    }
+
+    override fun clearInjectedPlaceholders() {
+        injections.clear();
+    }
+
+    override fun getPlaceholderInjections(): MutableList<InjectablePlaceholder> {
+        return injections;
     }
 
     override fun toPlaintext(): String {
@@ -139,6 +157,13 @@ open class AtumConfig(
         }
 
         return asList as List<Config>
+    }
+
+    override fun getEvaluated(path: String, context: PlaceholderContext): Double {
+        val text = getStringOrNull(path) ?: return 0.0
+
+        val context1 = context.withInjectableContext(this)
+        return AtumAPI.getInstance().evaluate(text, context1)
     }
 
     override fun getType(): ConfigType {

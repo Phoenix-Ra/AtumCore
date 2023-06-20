@@ -9,6 +9,7 @@ import me.phoenixra.atum.core.config.LoadableConfig
 import me.phoenixra.atum.core.effects.interfaces.EffectsManager
 import me.phoenixra.atum.core.events.EventManager
 import me.phoenixra.atum.core.gui.GuiController
+import me.phoenixra.atum.core.placeholders.context.PlaceholderContext
 import me.phoenixra.atum.core.schedule.Scheduler
 import me.phoenixra.atum.core.scoreboard.Scoreboard
 import me.phoenixra.atum.core.scoreboard.ScoreboardManager
@@ -19,12 +20,14 @@ import me.phoenixra.atum.craft.effects.AtumEffectsManager
 import me.phoenixra.atum.craft.event.AtumEventManager
 import me.phoenixra.atum.craft.gui.AtumGuiController
 import me.phoenixra.atum.craft.logger.AtumLogger
+import me.phoenixra.atum.craft.misc.ExpressionEvaluator
 import me.phoenixra.atum.craft.scoreboard.AtumScoreboard
 import me.phoenixra.atum.craft.scoreboard.AtumScoreboardManager
 import me.phoenixra.atum.craft.shedule.AtumScheduler
 import java.io.File
 import java.util.logging.Logger
 
+private val expressionEvaluator = ExpressionEvaluator();
 class AtumAPICraft : AtumAPI {
     private val loadedPlugins = mutableMapOf<String, AtumPlugin>()
 
@@ -99,5 +102,9 @@ class AtumAPICraft : AtumAPI {
 
     override fun removePlugin(plugin: AtumPlugin) {
         loadedPlugins.remove(plugin.name.lowercase())
+    }
+
+    override fun evaluate(expression: String, context: PlaceholderContext): Double {
+        return expressionEvaluator.evaluate(expression, context)
     }
 }
