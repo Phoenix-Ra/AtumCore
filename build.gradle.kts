@@ -51,14 +51,8 @@ allprojects {
         // ProtocolLib
         maven("https://repo.dmulloy2.net/nexus/repository/public/")
 
-        // WorldGuard
-        maven("https://maven.enginehub.org/repo/")
-
-        // MythicMobs
-        maven("https://mvn.lumine.io/repository/maven-public/")
-
-        // LibsDisguises
-        maven("https://repo.md-5.net/content/groups/public/")
+        //Crunch
+        maven("https://redempt.dev")
 
         maven("https://repo.techscode.com/repository/maven-releases/")
     }
@@ -77,6 +71,15 @@ allprojects {
 
         annotationProcessor("org.projectlombok:lombok:1.18.26")
         annotationProcessor("org.jetbrains:annotations:24.0.1")
+
+        //crunch
+        implementation("com.github.Redempt:Crunch:1.1.3")
+
+        //caffeine
+        implementation("com.github.ben-manes.caffeine:caffeine:3.1.6")
+
+        //PAPI
+        compileOnly("me.clip:placeholderapi:2.11.2")
 
         // Test impl
         testImplementation("org.junit.jupiter:junit-jupiter-api:5.9.2")
