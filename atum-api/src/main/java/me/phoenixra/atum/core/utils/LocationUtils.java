@@ -1,15 +1,14 @@
 package me.phoenixra.atum.core.utils;
 
 import me.phoenixra.atum.core.config.Config;
-import me.phoenixra.atum.core.exceptions.AtumException;
+import me.phoenixra.atum.core.config.serialization.impl.LocationSerialization;
+import me.phoenixra.atum.core.exceptions.NotificationException;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.World;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class LocationUtils {
-    //to prevent java reflections usage
     private LocationUtils() {
         throw new UnsupportedOperationException("This is an utility class and cannot be instantiated");
     }
@@ -23,10 +22,10 @@ public class LocationUtils {
      *
      * @param preLoc The string to parse
      * @return the location
-     * @throws AtumException if failed to parse string to location
+     * @throws NotificationException if failed to parse string to location
      */
     @NotNull
-    public static Location getLocationFromString(@NotNull String preLoc) throws AtumException{
+    public static Location getLocationFromString(@NotNull String preLoc) throws NotificationException{
         try {
             String[] setups = preLoc.split(";");
             double posX = Double.parseDouble(setups[1]);
@@ -42,7 +41,8 @@ public class LocationUtils {
 
             return loc;
         }catch (Exception e){
-            throw new AtumException(e);
+            e.printStackTrace();
+            throw new NotificationException("&cFailed to parse string to location! String: "+preLoc);
         }
     }
     /**
@@ -53,37 +53,8 @@ public class LocationUtils {
      * @return the location
      */
     @Nullable
-    public static Location getLocationFromConfig(@NotNull Config locationSection) {
-        if(!locationSection.hasPath("world")){
-            return null;
-        }
-        if(!locationSection.hasPath("x")){
-            return null;
-        }
-        if(!locationSection.hasPath("y")){
-            return null;
-        }
-        if(!locationSection.hasPath("z")){
-            return null;
-        }
-        try {
-            String worldName = locationSection.getString("world");
-            World world = Bukkit.getWorld(worldName);
-            if(world==null){
-                throw new AtumException("Failed to get location from Configuration Section!" +
-                        " world '"+worldName+"' not found");
-            }
-            double posX = locationSection.getDouble("x");
-            double posY = locationSection.getDouble("y");
-            double posZ = locationSection.getDouble("z");
-            Location loc = new Location(world, posX, posY, posZ);
-            loc.setYaw((float) locationSection.getDouble("yaw"));
-            loc.setPitch((float) locationSection.getDouble("pitch"));
-
-            return loc;
-        }catch (Exception e){
-            return null;
-        }
+    public static Location getLocationFromConfig(@NotNull Config locationSection)  {
+        return LocationSerialization.deserializer().deserializeFromConfig(locationSection);
     }
     /**
      * Parse location to string
@@ -93,22 +64,19 @@ public class LocationUtils {
      * @param location The location
      * @param withCamera Ignores Yaw and Pitch values on false
      * @return the location
-     * @throws AtumException if world of the location is null
      */
     @NotNull
-    public static String parseLocationToString(@NotNull Location location, boolean withCamera) throws AtumException{
-        if(location.getWorld()==null) {
-            throw new AtumException("The world of the parsing location cannot be NULL");
-        }
+    public static String parseLocationToString(@NotNull Location location, boolean withCamera) {
+        boolean b = location.getWorld() == null;
         if (withCamera) {
-            return location.getWorld().getName()+";"
+            return (b ? "" : location.getWorld().getName()+";")
                     +location.getX()+";"
                     +location.getY()+";"
                     +location.getZ()+";"
                     +location.getYaw()+";"
                     +location.getPitch();
         }
-        return location.getWorld().getName()+";"
+        return (b ? "" : location.getWorld().getName()+";")
                 +location.getX()+";"
                 +location.getY()+";"
                 +location.getZ();
@@ -116,25 +84,14 @@ public class LocationUtils {
     /**
      * Set location in config section
      *
-     * @param config the config section
      * @param location The location
      * @param withCamera Ignores Yaw and Pitch values on false
-     * @throws AtumException if world of the location is null
+     * @return the config
      */
-    public static void setLocationInConfig(@NotNull Config config,
-                                            @NotNull Location location,
-                                            boolean withCamera) throws AtumException{
-        if(location.getWorld()==null) {
-            throw new AtumException("The world of the location cannot be NULL");
-        }
-        config.set("world",location.getWorld().getName());
-        config.set("x",location.getX());
-        config.set("y",location.getY());
-        config.set("z",location.getZ());
-        if(withCamera){
-            config.set("yaw",location.getYaw());
-            config.set("pitch",location.getPitch());
-        }
+    @NotNull
+    public static Config parseLocationToConfig(@NotNull Location location,
+                                               boolean withCamera) {
+        return LocationSerialization.serializer(withCamera).serializeToConfig(location);
     }
 
 }
