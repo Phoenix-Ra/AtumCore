@@ -4,7 +4,7 @@ import lombok.Getter
 import lombok.Setter
 import lombok.experimental.Accessors
 import me.phoenixra.atum.core.AtumPlugin
-import me.phoenixra.atum.core.exceptions.AtumException
+import me.phoenixra.atum.core.exceptions.NotificationException
 import me.phoenixra.atum.core.gui.GuiDrawer
 import me.phoenixra.atum.core.gui.api.GuiComponent
 import me.phoenixra.atum.core.gui.api.GuiFrame
@@ -21,10 +21,12 @@ import java.util.logging.Level
 class AtumGuiDrawer(
     private val plugin: AtumPlugin,
     private val guiController: AtumGuiController
-    ) : GuiDrawer {
+) : GuiDrawer {
     private val openingFrame = ConcurrentHashMap<UUID, GuiFrame>()
 
-    @Getter @Setter @Accessors(chain = true)
+    @Getter
+    @Setter
+    @Accessors(chain = true)
     private val debug = false
 
     override fun open(frame: GuiFrame, async: Boolean) {
@@ -34,95 +36,101 @@ class AtumGuiDrawer(
         openingFrame[uuid] = frame
         val task = Runnable {
             val viewer = frame.viewer
-            try {
-                AtumDebugger(
-                    plugin,
-                    "OpenFrame",
-                    "&eFrameTitle:&6 ${frame.title}\n&eViewer:&6 ${frame.viewer.name}"
-                ) {
-                    val inventory: Inventory = prepareInventory(frame)
-                    if (frame != openingFrame[uuid]) return@AtumDebugger
-                    Bukkit.getScheduler().runTask(plugin, Runnable {
-                        val event = GuiFrameOpenEvent(viewer, frame)
-                        Bukkit.getPluginManager().callEvent(event)
-                        if (!event.isCancelled) {
-                            viewer.openInventory(inventory)
-                            guiController.registerFrame(frame)
-                        }
-                    })
-                    openingFrame.remove(uuid)
-                }.start()
-
-            } catch (ex: AtumException) {
-                ex.printStackTrace()
-                if (frame !is WarningFrame) {
-                    open(WarningFrame(this, null, viewer, ex.messageToPlayer),async)
-                } else viewer.closeInventory()
-            } catch (e: Exception) {
-                e.printStackTrace()
-                if (frame !is WarningFrame) {
-                    open(
-                        WarningFrame(
-                            this,
-                            null,
-                            viewer,
-                            "&8&oUnhandled error,\n&8&o please contact with server administration"
-                        ),
-                        async
-                    )
-                } else viewer.closeInventory()
+            AtumDebugger(
+                plugin,
+                "OpenFrame",
+                "&eFrameTitle:&6 ${frame.title}\n&eViewer:&6 ${frame.viewer.name}"
+            ).onError {
+                if (it is NotificationException) {
+                    it.printStackTrace()
+                    if (frame !is WarningFrame) {
+                        open(
+                            WarningFrame(
+                                this,
+                                null,
+                                viewer,
+                                it.getLangMessage(plugin)
+                            ),
+                            async
+                        )
+                    } else viewer.closeInventory()
+                } else {
+                    it.printStackTrace()
+                    if (frame !is WarningFrame) {
+                        open(
+                            WarningFrame(
+                                this,
+                                null,
+                                viewer,
+                                "&8&oUnhandled error,\n&8&o please contact with server administration"
+                            ),
+                            async
+                        )
+                    } else viewer.closeInventory()
+                }
+            }.start {
+                val inventory: Inventory = prepareInventory(frame)
+                if (frame != openingFrame[uuid]) return@start
+                Bukkit.getScheduler().runTask(plugin, Runnable {
+                    val event = GuiFrameOpenEvent(viewer, frame)
+                    Bukkit.getPluginManager().callEvent(event)
+                    if (!event.isCancelled) {
+                        viewer.openInventory(inventory)
+                        guiController.registerFrame(frame)
+                    }
+                })
+                openingFrame.remove(uuid)
             }
         }
-        if(async){
+        if (async) {
             Bukkit.getScheduler().runTaskAsynchronously(plugin, task)
-        }else {
-            Bukkit.getScheduler().runTask(plugin,task)
+        } else {
+            Bukkit.getScheduler().runTask(plugin, task)
         }
     }
 
     override fun update(frame: GuiFrame, async: Boolean) {
         val task = Runnable {
             val viewer = frame.viewer
+            AtumDebugger(
+                plugin,
+                "UpdateFrame",
+                "&eFrameTitle:&6 ${frame.title}\n&eViewer:&6 ${frame.viewer.name}"
+            ).onError {
+                if (it is NotificationException) {
+                    it.printStackTrace()
+                    if (frame !is WarningFrame) {
+                        open(WarningFrame(this, null, viewer, it.getLangMessage(plugin)), async)
+                    } else viewer.closeInventory()
+                } else {
+                    it.printStackTrace()
+                    if (frame !is WarningFrame) {
+                        open(
+                            WarningFrame(
+                                this,
+                                null,
+                                viewer,
+                                "&8&oUnhandled error,\n&8&o please contact with server administration"
+                            ),
+                            async
+                        )
+                    } else viewer.closeInventory()
+                }
 
-            try {
-                AtumDebugger(
-                    plugin,
-                    "UpdateFrame",
-                    "&eFrameTitle:&6 ${frame.title}\n&eViewer:&6 ${frame.viewer.name}"
-                ) {
-                    setComponents(viewer.openInventory.topInventory, frame)
-                }.start()
-
-            } catch (ex: AtumException) {
-                ex.printStackTrace()
-                if (frame !is WarningFrame) {
-                    open(WarningFrame(this, null, viewer, ex.messageToPlayer),async)
-                } else viewer.closeInventory()
-
-            } catch (e: java.lang.Exception) {
-                e.printStackTrace()
-                if (frame !is WarningFrame) {
-                    open(
-                        WarningFrame(
-                            this,
-                            null,
-                            viewer,
-                            "&8&oUnhandled error,\n&8&o please contact with server administration"
-                        ),
-                        async
-                    )
-                } else viewer.closeInventory()
+            }.start {
+                setComponents(viewer.openInventory.topInventory, frame)
             }
+
         }
-        if(async){
+        if (async) {
             Bukkit.getScheduler().runTaskAsynchronously(plugin, task)
-        }else {
-            Bukkit.getScheduler().runTask(plugin,task)
+        } else {
+            Bukkit.getScheduler().runTask(plugin, task)
         }
     }
 
 
-    @Throws(AtumException::class)
+    @Throws(NotificationException::class)
     private fun prepareInventory(frame: GuiFrame): Inventory {
         val inventory = Bukkit.createInventory(frame.viewer, frame.size, frame.title)
         val start = System.currentTimeMillis()
@@ -130,16 +138,16 @@ class AtumGuiDrawer(
         if (debug) {
             plugin.logger.log(
                 Level.INFO,
-                    "It took ${System.currentTimeMillis() - start} " +
-                            "millisecond(s) to load the frame" +
-                            " ${frame.title} for ${frame.viewer.name}"
+                "It took ${System.currentTimeMillis() - start} " +
+                        "millisecond(s) to load the frame" +
+                        " ${frame.title} for ${frame.viewer.name}"
 
             )
         }
         return inventory
     }
 
-    @Throws(AtumException::class)
+    @Throws(NotificationException::class)
     private fun setComponents(inventory: Inventory, frame: GuiFrame) {
         frame.clear()
         frame.createComponents()
@@ -150,7 +158,7 @@ class AtumGuiDrawer(
             return
         }
         for (component in frame.components) {
-            for(slot in component.slots){
+            for (slot in component.slots) {
                 if (component.inventoryType == InventoryType.PLAYER) {
                     if (slot >= frame.viewer.inventory.size) continue
                     checkLorePermission(frame, component)
