@@ -10,7 +10,6 @@ class AtumCoreCommand(
 
     init {
         addSubcommand(PluginSubcommand(plugin,this))
-        addSubcommand(ReloadSubcommand(plugin,this))
         addSubcommand(EffectSubcommand(plugin,this))
     }
 
@@ -27,6 +26,6 @@ class AtumCoreCommand(
     }
 
     override fun onCommandExecute(sender: CommandSender, args: MutableList<String>) {
-       subcommands["help"]?.handleCommand(sender, args.toTypedArray())
+       executeHelp(sender,args)
     }
 }
