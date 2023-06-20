@@ -4,7 +4,7 @@ import me.phoenixra.atum.core.placeholders.PlaceholderManager;
 import me.phoenixra.atum.core.placeholders.context.PlaceholderContext;
 import me.phoenixra.atum.core.tuples.PairRecord;
 import net.md_5.bungee.api.ChatColor;
-import org.apache.commons.lang.Validate;
+import org.apache.commons.lang3.Validate;
 import org.bukkit.Color;
 import org.jetbrains.annotations.NotNull;
 

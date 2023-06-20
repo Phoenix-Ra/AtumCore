@@ -33,14 +33,13 @@ allprojects {
         mavenCentral()
         mavenLocal()
 
+        //Paper
+        maven ("https://repo.papermc.io/repository/maven-public/")
         // GitHub
         maven("https://jitpack.io")
 
         // mcMMO, BentoBox
         maven("https://repo.codemc.io/repository/maven-public/")
-
-        // Spigot API, Bungee API
-        maven("https://hub.spigotmc.org/nexus/content/repositories/snapshots/")
 
         //Minecraft repo
         maven("https://libraries.minecraft.net/")
@@ -63,7 +62,7 @@ allprojects {
         //compileOnly("org.jetbrains.kotlin:kotlin-stdlib:1.7.10")
 
         //Paper
-        compileOnly("io.papermc.paper:paper-api:1.17.1-R0.1-SNAPSHOT")
+        compileOnly("io.papermc.paper:paper-api:1.20.1-R0.1-SNAPSHOT")
         
         implementation("org.reflections:reflections:0.10.2")
 
@@ -122,6 +121,7 @@ allprojects {
         }
 
         java {
+            toolchain.languageVersion.set(JavaLanguageVersion.of(17))
             sourceCompatibility = JavaVersion.VERSION_17
             targetCompatibility = JavaVersion.VERSION_17
             withSourcesJar()
