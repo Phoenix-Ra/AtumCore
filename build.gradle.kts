@@ -62,6 +62,8 @@ allprojects {
         //To not to shade the kotlin
         //compileOnly("org.jetbrains.kotlin:kotlin-stdlib:1.7.10")
 
+        //Paper
+        compileOnly("io.papermc.paper:paper-api:1.17.1-R0.1-SNAPSHOT")
         
         implementation("org.reflections:reflections:0.10.2")
 
