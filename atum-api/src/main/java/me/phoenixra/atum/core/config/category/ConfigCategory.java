@@ -50,12 +50,12 @@ public abstract class ConfigCategory {
         for (PairRecord<String, File> entry : FileUtils.loadFiles(dir, supportSubFolders)) {
             Config conf = AtumAPI.getInstance().createLoadableConfig(
                     getPlugin(),
-                    entry.second().getName().split("\\.")[0],
+                    entry.getSecond().getName().split("\\.")[0],
                     directory,
                     ConfigType.YAML,
                     false
             );
-            acceptConfig(entry.first(), conf);
+            acceptConfig(entry.getFirst(), conf);
         }
         afterReload();
     }
