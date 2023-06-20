@@ -70,8 +70,8 @@ public class DynamicCircle extends BaseEffect {
         double step=Math.PI*2/particles;
         Vector vector=new Vector();
         for (int i = 0; i < particles; i++) {
-            vector.setX(radius*Math.sin(step*i));
-            vector.setZ(radius*Math.cos(step*i));
+            vector.setX(radius*MathUtils.fastSin(step*i));
+            vector.setZ(radius*MathUtils.fastCos(step*i));
             //set to 0, to make rotation weird:D
             vector.setY(1);
             if(noise) {

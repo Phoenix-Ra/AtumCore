@@ -3,7 +3,7 @@ package me.phoenixra.atum.core.effects.types;
 import me.phoenixra.atum.core.effects.BaseEffect;
 import me.phoenixra.atum.core.effects.interfaces.EffectLocation;
 import me.phoenixra.atum.core.effects.interfaces.EffectsManager;
-import me.phoenixra.atum.core.utils.effects.MathUtils;
+import me.phoenixra.atum.core.utils.MathUtils;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.util.Vector;
@@ -78,8 +78,8 @@ public class SuperShape2D extends BaseEffect {
             for(int brush = 0; brush<brushesAmount;brush++){
                 for (int i = 0; i < drawStepsPerTick&&particles>currentDrawStep; i++) {
                     double formula = superShape(step * (currentDrawStep+brushStep*brush)) * radius;
-                    vector.setX(formula * Math.sin(step * (currentDrawStep+brushStep*brush)));
-                    vector.setZ(formula * Math.cos(step * (currentDrawStep+brushStep*brush)));
+                    vector.setX(formula * MathUtils.fastSin(step * (currentDrawStep+brushStep*brush)));
+                    vector.setZ(formula * MathUtils.fastCos(step * (currentDrawStep+brushStep*brush)));
                     vector.setY(1);
                     if (rotation != null) {
                         vector.rotateAroundX(rotation.getX() * MathUtils.degreesToRadians);
@@ -97,8 +97,8 @@ public class SuperShape2D extends BaseEffect {
         }else {
             for (int i = 0; i < particles; i++) {
                 double formula = superShape(step * i) * radius;
-                vector.setX(formula * Math.sin(step * i));
-                vector.setZ(formula * Math.cos(step * i));
+                vector.setX(formula * MathUtils.fastSin(step * i));
+                vector.setZ(formula * MathUtils.fastCos(step * i));
                 vector.setY(1);
                 if (rotation != null) {
                     vector.rotateAroundX(rotation.getX() * MathUtils.degreesToRadians);
@@ -122,11 +122,11 @@ public class SuperShape2D extends BaseEffect {
     }
 
     private double superShape(double theta){
-        double part1 = (1 / scaleA) * Math.cos((theta * amountOfAngles) / 4);
+        double part1 = (1 / scaleA) * MathUtils.fastCos((theta * amountOfAngles) / 4);
         part1 = Math.abs(part1);
         part1 = Math.pow(part1, n2);
 
-        double part2 = (1 / scaleB) * Math.sin((theta * amountOfAngles) / 4);
+        double part2 = (1 / scaleB) * MathUtils.fastSin((theta * amountOfAngles) / 4);
         part2 = Math.abs(part2);
         part2 = Math.pow(part2, n3);
 

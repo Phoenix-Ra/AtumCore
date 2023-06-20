@@ -83,9 +83,9 @@ public class Helix extends BaseEffect {
         double radius;
         int i_step=current_draw_step*particle_draw_per_tick;
         for (int i = 0; i < particle_draw_per_tick; i++) {
-            radius=this.radius*Math.sin(Math.PI*i_step/particles+radiusFunctionIncrementer);
-            v.setX(radius*Math.sin(step*i_step));
-            v.setZ(radius*Math.cos(step*i_step));
+            radius=this.radius*MathUtils.fastSin(Math.PI*i_step/particles+radiusFunctionIncrementer);
+            v.setX(radius*MathUtils.fastSin(step*i_step));
+            v.setZ(radius*MathUtils.fastCos(step*i_step));
             v.setY(i_step*stepY);
             if(rotation!=null){
                 v.rotateAroundX(rotation.getX() *  MathUtils.degreesToRadians);
@@ -95,8 +95,8 @@ public class Helix extends BaseEffect {
             displayParticle(getParticleType().getValue(), start.add(v));
             start.subtract(v);
 
-            v.setX(radius*Math.sin(step*i_step-Math.PI));
-            v.setZ(radius*Math.cos(step*i_step-Math.PI));
+            v.setX(radius*MathUtils.fastSin(step*i_step-Math.PI));
+            v.setZ(radius*MathUtils.fastCos(step*i_step-Math.PI));
             v.setY(i_step*stepY);
             if(rotation!=null){
                 v.rotateAroundX(rotation.getX() *  MathUtils.degreesToRadians);

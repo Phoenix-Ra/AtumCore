@@ -4,6 +4,7 @@ import me.phoenixra.atum.core.effects.BaseEffect;
 import me.phoenixra.atum.core.effects.interfaces.EffectLocation;
 import me.phoenixra.atum.core.effects.interfaces.EffectsManager;
 import me.phoenixra.atum.core.effects.libs.OpenSimplex2S;
+import me.phoenixra.atum.core.utils.MathUtils;
 import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.Particle;
@@ -91,15 +92,15 @@ public class EntityTrail extends BaseEffect {
 
         double step=Math.PI*2*particleRotatingSpeed*ticksPassed;
 
-        v.setX(radius*Math.sin(step));
-        v.setZ(radius*Math.cos(step));
+        v.setX(radius * MathUtils.fastSin(step));
+        v.setZ(radius * MathUtils.fastCos(step));
         //effect angle
         v.add(velocity);
         displayParticle(particleRotating,start.add(v),particleRotatingColor,1);
         start.subtract(v);
 
-        v.setX(velocity.getX()+radius*Math.sin(step-Math.PI));
-        v.setZ(velocity.getZ()+radius*Math.cos(step-Math.PI));
+        v.setX(velocity.getX()+radius * MathUtils.fastSin(step-Math.PI));
+        v.setZ(velocity.getZ()+radius * MathUtils.fastCos(step-Math.PI));
         displayParticle(particleRotating,start.add(v),particleRotatingColor,1);
         start.subtract(v);
 
