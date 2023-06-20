@@ -1,8 +1,9 @@
-package me.phoenixra.atum.core.utils;
+package me.phoenixra.atum.core.utils.item;
 
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
 import me.phoenixra.atum.core.tuples.Pair;
+import me.phoenixra.atum.core.utils.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.Material;
