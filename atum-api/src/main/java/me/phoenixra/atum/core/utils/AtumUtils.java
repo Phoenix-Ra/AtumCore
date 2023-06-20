@@ -11,10 +11,6 @@ import java.util.List;
 
 public class AtumUtils {
 
-    //to prevent java reflections usage
-    private AtumUtils() {
-        throw new UnsupportedOperationException("This is an utility class and cannot be instantiated");
-    }
 
     public static List<Entity> getNearbyEntities(Location location, EntityType entityType, int radius) {
         ArrayList<Entity> arrayList = new ArrayList<>();
@@ -70,5 +66,9 @@ public class AtumUtils {
 
     public static String getNMSVersion() {
         return Bukkit.getServer().getClass().getPackage().getName().split("\\.")[3];
+    }
+
+    private AtumUtils() {
+        throw new UnsupportedOperationException("This is an utility class and cannot be instantiated");
     }
 }

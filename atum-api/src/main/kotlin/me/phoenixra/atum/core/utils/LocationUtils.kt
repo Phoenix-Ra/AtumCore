@@ -10,9 +10,6 @@ fun Location.asString(withCamera: Boolean): String{
     return LocationUtils.parseLocationToString(this, withCamera)
 }
 
-fun Location.setInConfig(config: Config, withCamera: Boolean){
-    return LocationUtils.setLocationInConfig(config,this,withCamera)
-}
 
 fun Config.getLocation(path: String): Location?{
     val config = this.getSubsection(path) ?: return null

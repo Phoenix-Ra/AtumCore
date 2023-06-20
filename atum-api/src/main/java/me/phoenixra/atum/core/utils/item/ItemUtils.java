@@ -1,5 +1,7 @@
-package me.phoenixra.atum.core.utils;
+package me.phoenixra.atum.core.utils.item;
 
+import me.phoenixra.atum.core.config.Config;
+import me.phoenixra.atum.core.config.serialization.impl.ItemSerialization;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.io.BukkitObjectInputStream;
 import org.bukkit.util.io.BukkitObjectOutputStream;
@@ -15,6 +17,26 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 public class ItemUtils {
+
+    /**
+     * Deserializes the item from config
+     *
+     * @param config The config section
+     * @return The serialized item
+     */
+    public static ItemStack getFromConfig(Config config) {
+        return ItemSerialization.deserializer().deserializeFromConfig(config);
+    }
+
+    /**
+     * Serializes the item to a config
+     *
+     * @param item The item to serialize
+     * @return The config section
+     */
+    public static Config parseToConfig(ItemStack item) {
+        return ItemSerialization.serializer().serializeToConfig(item);
+    }
 
     /**
      * Serializes the item to a base64
@@ -117,6 +139,10 @@ public class ItemUtils {
             e.printStackTrace();
             return null;
         }
+    }
+
+    private ItemUtils() {
+        throw new UnsupportedOperationException("This class cannot be instantiated");
     }
 
 }

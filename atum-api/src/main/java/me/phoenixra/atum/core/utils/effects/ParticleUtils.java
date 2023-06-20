@@ -134,5 +134,7 @@ public class ParticleUtils {
 
 
 
-
+    private ParticleUtils() {
+        throw new UnsupportedOperationException("This is an utility class and cannot be instantiated");
+    }
 }

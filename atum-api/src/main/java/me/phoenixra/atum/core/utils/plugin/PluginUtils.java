@@ -1,7 +1,9 @@
-package me.phoenixra.atum.core.utils;
+package me.phoenixra.atum.core.utils.plugin;
 
 import me.phoenixra.atum.core.AtumPlugin;
 import me.phoenixra.atum.core.exceptions.NotificationException;
+import me.phoenixra.atum.core.utils.AtumUtils;
+import me.phoenixra.atum.core.utils.ClassUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;

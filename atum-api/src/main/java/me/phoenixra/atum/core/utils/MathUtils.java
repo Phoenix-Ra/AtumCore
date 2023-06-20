@@ -162,4 +162,8 @@ public class MathUtils {
         vector.setZ(vector.getZ()*newMagnitude/currentMagnitude);
         return vector;
     }
+
+    private MathUtils() {
+        throw new UnsupportedOperationException("This is an utility class and cannot be instantiated");
+    }
 }
