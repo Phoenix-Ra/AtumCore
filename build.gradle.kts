@@ -10,7 +10,7 @@ buildscript {
 
 plugins {
     id("java-library")
-    id("com.github.johnrengelman.shadow") version "7.1.2"
+    id("com.github.johnrengelman.shadow") version "8.1.1"
     id("maven-publish")
     id("java")
     kotlin("jvm") version "1.7.10"
@@ -18,8 +18,8 @@ plugins {
 
 dependencies {
     implementation(project("atum-api"))
-    implementation(project("atum-craft"))
     implementation(project("atum-core"))
+    implementation(project("atum-plugin"))
 }
 
 allprojects {
@@ -71,16 +71,16 @@ allprojects {
         
         implementation("org.reflections:reflections:0.10.2")
 
-        compileOnly("org.jetbrains:annotations:23.0.0")
-        compileOnly("org.projectlombok:lombok:1.18.24")
+        compileOnly("org.jetbrains:annotations:24.0.1")
+        compileOnly("org.projectlombok:lombok:1.18.26")
         compileOnly("com.google.guava:guava:31.1-jre")
 
-        annotationProcessor("org.projectlombok:lombok:1.18.24")
-        annotationProcessor("org.jetbrains:annotations:23.0.0")
+        annotationProcessor("org.projectlombok:lombok:1.18.26")
+        annotationProcessor("org.jetbrains:annotations:24.0.1")
 
         // Test impl
-        testImplementation("org.junit.jupiter:junit-jupiter-api:5.8.2")
-        testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.8.2")
+        testImplementation("org.junit.jupiter:junit-jupiter-api:5.9.2")
+        testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.9.2")
     }
 
     tasks.withType<JavaCompile> {
