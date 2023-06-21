@@ -12,6 +12,7 @@ public interface ConfigSerializer<T> {
 
     /**
      * Save an object to a config.
+     * <p>Use AtumAPI#getInstance#createConfig</p>
      *
      * @param obj The object.
      * @return The config.
