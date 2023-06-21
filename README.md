@@ -11,7 +11,7 @@ repositories {
      maven { url 'https://jitpack.io' }
 }
 dependencies { 
-    compileOnly 'com.github.Phoenix-Ra:AtumCore:{version}'
+    compileOnly 'com.github.Phoenix-Ra:AtumCore:v{version}'
 }
 ```
 
@@ -27,6 +27,6 @@ Maven:
 	<dependency>
 	    <groupId>com.github.Phoenix-Ra</groupId>
 	    <artifactId>AtumCore</artifactId>
-	    <version>version</version>
+	    <version>v{version}</version>
 	</dependency>
 ```
