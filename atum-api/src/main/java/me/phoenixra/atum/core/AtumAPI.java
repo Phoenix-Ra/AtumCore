@@ -109,7 +109,8 @@ public interface AtumAPI {
                                      @NotNull File file);
 
     /**
-     * loads an existing config from plugin folder
+     * loads an existing config from the plugin folder
+     * and adds it to a configManager of a plugin
      * <p></p>
      * if specified config doesn't exists
      * creates a new config with content

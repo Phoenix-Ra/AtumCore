@@ -57,22 +57,6 @@ public interface Config extends InjectablePlaceholderList {
     Object get(@NotNull String path);
 
     /**
-     * Get deserialized object
-     * <p></p>
-     * Null if path wasn't found or deserializer returned null
-     *
-     * @param path         The path to config section
-     * @param deserializer the config serializer
-     */
-    @Nullable
-    default <T> T getDeserializedObject(@NotNull String path,
-                                            @NotNull ConfigDeserializer<T> deserializer){
-        Config subsection = getSubsection(path);
-        if(subsection == null) return null;
-        return deserializer.deserializeFromConfig(subsection);
-    }
-
-    /**
      * Set an object in config
      * <p></p>
      * Set null to remove the config section
@@ -84,22 +68,6 @@ public interface Config extends InjectablePlaceholderList {
      */
     void set(@NotNull String path,
              @Nullable Object obj);
-
-    /**
-     * Set serialized object
-     *
-     * @param path       The path.
-     * @param serializer the config serializer
-     * @param object     the object to serialize
-     */
-    default <T> void setSerializedObject(@NotNull String path,
-                                         @NotNull ConfigSerializer<T> serializer,
-                                         @NotNull T object){
-        set(path, serializer.serializeToConfig(object));
-    }
-
-
-
 
     default int getInt(@NotNull String path) {
         return Objects.requireNonNullElse(getIntOrNull(path), 0);

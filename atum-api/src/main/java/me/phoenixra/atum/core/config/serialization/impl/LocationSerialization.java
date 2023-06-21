@@ -11,32 +11,33 @@ import org.bukkit.Location;
 public class LocationSerialization {
 
     public static ConfigSerializer<Location> serializer(boolean withCamera){
-        return obj -> {
+        return location -> {
             Config config = AtumAPI.getInstance().createConfig(null, ConfigType.YAML);
-            if(obj.getWorld() != null) {
-                config.set("world", obj.getWorld().getName());
+
+            if(location.getWorld() != null) {
+                config.set("world", location.getWorld().getName());
             }
-            config.set("x", obj.getX());
-            config.set("y", obj.getY());
-            config.set("z", obj.getZ());
+            config.set("x", location.getX());
+            config.set("y", location.getY());
+            config.set("z", location.getZ());
             if(withCamera) {
-                config.set("yaw", obj.getYaw());
-                config.set("pitch", obj.getPitch());
+                config.set("yaw", location.getYaw());
+                config.set("pitch", location.getPitch());
             }
             return config;
         };
     }
     public static ConfigDeserializer<Location> deserializer(){
-        return obj -> {
-            String world = obj.getStringOrNull("world");
+        return conf -> {
+            String world = conf.getStringOrNull("world");
 
             return new Location(
                     world == null ? null : Bukkit.getServer().getWorld(world),
-                    obj.getDouble("x"),
-                    obj.getDouble("y"),
-                    obj.getDouble("z"),
-                    obj.getInt("yaw"),
-                    obj.getInt("pitch")
+                    conf.getDouble("x"),
+                    conf.getDouble("y"),
+                    conf.getDouble("z"),
+                    conf.getInt("yaw"),
+                    conf.getInt("pitch")
             );
         };
     }

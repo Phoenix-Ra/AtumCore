@@ -9,6 +9,8 @@ import org.bukkit.World;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.awt.*;
+
 public class LocationUtils {
 
 
@@ -66,17 +68,6 @@ public class LocationUtils {
         }
     }
     /**
-     * Get location from Config section
-     * Yaw and Pitch are optional
-     *
-     * @param locationSection config section with location parameters
-     * @return the location
-     */
-    @Nullable
-    public static Location getLocationFromConfig(@NotNull Config locationSection)  {
-        return LocationSerialization.deserializer().deserializeFromConfig(locationSection);
-    }
-    /**
      * Parse location to string
      * <p></p>
      * Pattern: world;X;Y;Z;Yaw;Pitch
@@ -100,6 +91,17 @@ public class LocationUtils {
                 +location.getX()+";"
                 +location.getY()+";"
                 +location.getZ();
+    }
+    /**
+     * Get location from Config section
+     * Yaw and Pitch are optional
+     *
+     * @param locationSection config section with location parameters
+     * @return the location
+     */
+    @NotNull
+    public static Location getLocationFromConfig(@NotNull Config locationSection)  {
+        return LocationSerialization.deserializer().deserializeFromConfig(locationSection);
     }
     /**
      * Set location in config section

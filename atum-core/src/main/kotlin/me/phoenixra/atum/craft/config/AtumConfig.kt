@@ -13,12 +13,16 @@ import java.util.concurrent.ConcurrentHashMap
 
 
 open class AtumConfig(
-     private val configType : ConfigType
+     private val configType : ConfigType,
+     values: Map<String, Any?>
  ) : Config {
-    var injections = mutableListOf<InjectablePlaceholder>()
+    private val injections = mutableListOf<InjectablePlaceholder>()
     private val values = ConcurrentHashMap<String, Any?>()
-
-    fun init(values: Map<String, Any?>) {
+    constructor(configType : ConfigType) : this(ConfigType.YAML, emptyMap())
+    init {
+        applyData(values)
+    }
+    protected fun applyData(values: Map<String, Any?>){
         this.values.clear()
         this.values.putAll(values.normalizeToConfig(this.configType))
     }
@@ -28,7 +32,7 @@ open class AtumConfig(
     }
 
     override fun removeInjectablePlaceholder(placeholders: MutableIterable<InjectablePlaceholder>) {
-        injections.removeAll(placeholders);
+        injections.removeAll(placeholders.toSet());
     }
 
     override fun clearInjectedPlaceholders() {
@@ -97,7 +101,7 @@ open class AtumConfig(
                 return
             }
 
-            var section = getSubsection(nearestPath) // Creates a section if null, therefore it can be set.
+            var section = getSubsectionOrNull(nearestPath) // Creates a section if null, therefore it can be set.
             if(section==null){
                 section = AtumConfigSection(type)
             }

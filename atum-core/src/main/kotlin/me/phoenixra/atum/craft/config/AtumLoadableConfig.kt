@@ -69,7 +69,7 @@ class AtumLoadableConfig(
     override fun reload() {
         val reader = InputStreamReader(FileInputStream(file), Charsets.UTF_8)
         val s = reader.readToString()
-        super.init(type.toMap(s))
+        super.applyData(type.toMap(s))
     }
 
     override fun save() {

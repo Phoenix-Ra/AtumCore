@@ -13,8 +13,8 @@ import me.phoenixra.atum.core.placeholders.context.PlaceholderContext
 import me.phoenixra.atum.core.schedule.Scheduler
 import me.phoenixra.atum.core.scoreboard.Scoreboard
 import me.phoenixra.atum.core.scoreboard.ScoreboardManager
-import me.phoenixra.atum.craft.config.AtumConfig
 import me.phoenixra.atum.craft.config.AtumConfigManager
+import me.phoenixra.atum.craft.config.AtumConfigSection
 import me.phoenixra.atum.craft.config.AtumLoadableConfig
 import me.phoenixra.atum.craft.effects.AtumEffectsManager
 import me.phoenixra.atum.craft.event.AtumEventManager
@@ -82,10 +82,7 @@ class AtumAPICraft : AtumAPI {
     }
 
     override fun createConfig(values: MutableMap<String, Any>?, type: ConfigType): Config {
-        val config =  AtumConfig(type)
-        if(values == null) return config
-        config.init(values)
-        return config
+        return AtumConfigSection(type,values ?: mutableMapOf())
     }
 
     override fun getPluginByName(name: String): AtumPlugin? {
