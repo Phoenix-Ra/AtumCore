@@ -4,5 +4,8 @@ version rootProject.version
 dependencies {
     compileOnly project(":atum-api")
 
+    //crunch
+    implementation 'com.github.Redempt:Crunch:1.1.3'
+
     compileOnly 'com.moandjiezana.toml:toml4j:0.7.2'
 }
