@@ -145,7 +145,7 @@ open class AtumConfig(
         return getList<Number>(path)?.map { it.toDouble() }
     }
 
-    override fun getSubsection(path: String): Config? {
+    override fun getSubsectionOrNull(path: String): Config? {
         return get(path) as? Config
     }
 

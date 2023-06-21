@@ -88,7 +88,7 @@ public class ConfigWrapper<T extends Config> implements Config {
     }
 
     @Override
-    public @Nullable Config getSubsection(@NotNull String path) {
+    public @NotNull Config getSubsectionOrNull(@NotNull String path) {
         return handle.getSubsection(path);
     }
 

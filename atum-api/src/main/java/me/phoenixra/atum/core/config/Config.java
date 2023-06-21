@@ -1,5 +1,6 @@
 package me.phoenixra.atum.core.config;
 
+import me.phoenixra.atum.core.AtumAPI;
 import me.phoenixra.atum.core.config.serialization.ConfigDeserializer;
 import me.phoenixra.atum.core.config.serialization.ConfigSerializer;
 import me.phoenixra.atum.core.placeholders.InjectablePlaceholderList;
@@ -240,8 +241,23 @@ public interface Config extends InjectablePlaceholderList {
      *
      * @param path  The path.
      */
+    @NotNull
+    default Config getSubsection(@NotNull String path){
+        return Objects.requireNonNullElse(
+                getSubsectionOrNull(path),
+                AtumAPI.getInstance().createConfig(null,getType())
+        );
+    }
+
+    /**
+     * get the AtumConfig subsection
+     * <p></p>
+     * Works the same way as FileConfiguration#getConfigurationSection
+     *
+     * @param path  The path.
+     */
     @Nullable
-    Config getSubsection(@NotNull String path);
+    Config getSubsectionOrNull(@NotNull String path);
 
     /**
      * get all subsections of the key
