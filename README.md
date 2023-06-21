@@ -11,7 +11,7 @@ repositories {
      maven { url 'https://jitpack.io' }
 }
 dependencies { 
-    implementation 'com.github.Phoenix-Ra:AtumCore:{version}'
+    compileOnly 'com.github.Phoenix-Ra:AtumCore:{version}'
 }
 ```
 
