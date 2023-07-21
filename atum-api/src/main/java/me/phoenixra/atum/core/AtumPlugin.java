@@ -221,19 +221,19 @@ public abstract class AtumPlugin extends JavaPlugin {
     protected void handleAfterLoad() {
     }
 
-    public void addTaskOnEnable(Runnable task){
+    public final void addTaskOnEnable(Runnable task){
         onEnableTasks.add(task);
     }
-    public void addTaskOnDisable(Runnable task){
+    public final void addTaskOnDisable(Runnable task){
         onDisableTasks.add(task);
     }
-    public void addTaskOnLoad(Runnable task){
+    public final void addTaskOnLoad(Runnable task){
         onLoadTasks.add(task);
     }
-    public void addTaskOnReload(Runnable task){
+    public final void addTaskOnReload(Runnable task){
         onReloadTasks.add(task);
     }
-    public void addTaskAfterLoad(Runnable task){
+    public final void addTaskAfterLoad(Runnable task){
         afterLoadTasks.add(task);
     }
 
