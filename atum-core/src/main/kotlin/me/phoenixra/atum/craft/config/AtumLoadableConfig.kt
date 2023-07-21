@@ -60,7 +60,7 @@ class AtumLoadableConfig(
                 headerWrite.append(s + "\n")
             }
             out.write(headerWrite.toString().toByteArray())
-            inputStream?.readAllBytes()?.let { out.write(it) }
+            inputStream?.readBytes()?.let { out.write(it) }
             out.close()
             inputStream?.close()
         }

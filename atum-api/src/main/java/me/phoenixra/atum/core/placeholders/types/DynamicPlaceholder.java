@@ -70,10 +70,10 @@ public class DynamicPlaceholder implements RegistrablePlaceholder {
             return true;
         }
 
-        if (!(o instanceof DynamicPlaceholder that)) {
+        if (!(o instanceof DynamicPlaceholder)) {
             return false;
         }
-
+        DynamicPlaceholder that = (DynamicPlaceholder) o;
         return Objects.equals(this.getPattern(), that.getPattern())
                 && Objects.equals(this.getPlugin(), that.getPlugin());
     }

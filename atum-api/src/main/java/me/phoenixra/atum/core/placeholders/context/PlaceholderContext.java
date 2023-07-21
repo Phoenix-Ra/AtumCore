@@ -4,6 +4,7 @@ package me.phoenixra.atum.core.placeholders.context;
 import me.phoenixra.atum.core.placeholders.AdditionalPlayer;
 import me.phoenixra.atum.core.placeholders.InjectablePlaceholder;
 import me.phoenixra.atum.core.placeholders.InjectablePlaceholderList;
+import me.phoenixra.atum.core.utils.ObjectUtils;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
@@ -70,7 +71,7 @@ public class PlaceholderContext {
                               @NotNull final Collection<AdditionalPlayer> additionalPlayers) {
         this.player = player;
         this.itemStack = itemStack;
-        this.injectableContext = Objects.requireNonNullElse(injectableContext, EMPTY_INJECTABLE);
+        this.injectableContext = ObjectUtils.requireNonNullElse(injectableContext, EMPTY_INJECTABLE);
         this.additionalPlayers = additionalPlayers;
     }
 
@@ -185,9 +186,10 @@ public class PlaceholderContext {
             return true;
         }
 
-        if (!(o instanceof PlaceholderContext that)) {
+        if (!(o instanceof PlaceholderContext)) {
             return false;
         }
+        PlaceholderContext that = (PlaceholderContext) o;
 
         return Objects.equals(
                 getPlayer(), that.getPlayer())

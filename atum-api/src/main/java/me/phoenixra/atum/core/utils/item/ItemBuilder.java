@@ -74,52 +74,7 @@ public final class ItemBuilder {
         return this;
     }
 
-    /**
-     * Set Custom Model Data
-     *
-     * @param modelData the model data
-     * @return This builder
-     */
-    @NotNull
-    public final ItemBuilder setCustomModelData(int modelData) {
-        ItemMeta itemMeta = getItem().getItemMeta();
-        itemMeta.setCustomModelData(modelData);
-        getItem().setItemMeta(itemMeta);
-        return this;
-    }
 
-    /**
-     * Add Attribute Modifier
-     *
-     * @param type the attribute type
-     * @param modifier the attribute modifier
-     * @return This builder
-     */
-    @NotNull
-    public final ItemBuilder addAttributeModifier(@NotNull Attribute type,
-                                                   @NotNull AttributeModifier modifier) {
-        ItemMeta itemMeta = getItem().getItemMeta();
-        itemMeta.addAttributeModifier(type,modifier);
-        getItem().setItemMeta(itemMeta);
-        return this;
-    }
-
-    /**
-     * Add Attribute Modifiers
-     *
-     * @param input attributes
-     * @return This builder
-     */
-    @SafeVarargs
-    @NotNull
-    public final ItemBuilder addAttributeModifiers(@NotNull Pair<Attribute, AttributeModifier> ... input) {
-        ItemMeta itemMeta = getItem().getItemMeta();
-        for(Pair<Attribute, AttributeModifier> entry : input){
-            itemMeta.addAttributeModifier(entry.getFirst(),entry.getSecond());
-        }
-        getItem().setItemMeta(itemMeta);
-        return this;
-    }
 
     /**
      * Set Custom Owner head
@@ -129,7 +84,7 @@ public final class ItemBuilder {
      */
     @NotNull
     public final ItemBuilder setOwner(@NotNull String value) {
-        getItem().setType(Objects.requireNonNull(Material.PLAYER_HEAD));
+        getItem().setType(Objects.requireNonNull(Material.SKULL_ITEM));
         SkullMeta skullMeta = (SkullMeta) getItem().getItemMeta();
         skullMeta.setOwner(value);
         getItem().setItemMeta(skullMeta);
@@ -144,7 +99,7 @@ public final class ItemBuilder {
      */
     @NotNull
     public final ItemBuilder setCustomOwner(@NotNull String value) {
-        getItem().setType(Objects.requireNonNull(Material.PLAYER_HEAD));
+        getItem().setType(Objects.requireNonNull(Material.SKULL_ITEM));
         SkullMeta skullMeta = (SkullMeta) getItem().getItemMeta();
         GameProfile gameProfile = new GameProfile(UUID.randomUUID(), null);
         gameProfile.getProperties().put("textures", new Property("textures", value));
@@ -172,6 +127,10 @@ public final class ItemBuilder {
         LeatherArmorMeta leatherArmorMeta = (LeatherArmorMeta) getItem().getItemMeta();
         leatherArmorMeta.setColor(color);
         getItem().setItemMeta(leatherArmorMeta);
+        return this;
+    }
+    public final ItemBuilder setDurability(int durability) {
+        getItem().setDurability((short) durability);
         return this;
     }
 

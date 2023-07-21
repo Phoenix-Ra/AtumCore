@@ -71,10 +71,9 @@ class AtumScoreboard(
             sb[player] = Bukkit.getScoreboardManager().newScoreboard
             players[player] = ArrayList()
             val objective = sb[player]!!.registerNewObjective(
-                id, "dummy", StringUtils.format(
-                    displayName[0]
-                )
+                id, "dummy"
             )
+            objective.displayName = StringUtils.format(displayName[0])
             objective.displaySlot = DisplaySlot.SIDEBAR
             for (i in scores.size downTo 1) players[player]!!.add(
                 StringUtils.formatWithPlaceholders(

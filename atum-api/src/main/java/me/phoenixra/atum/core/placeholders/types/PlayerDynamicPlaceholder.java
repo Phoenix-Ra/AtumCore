@@ -75,10 +75,10 @@ public class PlayerDynamicPlaceholder implements RegistrablePlaceholder {
             return true;
         }
 
-        if (!(o instanceof PlayerDynamicPlaceholder that)) {
+        if (!(o instanceof PlayerDynamicPlaceholder)) {
             return false;
         }
-
+        PlayerDynamicPlaceholder that = (PlayerDynamicPlaceholder) o;
         return Objects.equals(this.getPattern(), that.getPattern())
                 && Objects.equals(this.getPlugin(), that.getPlugin());
     }

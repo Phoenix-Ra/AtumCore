@@ -88,9 +88,9 @@ public class Helix extends BaseEffect {
             v.setZ(radius*MathUtils.fastCos(step*i_step));
             v.setY(i_step*stepY);
             if(rotation!=null){
-                v.rotateAroundX(rotation.getX() *  MathUtils.degreesToRadians);
-                v.rotateAroundY(rotation.getY() *  MathUtils.degreesToRadians);
-                v.rotateAroundZ(rotation.getZ() *  MathUtils.degreesToRadians);
+                MathUtils.rotateAroundX(v,rotation.getX() *  MathUtils.degreesToRadians);
+                MathUtils.rotateAroundY(v,rotation.getY() *  MathUtils.degreesToRadians);
+                MathUtils.rotateAroundZ(v,rotation.getZ() *  MathUtils.degreesToRadians);
             }
             displayParticle(getParticleType().getValue(), start.add(v));
             start.subtract(v);
@@ -99,9 +99,9 @@ public class Helix extends BaseEffect {
             v.setZ(radius*MathUtils.fastCos(step*i_step-Math.PI));
             v.setY(i_step*stepY);
             if(rotation!=null){
-                v.rotateAroundX(rotation.getX() *  MathUtils.degreesToRadians);
-                v.rotateAroundY(rotation.getY() *  MathUtils.degreesToRadians);
-                v.rotateAroundZ(rotation.getZ() *  MathUtils.degreesToRadians);
+                MathUtils.rotateAroundX(v,rotation.getX() *  MathUtils.degreesToRadians);
+                MathUtils.rotateAroundY(v,rotation.getY() *  MathUtils.degreesToRadians);
+                MathUtils.rotateAroundZ(v,rotation.getZ() *  MathUtils.degreesToRadians);
             }
             displayParticle(getParticleType().getValue(), start.add(v));
             start.subtract(v);

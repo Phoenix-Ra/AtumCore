@@ -29,7 +29,7 @@ public class WarningFrame extends GuiFrame {
 
 	@Override
 	public void createComponents() {
-		add(new BaseGuiComponent.Builder(new ItemBuilder(Material.BLACK_STAINED_GLASS_PANE).
+		add(new BaseGuiComponent.Builder(new ItemBuilder(Material.STAINED_GLASS_PANE).setDurability(15).
 				setDisplayName("")).withSlots(0,1,2,3,4,5,6,7,8).build());
 		BaseGuiComponent component = new BaseGuiComponent.Builder(new ItemBuilder().
 				setCustomOwner(SkullSkin.WARNING.getSkin()).setDisplayName("&eWarning!").

@@ -36,15 +36,14 @@ public enum ConfigType {
      */
     public static ConfigType fromFile(File file){
         switch (file.getName().split("\\.")[0]){
-            case "yml" -> {
+            case "yml":
                 return ConfigType.YAML;
-            }
-            case "json" -> {
+
+            case "json":
                 return ConfigType.JSON;
-            }
-            case "toml" -> {
+
+            case "toml":
                 return ConfigType.TOML;
-            }
         }
         return ConfigType.YAML;
     }

@@ -95,22 +95,22 @@ public class ImageEffect extends BaseEffect {
             for (int x = 0; x < image.getWidth(); x++) {
                 Vector v = new Vector((float) image.getWidth() / 2 - x, (float) image.getHeight() / 2 - y, 0).multiply(thickness.getValue());
                 if (rotation != null) {
-                    v.rotateAroundX(rotation.getX() * MathUtils.degreesToRadians);
-                    v.rotateAroundY(rotation.getY() * MathUtils.degreesToRadians);
-                    v.rotateAroundZ(rotation.getZ() * MathUtils.degreesToRadians);
+                    MathUtils.rotateAroundX(v,rotation.getX() * MathUtils.degreesToRadians);
+                    MathUtils.rotateAroundY(v,rotation.getY() * MathUtils.degreesToRadians);
+                    MathUtils.rotateAroundZ(v,rotation.getZ() * MathUtils.degreesToRadians);
                 }
                 if (orient) {
                     MathUtils.rotateVectorByYawPitch(v, location.getYaw(), location.getPitch());
                 }
 
                 if (angularVelocity.getX() != 0) {
-                    v.rotateAroundX(angularVelocity.getX() * rotationStep);
+                    MathUtils.rotateAroundX(v,angularVelocity.getX() * rotationStep);
                 }
                 if (angularVelocity.getY() != 0) {
-                    v.rotateAroundY(angularVelocity.getX() * rotationStep);
+                    MathUtils.rotateAroundY(v,angularVelocity.getX() * rotationStep);
                 }
                 if (angularVelocity.getZ() != 0) {
-                    v.rotateAroundZ(angularVelocity.getZ() * rotationStep);
+                    MathUtils.rotateAroundZ(v,angularVelocity.getZ() * rotationStep);
                 }
 
                 int pixel = image.getRGB(x, y);

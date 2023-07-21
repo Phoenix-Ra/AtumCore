@@ -5,9 +5,11 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 public class Registry<T extends Registrable> implements Iterable<T> {
     /**
@@ -86,7 +88,7 @@ public class Registry<T extends Registrable> implements Iterable<T> {
      * Clear the registry.
      */
     public void clear() {
-        for (T value : Set.copyOf(registry.values())) {
+        for (T value : registry.values()) {
             remove(value);
         }
     }
@@ -97,7 +99,7 @@ public class Registry<T extends Registrable> implements Iterable<T> {
      * @return All elements.
      */
     public Set<T> values() {
-        return Set.copyOf(registry.values());
+        return new HashSet<>(registry.values());
     }
 
     /**

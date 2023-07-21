@@ -3,6 +3,7 @@ package me.phoenixra.atum.core.placeholders.types.injectable;
 
 import me.phoenixra.atum.core.placeholders.InjectablePlaceholder;
 import me.phoenixra.atum.core.placeholders.context.PlaceholderContext;
+import me.phoenixra.atum.core.utils.ObjectUtils;
 import me.phoenixra.atum.core.utils.StringUtils;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
@@ -59,7 +60,7 @@ public class PlayerStaticPlaceholder implements InjectablePlaceholder {
         return StringUtils.replaceFast(
                 text,
                 this.identifier,
-                Objects.requireNonNullElse(
+                ObjectUtils.requireNonNullElse(
                         this.getValue(identifier, context),
                         ""
                 )
@@ -80,9 +81,10 @@ public class PlayerStaticPlaceholder implements InjectablePlaceholder {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof PlayerStaticPlaceholder that)) {
+        if (!(o instanceof PlayerStaticPlaceholder)) {
             return false;
         }
+        final PlayerStaticPlaceholder that = (PlayerStaticPlaceholder) o;
         return Objects.equals(this.getPattern(), that.getPattern());
     }
 

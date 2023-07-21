@@ -75,7 +75,8 @@ public abstract class GuiFrame {
 
     @Override
     public boolean equals(Object other) {
-        if (other instanceof GuiFrame otherFrame) {
+        if (other instanceof GuiFrame) {
+            GuiFrame otherFrame = (GuiFrame) other;
             return getSize() == otherFrame.getSize() && getTitle().equals(otherFrame.getTitle())
                     && getComponents().equals(otherFrame.getComponents());
         }

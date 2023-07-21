@@ -76,9 +76,10 @@ public class MergedInjectableContext implements InjectablePlaceholderList {
             return true;
         }
 
-        if (!(o instanceof MergedInjectableContext that)) {
+        if (!(o instanceof MergedInjectableContext)) {
             return false;
         }
+        MergedInjectableContext that = (MergedInjectableContext) o;
 
         return Objects.equals(baseContext, that.baseContext)
                 && Objects.equals(additionalContext, that.additionalContext)

@@ -62,19 +62,20 @@ allprojects {
         //compileOnly("org.jetbrains.kotlin:kotlin-stdlib:1.7.10")
 
         //Paper
-        compileOnly("io.papermc.paper:paper-api:1.20.1-R0.1-SNAPSHOT")
+        compileOnly("org.spigotmc:spigot-api:1.12.2-R0.1-SNAPSHOT")
         
         implementation("org.reflections:reflections:0.10.2")
 
+        compileOnly("com.google.guava:guava:31.1-jre")
+
         compileOnly("org.jetbrains:annotations:24.0.1")
         compileOnly("org.projectlombok:lombok:1.18.26")
-        compileOnly("com.google.guava:guava:31.1-jre")
 
         annotationProcessor("org.projectlombok:lombok:1.18.26")
         annotationProcessor("org.jetbrains:annotations:24.0.1")
 
         //caffeine
-        implementation("com.github.ben-manes.caffeine:caffeine:3.1.6")
+        implementation("com.github.ben-manes.caffeine:caffeine:2.9.3")
 
         //PAPI
         compileOnly("me.clip:placeholderapi:2.11.2")
@@ -99,7 +100,7 @@ allprojects {
     tasks {
         compileKotlin {
             kotlinOptions {
-                jvmTarget = "17"
+                jvmTarget = "1.8"
             }
         }
 
@@ -118,8 +119,8 @@ allprojects {
         }
 
         java {
-            sourceCompatibility = JavaVersion.VERSION_17
-            targetCompatibility = JavaVersion.VERSION_17
+            sourceCompatibility = JavaVersion.VERSION_1_8
+            targetCompatibility = JavaVersion.VERSION_1_8
             withSourcesJar()
         }
 

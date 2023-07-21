@@ -74,9 +74,10 @@ public class PlayerPlaceholder implements RegistrablePlaceholder {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof PlayerPlaceholder that)) {
+        if (!(o instanceof PlayerPlaceholder)) {
             return false;
         }
+        PlayerPlaceholder that = (PlayerPlaceholder) o;
         return Objects.equals(this.getPattern(), that.getPattern())
                 && Objects.equals(this.getPlugin(), that.getPlugin());
     }

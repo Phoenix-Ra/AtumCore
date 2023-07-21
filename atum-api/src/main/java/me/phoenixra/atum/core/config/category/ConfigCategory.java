@@ -9,8 +9,10 @@ import me.phoenixra.atum.core.utils.FileUtils;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 
 public abstract class ConfigCategory {
@@ -70,9 +72,9 @@ public abstract class ConfigCategory {
                     continue;
                 }
                 plugin.getLogger().info("File: " + path + " | " + file.getName());
-                var stream = plugin.getResource(path);
+                InputStream stream = plugin.getResource(path);
                 if (stream == null) continue;
-                Files.copy(stream, Path.of(file.toURI()), StandardCopyOption.REPLACE_EXISTING);
+                Files.copy(stream, Paths.get(file.toURI()), StandardCopyOption.REPLACE_EXISTING);
             } catch (Exception e) {
                 e.printStackTrace();
             }

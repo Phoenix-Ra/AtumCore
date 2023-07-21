@@ -6,7 +6,7 @@ import org.yaml.snakeyaml.nodes.Node
 import org.yaml.snakeyaml.representer.Represent
 import org.yaml.snakeyaml.representer.Representer
 
-class AtumRepresenter : Representer(DumperOptions()){
+class AtumRepresenter : Representer(){
     init {
         multiRepresenters[Config::class.java] = RepresentConfig(multiRepresenters[Map::class.java]!!)
     }

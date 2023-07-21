@@ -28,6 +28,6 @@ public enum SkullSkin {
     }
 
     public ItemStack getItem() {
-        return new ItemBuilder(Material.PLAYER_HEAD).setCustomOwner(this.skin).getItem();
+        return new ItemBuilder(Material.SKULL_ITEM).setCustomOwner(this.skin).getItem();
     }
 }

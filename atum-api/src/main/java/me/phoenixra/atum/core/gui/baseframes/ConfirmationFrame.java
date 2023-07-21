@@ -10,6 +10,7 @@ import lombok.Setter;
 import lombok.experimental.Accessors;
 import me.phoenixra.atum.core.utils.StringUtils;
 import org.bukkit.Bukkit;
+import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
@@ -37,12 +38,12 @@ public class ConfirmationFrame extends GuiFrame {
 
     @Override
     public void createComponents() {
-        GuiComponent confirm = new BaseGuiComponent.Builder(new ItemBuilder().setType(Material.LIME_WOOL)
+        GuiComponent confirm = new BaseGuiComponent.Builder(new ItemBuilder().setType(Material.WOOL).setLeatherColor(Color.LIME)
                 .setDisplayName(confirm_name)).withSlots(12).build();
         confirm.setListener(new GuiClickType(ClickType.LEFT), listener);
         add(confirm);
 
-        GuiComponent returnC = new BaseGuiComponent.Builder(new ItemBuilder().setType(Material.RED_WOOL)
+        GuiComponent returnC = new BaseGuiComponent.Builder(new ItemBuilder().setType(Material.WOOL).setLeatherColor(Color.RED)
                 .setDisplayName(cancel_name)).withSlots(14).build();
         returnC.setListener(new GuiClickType(ClickType.LEFT), () -> {
             if(getParent()==null) {

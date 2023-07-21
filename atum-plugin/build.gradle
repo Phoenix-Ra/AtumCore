@@ -4,6 +4,8 @@ version rootProject.version
 dependencies {
     compileOnly project(":atum-api")
     compileOnly project(":atum-core")
+
+    compileOnly('org.apache.httpcomponents:httpclient:4.5.14')
 }
 
 processResources {

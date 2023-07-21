@@ -82,9 +82,9 @@ public class SuperShape2D extends BaseEffect {
                     vector.setZ(formula * MathUtils.fastCos(step * (currentDrawStep+brushStep*brush)));
                     vector.setY(1);
                     if (rotation != null) {
-                        vector.rotateAroundX(rotation.getX() * MathUtils.degreesToRadians);
-                        vector.rotateAroundY(rotation.getY() * MathUtils.degreesToRadians);
-                        vector.rotateAroundZ(rotation.getZ() * MathUtils.degreesToRadians);
+                        MathUtils.rotateAroundX(vector,rotation.getX() * MathUtils.degreesToRadians);
+                        MathUtils.rotateAroundY(vector,rotation.getY() * MathUtils.degreesToRadians);
+                        MathUtils.rotateAroundZ(vector,rotation.getZ() * MathUtils.degreesToRadians);
                     }
                     displayParticle(getParticleType().getValue(), location.add(vector));
                     location.subtract(vector);
@@ -101,9 +101,9 @@ public class SuperShape2D extends BaseEffect {
                 vector.setZ(formula * MathUtils.fastCos(step * i));
                 vector.setY(1);
                 if (rotation != null) {
-                    vector.rotateAroundX(rotation.getX() * MathUtils.degreesToRadians);
-                    vector.rotateAroundY(rotation.getY() * MathUtils.degreesToRadians);
-                    vector.rotateAroundZ(rotation.getZ() * MathUtils.degreesToRadians);
+                    MathUtils.rotateAroundX(vector,rotation.getX() * MathUtils.degreesToRadians);
+                    MathUtils.rotateAroundY(vector,rotation.getY() * MathUtils.degreesToRadians);
+                    MathUtils.rotateAroundZ(vector,rotation.getZ() * MathUtils.degreesToRadians);
                 }
                 displayParticle(getParticleType().getValue(), location.add(vector));
                 location.subtract(vector);

@@ -67,9 +67,10 @@ public class PlayerlessPlaceholder implements RegistrablePlaceholder {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof PlayerlessPlaceholder that)) {
+        if (!(o instanceof PlayerlessPlaceholder)) {
             return false;
         }
+        final PlayerlessPlaceholder that = (PlayerlessPlaceholder) o;
         return Objects.equals(this.getPattern(), that.getPattern())
                 && Objects.equals(this.getPlugin(), that.getPlugin());
     }

@@ -221,6 +221,7 @@ public class PluginUtils {
             throw new NotificationException("&cFailed to unload the plugin", false);
         }
 
+
         pluginManager.disablePlugin(plugin);
 
         if (plugins != null) plugins.remove(plugin);
@@ -233,15 +234,13 @@ public class PluginUtils {
         if (commandMap != null) {
             for (Iterator<Map.Entry<String, Command>> it = commands.entrySet().iterator(); it.hasNext(); ) {
                 Map.Entry<String, Command> entry = it.next();
-                if (entry.getValue() instanceof PluginCommand c) {
+                if (entry.getValue() instanceof PluginCommand ) {
+                    PluginCommand c = (PluginCommand) entry.getValue();
                     if (c.getPlugin() == plugin) {
                         c.unregister(commandMap);
                         it.remove();
                     }
                 }
-            }
-            for (Player player : Bukkit.getOnlinePlayers()) {
-                player.updateCommands();
             }
         }
 

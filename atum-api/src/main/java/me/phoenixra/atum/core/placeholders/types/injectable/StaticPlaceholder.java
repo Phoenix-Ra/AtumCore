@@ -3,6 +3,7 @@ package me.phoenixra.atum.core.placeholders.types.injectable;
 
 import me.phoenixra.atum.core.placeholders.InjectablePlaceholder;
 import me.phoenixra.atum.core.placeholders.context.PlaceholderContext;
+import me.phoenixra.atum.core.utils.ObjectUtils;
 import me.phoenixra.atum.core.utils.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -45,7 +46,7 @@ public final class StaticPlaceholder implements InjectablePlaceholder {
         return StringUtils.replaceFast(
                 text,
                 this.identifier,
-                Objects.requireNonNullElse(this.getValue(this.identifier, context), "")
+                ObjectUtils.requireNonNullElse(this.getValue(this.identifier, context), "")
         );
     }
 
@@ -65,9 +66,10 @@ public final class StaticPlaceholder implements InjectablePlaceholder {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof StaticPlaceholder that)) {
+        if (!(o instanceof StaticPlaceholder)) {
             return false;
         }
+        final StaticPlaceholder that = (StaticPlaceholder) o;
         return Objects.equals(this.getPattern(), that.getPattern());
     }
 

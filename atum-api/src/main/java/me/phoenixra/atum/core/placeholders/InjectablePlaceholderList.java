@@ -1,5 +1,6 @@
 package me.phoenixra.atum.core.placeholders;
 
+import com.google.common.collect.Lists;
 import me.phoenixra.atum.core.placeholders.types.injectable.StaticPlaceholder;
 import org.jetbrains.annotations.NotNull;
 
@@ -12,7 +13,7 @@ public interface InjectablePlaceholderList {
      * @param placeholders The placeholders.
      */
     default void injectPlaceholders(@NotNull StaticPlaceholder... placeholders) {
-        this.addInjectablePlaceholder(List.of(placeholders));
+        this.addInjectablePlaceholder(Lists.newArrayList(placeholders));
     }
 
     /**
@@ -21,7 +22,7 @@ public interface InjectablePlaceholderList {
      * @param placeholders The placeholders.
      */
     default void injectPlaceholders(@NotNull InjectablePlaceholder... placeholders) {
-        this.addInjectablePlaceholder(List.of(placeholders));
+        this.addInjectablePlaceholder(Lists.newArrayList(placeholders));
     }
 
     /**

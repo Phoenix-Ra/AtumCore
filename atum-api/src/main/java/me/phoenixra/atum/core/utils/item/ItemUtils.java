@@ -2,6 +2,7 @@ package me.phoenixra.atum.core.utils.item;
 
 import me.phoenixra.atum.core.config.Config;
 import me.phoenixra.atum.core.config.serialization.impl.ItemSerialization;
+import me.phoenixra.atum.core.utils.StringUtils;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.io.BukkitObjectInputStream;
 import org.bukkit.util.io.BukkitObjectOutputStream;
@@ -66,7 +67,7 @@ public class ItemUtils {
      */
     @Nullable
     public static ItemStack deserializeItemFromBase64(@NotNull String data) {
-        if(data.isBlank()) return null;
+        if(StringUtils.isBlank(data)) return null;
         try {
             ByteArrayInputStream inputStream = new ByteArrayInputStream(Base64Coder.decodeLines(data));
             BukkitObjectInputStream dataInput = new BukkitObjectInputStream(inputStream);
@@ -117,7 +118,7 @@ public class ItemUtils {
      */
     @Nullable
     public static List<ItemStack> getItemArrayFromBase64(@NotNull String data) {
-        if(data.isBlank()) return null;
+        if(StringUtils.isBlank(data)) return null;
         try {
             ByteArrayInputStream inputStream = new ByteArrayInputStream(Base64Coder.decodeLines(data));
             BukkitObjectInputStream dataInput = new BukkitObjectInputStream(inputStream);

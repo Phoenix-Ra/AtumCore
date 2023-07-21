@@ -41,7 +41,7 @@ public class FileUtils {
             FileSystem fileSystem = FileSystems.newFileSystem(URI.create("jar:" + uri), Collections.emptyMap());
             Stream<Path> streamFiles = Files.walk(fileSystem.getPath(dir));
             files = streamFiles
-                    .filter(Objects::nonNull)
+                    .filter(ObjectUtils::nonNull)
                     .map(Path::toString)
                     //to have dirs first
                     .sorted((o1, o2) -> {

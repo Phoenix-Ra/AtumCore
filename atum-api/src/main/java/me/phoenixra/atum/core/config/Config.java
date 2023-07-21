@@ -5,6 +5,7 @@ import me.phoenixra.atum.core.config.serialization.ConfigDeserializer;
 import me.phoenixra.atum.core.config.serialization.ConfigSerializer;
 import me.phoenixra.atum.core.placeholders.InjectablePlaceholderList;
 import me.phoenixra.atum.core.placeholders.context.PlaceholderContext;
+import me.phoenixra.atum.core.utils.ObjectUtils;
 import me.phoenixra.atum.core.utils.StringUtils;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -70,11 +71,11 @@ public interface Config extends InjectablePlaceholderList {
              @Nullable Object obj);
 
     default int getInt(@NotNull String path) {
-        return Objects.requireNonNullElse(getIntOrNull(path), 0);
+        return ObjectUtils.requireNonNullElse(getIntOrNull(path), 0);
     }
     default int getIntOrDefault(@NotNull String path,
                        int def) {
-        return Objects.requireNonNullElse(getIntOrNull(path), def);
+        return ObjectUtils.requireNonNullElse(getIntOrNull(path), def);
     }
     @Nullable
     Integer getIntOrNull(@NotNull String path);
@@ -83,7 +84,7 @@ public interface Config extends InjectablePlaceholderList {
 
     @NotNull
     default List<Integer> getIntList(@NotNull String path) {
-        return Objects.requireNonNullElse(getIntListOrNull(path), new ArrayList<>());
+        return ObjectUtils.requireNonNullElse(getIntListOrNull(path), new ArrayList<>());
     }
     @Nullable
     List<Integer> getIntListOrNull(@NotNull String path);
@@ -91,7 +92,7 @@ public interface Config extends InjectablePlaceholderList {
 
 
     default boolean getBool(@NotNull String path) {
-        return Objects.requireNonNullElse(getBoolOrNull(path), false);
+        return ObjectUtils.requireNonNullElse(getBoolOrNull(path), false);
     }
     @Nullable
     Boolean getBoolOrNull(@NotNull String path);
@@ -99,7 +100,7 @@ public interface Config extends InjectablePlaceholderList {
 
     @NotNull
     default List<Boolean> getBoolList(@NotNull String path) {
-        return Objects.requireNonNullElse(getBoolListOrNull(path), new ArrayList<>());
+        return ObjectUtils.requireNonNullElse(getBoolListOrNull(path), new ArrayList<>());
     }
     @Nullable
     List<Boolean> getBoolListOrNull(@NotNull String path);
@@ -108,12 +109,12 @@ public interface Config extends InjectablePlaceholderList {
 
     @NotNull
     default String getFormattedString(@NotNull String path) {
-        return Objects.requireNonNullElse(getFormattedStringOrNull(path,null), "");
+        return ObjectUtils.requireNonNullElse(getFormattedStringOrNull(path,null), "");
     }
     @NotNull
     default String getFormattedString(@NotNull String path,
                                       @Nullable PlaceholderContext context) {
-        return Objects.requireNonNullElse(getFormattedStringOrNull(path,context), "");
+        return ObjectUtils.requireNonNullElse(getFormattedStringOrNull(path,context), "");
     }
     @Nullable
     default String getFormattedStringOrNull(@NotNull String path){
@@ -141,32 +142,32 @@ public interface Config extends InjectablePlaceholderList {
     }
     @NotNull
     default String getStringOrDefault(@NotNull String path, @NotNull String def) {
-        return Objects.requireNonNullElse(getStringOrNull(path), def);
+        return ObjectUtils.requireNonNullElse(getStringOrNull(path), def);
     }
     @Nullable
     String getStringOrNull(@NotNull String path);
 
     @NotNull
     default List<String> getStringList(@NotNull String path) {
-        return Objects.requireNonNullElse(getStringListOrNull(path), new ArrayList<>());
+        return ObjectUtils.requireNonNullElse(getStringListOrNull(path), new ArrayList<>());
     }
     @Nullable
     List<String> getStringListOrNull(@NotNull String path);
     @NotNull
-    default List<String> getFormattedStringList(@NotNull String path) {
-        return Objects.requireNonNullElse(getFormattedStringListOrNull(path,null), new ArrayList<>());
+    default Collection<String> getFormattedStringList(@NotNull String path) {
+        return ObjectUtils.requireNonNullElse(getFormattedStringListOrNull(path,null), new ArrayList<>());
     }
     @NotNull
-    default List<String> getFormattedStringList(@NotNull String path,
+    default Collection<String> getFormattedStringList(@NotNull String path,
                                                 @Nullable PlaceholderContext context) {
-        return Objects.requireNonNullElse(getFormattedStringListOrNull(path,context), new ArrayList<>());
+        return ObjectUtils.requireNonNullElse(getFormattedStringListOrNull(path,context), new ArrayList<>());
     }
     @Nullable
-    default List<String> getFormattedStringListOrNull(@NotNull String path) {
+    default Collection<String> getFormattedStringListOrNull(@NotNull String path) {
         return getFormattedStringListOrNull(path,null);
     }
     @Nullable
-    default List<String> getFormattedStringListOrNull(@NotNull String path,
+    default Collection<String> getFormattedStringListOrNull(@NotNull String path,
                                                       @Nullable PlaceholderContext context){
         List<String> list = getStringListOrNull(path);
         if(list == null) return null;
@@ -184,10 +185,10 @@ public interface Config extends InjectablePlaceholderList {
 
 
     default double getDouble(@NotNull String path) {
-        return Objects.requireNonNullElse(getDoubleOrNull(path), 0.0);
+        return ObjectUtils.requireNonNullElse(getDoubleOrNull(path), 0.0);
     }
     default double getDoubleOrDefault(@NotNull String path, double def) {
-        return Objects.requireNonNullElse(getDoubleOrNull(path), def);
+        return ObjectUtils.requireNonNullElse(getDoubleOrNull(path), def);
     }
     @Nullable
     Double getDoubleOrNull(@NotNull String path);
@@ -196,7 +197,7 @@ public interface Config extends InjectablePlaceholderList {
 
     @NotNull
     default List<Double> getDoubleList(@NotNull String path) {
-        return Objects.requireNonNullElse(getDoubleListOrNull(path), new ArrayList<>());
+        return ObjectUtils.requireNonNullElse(getDoubleListOrNull(path), new ArrayList<>());
     }
     @Nullable
     List<Double> getDoubleListOrNull(@NotNull String path);
@@ -211,7 +212,7 @@ public interface Config extends InjectablePlaceholderList {
      */
     @NotNull
     default Config getSubsection(@NotNull String path){
-        return Objects.requireNonNullElse(
+        return ObjectUtils.requireNonNullElse(
                 getSubsectionOrNull(path),
                 AtumAPI.getInstance().createConfig(null,getType())
         );
@@ -235,7 +236,7 @@ public interface Config extends InjectablePlaceholderList {
      */
     @NotNull
     default List<? extends Config> getSubsectionList(@NotNull String path) {
-        return Objects.requireNonNullElse(getSubsectionListOrNull(path), new ArrayList<>());
+        return ObjectUtils.requireNonNullElse(getSubsectionListOrNull(path), new ArrayList<>());
     }
     /**
      * get all subsections of the key

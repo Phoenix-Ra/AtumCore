@@ -38,12 +38,11 @@ public class ParticleUtils {
 
         Object data = null;
         if (particle == Particle.BLOCK_DUST || particle == Particle.BLOCK_CRACK || particle == Particle.FALLING_DUST) {
-            data = material.createBlockData();
+            data = material.getData();
         }
 
         if (particle == Particle.REDSTONE) {
-
-            data = new Particle.DustOptions(color, 1);
+            data = color;
         }
 
         display(particle, center, offsetX, offsetY, offsetZ, speed, amount, data, viewers);

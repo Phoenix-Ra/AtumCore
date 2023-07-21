@@ -96,7 +96,6 @@ private object YamlConfigTypeHandler : ConfigTypeHandler(ConfigType.YAML) {
         val loaderOptions = LoaderOptions()
         val representer = AtumRepresenter()
 
-        loaderOptions.maxAliasesForCollections = Int.MAX_VALUE
         loaderOptions.isAllowDuplicateKeys = false
         yamlOptions.indent = 2
         yamlOptions.defaultFlowStyle = DumperOptions.FlowStyle.BLOCK

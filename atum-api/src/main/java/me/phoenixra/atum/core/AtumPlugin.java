@@ -11,12 +11,15 @@ import me.phoenixra.atum.core.events.EventManager;
 import me.phoenixra.atum.core.gui.GuiController;
 import me.phoenixra.atum.core.schedule.Scheduler;
 import me.phoenixra.atum.core.scoreboard.ScoreboardManager;
+import me.phoenixra.atum.core.utils.StringUtils;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.logging.Logger;
@@ -33,7 +36,7 @@ public abstract class AtumPlugin extends JavaPlugin {
     private final EffectsManager effectsManager;
 
 
-    private final Logger logger;
+    private final Logger atumLogger;
 
 
     private final ConfigYml configYml;
@@ -47,26 +50,27 @@ public abstract class AtumPlugin extends JavaPlugin {
 
 
     protected AtumPlugin() {
+        super();
         if(AtumAPI.getInstance()==null){
             AtumAPI.Instance.set(loadAPI());
         }
         atumAPI = AtumAPI.getInstance();
 
-        this.logger = atumAPI.createLogger(this);
+        this.atumLogger = atumAPI.createLogger(this);
 
         this.getLogger().info("Initializing "  + this.getName());
 
         if(!getName().equals("AtumCore")){
             AtumPlugin corePlugin = getCorePlugin();
             if(this.getAtumAPIVersion() != corePlugin.getAtumAPIVersion()){
-                logger.info("&cYour server uses an unsupported Atum API version!");
-                logger.info(String.format("&c%s supports:&e 2.%s",this.getName(),this.getAtumAPIVersion()));
-                logger.info("&cYour server have:&e 2."+corePlugin.getAtumAPIVersion());
-                logger.info(
+                atumLogger.info("&cYour server uses an unsupported Atum API version!");
+                atumLogger.info(String.format("&c%s supports:&e 2.%s",this.getName(),this.getAtumAPIVersion()));
+                atumLogger.info("&cYour server have:&e 2."+corePlugin.getAtumAPIVersion());
+                atumLogger.info(
                         String.format("&cDownload the &6AtumCore v2.%s &chere:&e https://github.com/Phoenix-Ra/AtumCore/releases",
                         this.getAtumAPIVersion())
                 );
-                logger.info("&cOr use this plugin at your own risk");
+                atumLogger.info("&cOr use this plugin at your own risk");
             }
         }
 
@@ -81,6 +85,16 @@ public abstract class AtumPlugin extends JavaPlugin {
         langYml = createLang();
 
         atumAPI.addPlugin(this);
+
+        //for unknown reason the getLogger() method is final, so,
+        // using tricky way to replace it with ours
+        try {
+            Field field = getClass().getSuperclass().getSuperclass().getDeclaredField("logger");
+            field.setAccessible(true);
+            field.set(this, this.atumLogger);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
 
     }
 
@@ -251,12 +265,6 @@ public abstract class AtumPlugin extends JavaPlugin {
      */
     protected AtumAPI loadAPI(){
         return AtumAPI.getInstance();
-    }
-
-    @NotNull
-    @Override
-    public Logger getLogger() {
-        return logger;
     }
 
 

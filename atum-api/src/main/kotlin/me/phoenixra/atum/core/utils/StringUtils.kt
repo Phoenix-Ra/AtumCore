@@ -4,6 +4,6 @@ fun String.formatAtum(): String {
     return StringUtils.format(this)
 }
 
-fun List<String>.formatAtum(): List<String> {
+fun Collection<String>.formatAtum(): Collection<String> {
     return StringUtils.format(this)
 }

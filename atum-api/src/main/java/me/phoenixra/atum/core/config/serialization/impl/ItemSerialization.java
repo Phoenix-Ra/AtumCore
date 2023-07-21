@@ -5,6 +5,7 @@ import me.phoenixra.atum.core.config.Config;
 import me.phoenixra.atum.core.config.ConfigType;
 import me.phoenixra.atum.core.config.serialization.ConfigDeserializer;
 import me.phoenixra.atum.core.config.serialization.ConfigSerializer;
+import me.phoenixra.atum.core.utils.ObjectUtils;
 import me.phoenixra.atum.core.utils.item.ItemBuilder;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
@@ -29,7 +30,7 @@ public class ItemSerialization {
     }
     public static ConfigDeserializer<ItemStack> deserializer(){
         return config -> {
-            Material material = Objects.requireNonNullElse(
+            Material material = ObjectUtils.requireNonNullElse(
                     Material.matchMaterial(config.getString("material")),
                     Material.BEDROCK
             );

@@ -1,9 +1,11 @@
 package me.phoenixra.atum.core.utils;
 
+import com.google.common.base.Preconditions;
 import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.util.Vector;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -163,6 +165,63 @@ public class MathUtils {
         return vector;
     }
 
+    public static double getEpsilon() {
+        return 1.0E-6;
+    }
+    public static boolean isNormalized(Vector vector) {
+        return Math.abs(vector.lengthSquared() - 1.0) < getEpsilon();
+    }
+
+    @NotNull
+    public static Vector rotateAroundX(Vector vector, double angle) {
+        double angleCos = Math.cos(angle);
+        double angleSin = Math.sin(angle);
+        double y = angleCos * vector.getY() - angleSin * vector.getZ();
+        double z = angleSin * vector.getY() + angleCos * vector.getZ();
+        return vector.setY(y).setZ(z);
+    }
+
+    @NotNull
+    public static Vector rotateAroundY(Vector vector, double angle) {
+        double angleCos = Math.cos(angle);
+        double angleSin = Math.sin(angle);
+        double x = angleCos * vector.getX() + angleSin * vector.getZ();
+        double z = -angleSin * vector.getX() + angleCos * vector.getZ();
+        return vector.setX(x).setZ(z);
+    }
+
+    @NotNull
+    public static Vector rotateAroundZ(Vector vector, double angle) {
+        double angleCos = Math.cos(angle);
+        double angleSin = Math.sin(angle);
+        double x = angleCos * vector.getX() - angleSin * vector.getY();
+        double y = angleSin * vector.getX() + angleCos * vector.getY();
+        return vector.setX(x).setY(y);
+    }
+
+    @NotNull
+    public static Vector rotateAroundAxis(Vector vector, @NotNull Vector axis, double angle) throws IllegalArgumentException {
+        Preconditions.checkArgument(axis != null, "The provided axis vector was null");
+        return rotateAroundNonUnitAxis(vector,isNormalized(axis) ? axis : axis.clone().normalize(), angle);
+    }
+
+    @NotNull
+    public static Vector rotateAroundNonUnitAxis(Vector vector, @NotNull Vector axis, double angle) throws IllegalArgumentException {
+        Preconditions.checkArgument(axis != null, "The provided axis vector was null");
+        double x = vector.getX();
+        double y = vector.getY();
+        double z = vector.getZ();
+        double x2 = axis.getX();
+        double y2 = axis.getY();
+        double z2 = axis.getZ();
+        double cosTheta = Math.cos(angle);
+        double sinTheta = Math.sin(angle);
+        double dotProduct = vector.dot(axis);
+        double xPrime = x2 * dotProduct * (1.0 - cosTheta) + x * cosTheta + (-z2 * y + y2 * z) * sinTheta;
+        double yPrime = y2 * dotProduct * (1.0 - cosTheta) + y * cosTheta + (z2 * x - x2 * z) * sinTheta;
+        double zPrime = z2 * dotProduct * (1.0 - cosTheta) + z * cosTheta + (-y2 * x + x2 * y) * sinTheta;
+        return vector.setX(xPrime).setY(yPrime).setZ(zPrime);
+    }
     private MathUtils() {
         throw new UnsupportedOperationException("This is an utility class and cannot be instantiated");
     }

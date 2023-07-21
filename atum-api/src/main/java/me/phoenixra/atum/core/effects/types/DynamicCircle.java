@@ -79,9 +79,9 @@ public class DynamicCircle extends BaseEffect {
                 vector.add(vector.clone().normalize().multiply(noise));
             }
             if (rotation != null) {
-                vector.rotateAroundX(rotation.getX() *  MathUtils.degreesToRadians);
-                vector.rotateAroundY(rotation.getY() *  MathUtils.degreesToRadians);
-                vector.rotateAroundZ(rotation.getZ() *  MathUtils.degreesToRadians);
+                MathUtils.rotateAroundX(vector,rotation.getX() *  MathUtils.degreesToRadians);
+                MathUtils.rotateAroundY(vector,rotation.getY() *  MathUtils.degreesToRadians);
+                MathUtils.rotateAroundZ(vector,rotation.getZ() *  MathUtils.degreesToRadians);
             }
             displayParticle(getParticleType().getValue(), location.add(vector),getParticleColor().getValue(),1);
             location.subtract(vector);

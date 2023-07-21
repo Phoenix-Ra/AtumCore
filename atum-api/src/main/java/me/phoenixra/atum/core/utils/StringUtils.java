@@ -17,37 +17,10 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class StringUtils {
-    private static final List<Pattern> HEX_COLOR_PATTERNS = Arrays.asList(
-            Pattern.compile("&#([0-9A-Fa-f]{6})"),
-            Pattern.compile("\\{#([0-9A-Fa-f]{6})}"),
-            Pattern.compile("<#([0-9A-Fa-f]{6})>")
-
-    );
-    public static boolean HEX_COLOR_SUPPORT;
-
-    static {
-        try {
-            ChatColor.class.getDeclaredMethod("of", String.class);
-            HEX_COLOR_SUPPORT = true;
-        } catch (NoSuchMethodException e) {
-            HEX_COLOR_SUPPORT = false;
-        }
-    }
-
 
     @NotNull
     public static String format(@NotNull String text) {
-        if (HEX_COLOR_SUPPORT) {
-            for (Pattern pattern : HEX_COLOR_PATTERNS) {
-                Matcher matcher = pattern.matcher(text);
-                StringBuffer buffer = new StringBuffer();
-                while (matcher.find()) {
-                    matcher.appendReplacement(buffer, ChatColor.of("#" + matcher.group(1)).toString());
-                }
-                text = matcher.appendTail(buffer).toString();
-            }
-        }
-        return ChatColor.translateAlternateColorCodes('&', text);
+        return replaceFast(text, "&", "§");
     }
 
     @NotNull
@@ -57,8 +30,8 @@ public class StringUtils {
     }
 
     @NotNull
-    public static List<String> format(@NotNull List<String> list) {
-        List<String> output= new ArrayList<>();
+    public static Collection<String> format(@NotNull Collection<String> list) {
+        Collection<String> output= new ArrayList<>();
         for (String entry : list) {
             output.add(format(entry));
         }
@@ -66,9 +39,9 @@ public class StringUtils {
     }
 
     @NotNull
-    public static List<String> formatWithPlaceholders(@NotNull List<String> list,
+    public static Collection<String> formatWithPlaceholders(@NotNull Collection<String> list,
                                                       @NotNull PlaceholderContext context) {
-        List<String> out = new ArrayList<>();
+        Collection<String> out = new ArrayList<>();
         for(String s : list){
             out.add(PlaceholderManager.translatePlaceholders(format(s),context));
         }
@@ -84,7 +57,7 @@ public class StringUtils {
      */
     @NotNull
     public static String replaceFast(@NotNull final String input,
-                                     @NotNull final List<PairRecord<String,String>> placeholder) {
+                                     @NotNull final Collection<PairRecord<String,String>> placeholder) {
         String out = input;
         for (PairRecord<String,String> pair : placeholder) {
             out = replaceFast(out, pair.getFirst(), pair.getSecond());
@@ -157,33 +130,12 @@ public class StringUtils {
             return (String) object;
         } else if (object instanceof Double) {
             return NumberUtils.format((Double) object);
-        } else if (object instanceof Collection<?> c) {
+        } else if (object instanceof Collection<?>) {
+            Collection<?> c = (Collection<?>) object;
             return c.stream().map(StringUtils::toNiceString).collect(Collectors.joining(", "));
         } else {
             return String.valueOf(object);
         }
-    }
-
-
-    public static Color colorFromString(String s) {
-        return switch (s.toLowerCase()) {
-            case "aqua" -> Color.AQUA;
-            case "red" -> Color.RED;
-            case "green" -> Color.GREEN;
-            case "blue" -> Color.BLUE;
-            case "fuchsia" -> Color.FUCHSIA;
-            case "gray" -> Color.GRAY;
-            case "lime" -> Color.LIME;
-            case "maroon" -> Color.MAROON;
-            case "navy" -> Color.NAVY;
-            case "olive" -> Color.OLIVE;
-            case "orange" -> Color.ORANGE;
-            case "purple" -> Color.PURPLE;
-            case "silver" -> Color.SILVER;
-            case "teal" -> Color.TEAL;
-            case "yellow" -> Color.YELLOW;
-            default -> Color.WHITE;
-        };
     }
 
     public static String createProgressBar(final char character,
@@ -204,7 +156,7 @@ public class StringUtils {
         // Full bar special case.
         if (progress == 1) {
             builder.append(completeColor);
-            builder.append(String.valueOf(character).repeat(bars));
+            builder.append(repeat(String.valueOf(character),bars));
             return builder.toString();
         }
 
@@ -213,17 +165,24 @@ public class StringUtils {
 
         if (completeBars > 0) {
             builder.append(completeColor)
-                    .append(String.valueOf(character).repeat(completeBars));
+                    .append(repeat(String.valueOf(character),completeBars));
         }
 
         builder.append(inProgressColor).append(character);
 
         if (incompleteBars > 0) {
             builder.append(incompleteColor)
-                    .append(String.valueOf(character).repeat(incompleteBars));
+                    .append(repeat(String.valueOf(character),incompleteBars));
         }
 
         return builder.toString();
+    }
+
+    public static String repeat(String str, int times) {
+        return new String(new char[times]).replace("\0", str);
+    }
+    public static boolean isBlank(String str) {
+        return str == null || str.trim().isEmpty();
     }
 
     private StringUtils() {
