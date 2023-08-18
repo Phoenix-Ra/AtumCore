@@ -9,6 +9,7 @@ import org.jetbrains.annotations.Nullable;
  *
  * @param <T> The type of object to load
  */
+@FunctionalInterface
 public interface ConfigDeserializer<T> {
 
     /**

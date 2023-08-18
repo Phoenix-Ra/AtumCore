@@ -8,6 +8,7 @@ import org.jetbrains.annotations.NotNull;
  *
  * @param <T> The type of object to save
  */
+@FunctionalInterface
 public interface ConfigSerializer<T> {
 
     /**
