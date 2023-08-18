@@ -15,10 +15,30 @@ import java.nio.file.StandardCopyOption;
 
 public abstract class ConfigCategory {
     private final AtumPlugin plugin;
+    private final ConfigType configType;
     private final String id;
     private final String directory;
     private final boolean supportSubFolders;
-
+    /**
+     * Config Category class
+     *
+     * @param plugin            the plugin
+     * @param configType        the config type
+     * @param id                the category id
+     * @param directory         the directory path
+     * @param supportSubFolders if accept configs from subFolders
+     */
+    public ConfigCategory(@NotNull AtumPlugin plugin,
+                          @NotNull ConfigType configType,
+                          @NotNull String id,
+                          @NotNull String directory,
+                          boolean supportSubFolders) {
+        this.plugin = plugin;
+        this.configType = configType;
+        this.id = id;
+        this.directory = directory;
+        this.supportSubFolders = supportSubFolders;
+    }
     /**
      * Config Category class
      *
@@ -31,10 +51,7 @@ public abstract class ConfigCategory {
                           @NotNull String id,
                           @NotNull String directory,
                           boolean supportSubFolders) {
-        this.plugin = plugin;
-        this.id = id;
-        this.directory = directory;
-        this.supportSubFolders = supportSubFolders;
+        this(plugin, ConfigType.YAML, id, directory, supportSubFolders);
     }
 
     /**
@@ -52,7 +69,7 @@ public abstract class ConfigCategory {
                     getPlugin(),
                     entry.getSecond().getName().split("\\.")[0],
                     directory,
-                    ConfigType.YAML,
+                    configType,
                     false
             );
             acceptConfig(entry.getFirst(), conf);
