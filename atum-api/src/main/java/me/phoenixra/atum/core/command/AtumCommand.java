@@ -2,7 +2,6 @@ package me.phoenixra.atum.core.command;
 
 import lombok.Getter;
 import lombok.Setter;
-import me.phoenixra.atum.core.AtumAPI;
 import me.phoenixra.atum.core.AtumPlugin;
 import me.phoenixra.atum.core.exceptions.NotificationException;
 import me.phoenixra.atum.core.utils.StringUtils;
@@ -55,18 +54,36 @@ public abstract class AtumCommand implements CommandBase, CommandExecutor, TabCo
         plugin.getLogger().info("Registering command "+commandName);
         PluginCommand command = Bukkit.getPluginCommand(this.getCommandName());
         if (command == null) {
-            plugin.getLogger().info("Registering failed! Command not found. For Devs: Check the command list of plugin.yml");
+            plugin.getLogger().info("Registering failed! Command not found.  Trying to register manually...");
+            BukkitPluginCommand cmdRegistered = new BukkitPluginCommand(
+                    getCommandName(),
+                    plugin
+            );
+            if(getCommandMap().register(plugin.getName(), plugin.getName(), cmdRegistered)){
+                plugin.getLogger().info("Registering manually succeeded!");
+                cmdRegistered.setExecutor(this);
+                cmdRegistered.setTabCompleter(this);
+
+                cmdRegistered.setDescription(this.getDescription());
+
+                List<String> aliases = new ArrayList<>(cmdRegistered.getAliases());
+                aliases.addAll(this.getAliases());
+                cmdRegistered.setAliases(aliases);
+
+            }else {
+                plugin.getLogger().info("Registering manually failed!");
+            }
             return;
+        }else{
+            command.setExecutor(this);
+            command.setTabCompleter(this);
+
+            command.setDescription(this.getDescription());
+
+            List<String> aliases = new ArrayList<>(command.getAliases());
+            aliases.addAll(this.getAliases());
+            command.setAliases(aliases);
         }
-
-        command.setExecutor(this);
-        command.setTabCompleter(this);
-
-        command.setDescription(this.getDescription());
-
-        List<String> aliases = new ArrayList<>(command.getAliases());
-        aliases.addAll(this.getAliases());
-        command.setAliases(aliases);
 
         CommandBase help = loadSubcommandHelp();
         CommandBase reload = loadSubcommandReload();
@@ -76,7 +93,7 @@ public abstract class AtumCommand implements CommandBase, CommandExecutor, TabCo
     }
 
     public final void unregister() {
-        PluginCommand command = Bukkit.getPluginCommand(this.getCommandName());
+        Command command = Bukkit.getPluginCommand(this.getCommandName());
         if (command == null) return;
 
         command.unregister(getCommandMap());
@@ -281,6 +298,7 @@ public abstract class AtumCommand implements CommandBase, CommandExecutor, TabCo
     @Override
     public final List<String> handleTabCompletion(@NotNull final CommandSender sender,
                                                   @NotNull final String[] args) {
+
 
         if (!canExecute(sender,false)) return null;
 
