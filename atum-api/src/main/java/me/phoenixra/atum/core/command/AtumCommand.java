@@ -72,8 +72,8 @@ public abstract class AtumCommand implements CommandBase, CommandExecutor, TabCo
 
             }else {
                 plugin.getLogger().info("Registering manually failed!");
+                return;
             }
-            return;
         }else{
             command.setExecutor(this);
             command.setTabCompleter(this);
