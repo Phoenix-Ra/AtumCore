@@ -76,6 +76,26 @@ public class StringUtils {
     }
 
     /**
+     * Remove color codes from a string.
+     *
+     * @param input The input string.
+     * @return The string without color codes.
+     */
+    @NotNull
+    public static String removeColorCodes(String input) {
+        StringBuilder result = new StringBuilder();
+        for (int i = 0; i < input.length(); i++) {
+            char currentChar = input.charAt(i);
+            if (currentChar == '\u00A7' || currentChar == '&') {
+                i++;
+            } else {
+                result.append(currentChar);
+            }
+        }
+        return result.toString();
+    }
+
+    /**
      * Fast implementation of {@link String#replace(CharSequence, CharSequence)}
      *
      * @param input       The input string.
@@ -84,7 +104,7 @@ public class StringUtils {
      */
     @NotNull
     public static String replaceFast(@NotNull final String input,
-                                     @NotNull final List<PairRecord<String,String>> placeholder) {
+                                     @NotNull final Collection<PairRecord<String,String>> placeholder) {
         String out = input;
         for (PairRecord<String,String> pair : placeholder) {
             out = replaceFast(out, pair.getFirst(), pair.getSecond());
