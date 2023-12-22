@@ -1,12 +1,16 @@
 package me.phoenixra.atum.core.effects;
 
 import lombok.Getter;
+import me.phoenixra.atum.core.effects.interfaces.Effect;
 import me.phoenixra.atum.core.effects.interfaces.EffectLocation;
 import me.phoenixra.atum.core.effects.interfaces.ValueLimit;
+import me.phoenixra.atum.core.effects.types.DynamicCircle;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.Map;
 
 public class BaseEffectLocation implements EffectLocation {
     @Getter @NotNull private final Location origin;
@@ -182,4 +186,5 @@ public class BaseEffectLocation implements EffectLocation {
             return null;
         }
     }
+
 }

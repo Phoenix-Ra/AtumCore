@@ -65,6 +65,7 @@ public abstract class BaseEffect implements Effect {
         this.period=period;
         this.iterations=iterations;
 
+
         loadVariables();
     }
     public BaseEffect(@NotNull EffectsManager effectsManager, @NotNull EffectLocation origin){

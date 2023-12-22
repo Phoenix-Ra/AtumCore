@@ -97,7 +97,7 @@ class AtumLoadableConfig(
 
         if (this.type == ConfigType.YAML) {
             for (s in header) {
-                contents.append(s + "\n")
+                contents.append("$s\n")
             }
         }
 
@@ -106,7 +106,7 @@ class AtumLoadableConfig(
                 continue
             }
 
-            contents.append(line + "\n")
+            contents.append("$line\n")
         }
 
         return contents.toString()

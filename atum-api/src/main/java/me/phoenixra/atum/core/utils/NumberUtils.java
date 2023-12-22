@@ -51,6 +51,8 @@ public class NumberUtils {
     public static boolean isNumber(@NotNull String value, boolean allowPoint){
         if(allowPoint) return value.matches("\\d+.\\d+|\\d+|-\\d+.\\d+|-\\d+");
         else return value.matches("\\d+|-\\d+");
+
+
     }
 
     /**

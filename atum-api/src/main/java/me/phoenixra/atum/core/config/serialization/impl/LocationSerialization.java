@@ -5,6 +5,7 @@ import me.phoenixra.atum.core.config.Config;
 import me.phoenixra.atum.core.config.ConfigType;
 import me.phoenixra.atum.core.config.serialization.ConfigDeserializer;
 import me.phoenixra.atum.core.config.serialization.ConfigSerializer;
+import me.phoenixra.atum.core.utils.LocationUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 

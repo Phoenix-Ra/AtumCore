@@ -166,8 +166,7 @@ open class AtumConfig(
     override fun getEvaluated(path: String, context: PlaceholderContext): Double {
         val text = getStringOrNull(path) ?: return 0.0
 
-        val context1 = context.withInjectableContext(this)
-        return AtumAPI.getInstance().evaluate(text, context1)
+        return AtumAPI.getInstance().evaluate(text, context.withInjectableContext(this));
     }
 
     override fun getType(): ConfigType {

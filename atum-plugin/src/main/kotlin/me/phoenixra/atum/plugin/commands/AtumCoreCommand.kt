@@ -11,6 +11,7 @@ class AtumCoreCommand(
     init {
         addSubcommand(PluginSubcommand(plugin,this))
         addSubcommand(EffectSubcommand(plugin,this))
+        addSubcommand(NameTagSubcommand(plugin,this))
     }
 
     override fun getDescription(): String {

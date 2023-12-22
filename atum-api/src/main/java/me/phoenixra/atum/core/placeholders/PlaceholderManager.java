@@ -5,6 +5,7 @@ import com.google.common.collect.ImmutableSet;
 import me.clip.placeholderapi.PlaceholderAPI;
 import me.phoenixra.atum.core.AtumAPI;
 import me.phoenixra.atum.core.AtumPlugin;
+import me.phoenixra.atum.core.misc.AtumDebugger;
 import me.phoenixra.atum.core.placeholders.context.PlaceholderContext;
 import me.phoenixra.atum.core.utils.StringUtils;
 import org.bukkit.Bukkit;
