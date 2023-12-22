@@ -24,8 +24,8 @@ public class SQLiteDatabase implements Database {
      * Tries to connect to the database using the given parameters
      * after the creation of an instance
      *
-     * @param plugin the plugin
-     * @param dbName the database name
+     * @param plugin     the plugin
+     * @param dbName     the database name
      * @param dbLocation the database file location
      */
     public SQLiteDatabase(AtumPlugin plugin, String dbName, String dbLocation) {
@@ -33,7 +33,7 @@ public class SQLiteDatabase implements Database {
         this.dbName = dbName;
         this.dbLocation = dbLocation;
         this.log = getPlugin().getLogger();
-        if(initialize()) {
+        if (initialize()) {
             plugin.addTaskOnDisable(this::close);
         }
     }
@@ -65,10 +65,13 @@ public class SQLiteDatabase implements Database {
 
     @Override
     public Connection getConnection() {
-        if (connection == null) {
+        try {
+            if (connection == null || connection.isClosed() || !connection.isValid(0)) {
+                initialize();
+            }
+        } catch (SQLException e) {
             initialize();
         }
-
         return connection;
     }
 
