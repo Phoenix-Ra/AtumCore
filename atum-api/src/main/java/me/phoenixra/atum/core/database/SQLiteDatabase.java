@@ -65,10 +65,13 @@ public class SQLiteDatabase implements Database {
 
     @Override
     public Connection getConnection() {
-        if (connection == null) {
+        try {
+            if (connection == null || connection.isClosed() || !connection.isValid(0)) {
+                initialize();
+            }
+        } catch (SQLException e) {
             initialize();
         }
-
         return connection;
     }
 
